@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>US Airlines Intelligence — Command Center v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#FAFAF9;--panel:#FFFFFF;--panel2:#F5F5F4;--panel3:#E7E5E4;
+  --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.04);
+  --accent:#F97316;--accent2:#EA580C;--warn:#CA8A04;--danger:#DC2626;--success:#16A34A;
+  --delta:#C8102E;--united:#1A6BAD;--american:#0057B7;--southwest:#E06700;
+  --alaska:#015DAA;--jetblue:#0088BB;--spirit:#92700A;--frontier:#2A7A35;
+  --breeze:#CC3370;--allegiant:#C04E1A;--hawaiian:#5B2D8E;
+  --text:#1C1917;--muted:#78716C;--dim:#D6D3D1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scrollbar-width:thin;scrollbar-color:var(--dim) var(--bg);}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);background-image:radial-gradient(circle,rgba(0,0,0,.05) 1px,transparent 1px);background-size:24px 24px;}
+
+/* HEADER */
+.hdr{background:rgba(250,250,249,.97);padding:11px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--border);backdrop-filter:blur(16px);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-icon{width:30px;height:30px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;flex-shrink:0;}
+.brand-title{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--text);}
+.brand-sub{font-size:9px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;}
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.snap-badge{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.25);padding:4px 10px;border-radius:4px;font-size:9px;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.src-badge{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;background:rgba(0,0,0,.04);border:1px solid var(--border);padding:4px 10px;border-radius:4px;white-space:nowrap;}
+
+/* NAV */
+.nav{display:flex;overflow-x:auto;padding:0 24px;background:rgba(250,250,249,.99);border-bottom:1px solid var(--border);scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-tab{padding:9px 16px;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted);border:none;background:transparent;border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab-n{display:inline-flex;width:14px;height:14px;background:var(--panel2);border-radius:3px;align-items:center;justify-content:center;font-size:7px;margin-right:4px;font-family:'JetBrains Mono',monospace;color:var(--muted);border:1px solid var(--border);}
+.nav-tab.active .tab-n{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* MAIN */
+.main{padding:18px 24px;max-width:1440px;margin:0 auto;}
+.tab-content{display:none;animation:fadeUp .28s ease both;}
+.tab-content.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* SO WHAT BANNER - appears on every tab */
+.sowhat{background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:18px;}
+.sowhat-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:4px;}
+.sowhat-text{font-size:12px;color:var(--text);line-height:1.6;font-family:'Inter',sans-serif;}
+.sowhat-text strong{color:var(--accent2);font-weight:600;}
+
+/* SECTION */
+.sec-hdr{margin-bottom:14px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);}
+.sec-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:16px;}
+.kpi-grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
+.kpi{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden;transition:border-color .2s;}
+.kpi:hover{border-color:rgba(249,115,22,.4);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
+.kpi-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600;}
+.kpi-value{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--text);margin:4px 0 2px;letter-spacing:-.5px;}
+.kpi-chg{font-size:9px;font-weight:600;display:flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;}
+.up{color:var(--success);}.dn{color:var(--danger);}.fl{color:var(--muted);}
+.kp{font-size:8px;color:var(--muted);margin-left:2px;font-weight:400;}
+
+/* GRID */
+.row{display:grid;gap:13px;margin-bottom:16px;}
+.c2{grid-template-columns:1fr 1fr;}.c3{grid-template-columns:1fr 1fr 1fr;}
+.c32{grid-template-columns:2fr 1fr;}.c23{grid-template-columns:1fr 2fr;}
+.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+
+/* PANEL */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;padding:13px 16px 0;}
+.pt{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);}
+.ps{font-size:10px;color:var(--muted);margin-top:2px;}
+.ptag{font-size:9px;font-weight:600;padding:2px 6px;background:rgba(249,115,22,.08);color:var(--accent);border-radius:3px;font-family:'JetBrains Mono',monospace;border:1px solid rgba(249,115,22,.2);white-space:nowrap;flex-shrink:0;}
+.cw{padding:13px 16px;}
+.h180{height:180px;position:relative;}.h220{height:220px;position:relative;}
+.h260{height:260px;position:relative;}.h300{height:300px;position:relative;}
+.h340{height:340px;position:relative;}.h400{height:400px;position:relative;}
+
+/* TABLES */
+.dt{width:100%;border-collapse:collapse;font-size:11px;}
+.dt th{text-align:left;padding:7px 12px;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);font-weight:600;}
+.dt td{padding:8px 12px;border-bottom:1px solid var(--border2);color:var(--text);}
+.dt tr:last-child td{border:none;}
+.dt tr:hover td{background:rgba(249,115,22,.03);}
+.cp{display:inline-flex;align-items:center;gap:5px;font-weight:600;}
+.cd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.badge{display:inline-flex;align-items:center;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.bg{background:rgba(22,163,74,.1);color:#15803D;border:1px solid rgba(22,163,74,.2);}
+.br{background:rgba(220,38,38,.1);color:#B91C1C;border:1px solid rgba(220,38,38,.2);}
+.ba{background:rgba(202,138,4,.1);color:#92400E;border:1px solid rgba(202,138,4,.2);}
+.bb{background:rgba(249,115,22,.1);color:#C2410C;border:1px solid rgba(249,115,22,.2);}
+.bx{background:rgba(113,113,122,.1);color:#57534E;border:1px solid rgba(113,113,122,.2);}
+
+/* SHARE BAR */
+.sb-wrap{display:flex;flex-direction:column;gap:4px;margin-top:7px;}
+.sb-row{display:flex;align-items:center;gap:6px;}
+.sb-label{font-size:9px;color:var(--muted);min-width:68px;}
+.sb-bg{flex:1;height:5px;background:rgba(0,0,0,.07);border-radius:2px;overflow:hidden;}
+.sb-fill{height:100%;border-radius:2px;transition:width 1s ease;}
+.sb-pct{font-size:9px;font-weight:600;min-width:30px;text-align:right;font-family:'JetBrains Mono',monospace;}
+
+/* INSIGHT STRIP */
+.insight-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.insight{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
+.insight-icon{font-size:15px;margin-bottom:5px;}
+.insight-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:600;margin-bottom:3px;}
+.insight-txt{font-size:10px;color:var(--text);line-height:1.5;}
+.ia{color:var(--accent2);font-weight:600;}
+
+/* CARRIER SWITCHER (inside Tab 5) */
+.carrier-switcher{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-radius:8px;}
+.csw-label{font-size:10px;font-weight:600;color:var(--muted);align-self:center;margin-right:4px;white-space:nowrap;}
+.csw-btn{padding:5px 13px;border-radius:5px;border:1px solid var(--border);background:var(--panel2);color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;}
+.csw-btn:hover{border-color:rgba(249,115,22,.4);color:var(--accent);}
+.csw-btn.active{color:#fff;border-color:transparent;}
+.carrier-panel{display:none;}
+.carrier-panel.active{display:block;animation:fadeUp .25s ease both;}
+
+/* CARRIER HERO */
+.c-hero{border-radius:8px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--border);}
+.c-hero-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.c-avatar{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;flex-shrink:0;}
+.c-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--text);}
+.c-sub-line{font-size:10px;color:var(--muted);}
+.c-summary{font-size:11px;color:#44403C;line-height:1.6;max-width:920px;}
+
+/* STORY GRID */
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:16px;}
+.story-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.sc-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--text);margin-bottom:9px;display:flex;align-items:center;gap:5px;}
+.si{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid var(--border2);font-size:10px;color:var(--text);line-height:1.4;align-items:flex-start;}
+.si:last-child{border:none;}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+
+/* TIMELINE */
+.tl-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border2);}
+.tl-item:last-child{border:none;}
+.tl-date{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);min-width:48px;padding-top:2px;}
+.tl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.tl-text{font-size:10px;color:var(--text);line-height:1.4;flex:1;}
+.tl-tag{font-size:8px;font-weight:600;padding:1px 5px;border-radius:2px;font-family:'JetBrains Mono',monospace;white-space:nowrap;align-self:flex-start;}
+
+/* LOYALTY / CREDIT CARD */
+.lc-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:border-color .2s;}
+.lc-card:hover{border-color:rgba(249,115,22,.35);}
+.lc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.lc-carrier{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;}
+.lc-prog{font-size:9px;color:var(--muted);margin-bottom:3px;}
+.lc-rev{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;color:var(--text);}
+.lc-pct{font-size:9px;color:var(--muted);}
+.lc-badge{font-size:8px;font-weight:600;padding:2px 6px;border-radius:3px;align-self:flex-start;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
+
+/* OPPORTUNITY CARD (credit card) */
+.cc-opp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
+.cc-opp{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;}
+.cc-opp-carrier{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;margin-bottom:2px;}
+.cc-opp-status{font-size:9px;color:var(--muted);margin-bottom:8px;}
+.cc-opp-item{font-size:10px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border2);line-height:1.4;}
+.cc-opp-item:last-child{border:none;}
+.cc-opp-label{font-size:8px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600;margin-top:8px;margin-bottom:3px;}
+
+/* MARKETING CHANNEL CARDS */
+.mktg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.mktg-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden;}
+.mktg-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.mktg-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;padding-left:10px;}
+.mktg-item{font-size:10px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border2);line-height:1.4;padding-left:10px;}
+.mktg-item:last-child{border:none;}
+.mktg-stat{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent2);font-weight:600;}
+
+/* AIRPORT CARD */
+.ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:16px;}
+.ap-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;position:relative;overflow:hidden;transition:border-color .2s;}
+.ap-card:hover{border-color:rgba(249,115,22,.3);}
+.ap-code{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--text);}
+.ap-name{font-size:9px;color:var(--muted);margin-bottom:6px;}
+.ap-top{font-size:9px;font-weight:600;margin-bottom:4px;}
+.hhi-chip{position:absolute;top:11px;right:11px;font-size:8px;font-weight:600;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;}
+
+/* MAP */
+.map-container{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+#routeMap{width:100%;display:block;cursor:crosshair;}
+.map-controls{padding:10px 16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;}
+.ap-selector{display:flex;flex-wrap:wrap;gap:4px;}
+.ap-chip{padding:3px 7px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:8px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'JetBrains Mono',monospace;}
+.ap-chip:hover{border-color:rgba(249,115,22,.5);color:var(--accent);}
+.ap-chip.active{background:rgba(249,115,22,.1);border-color:var(--accent);color:#C2410C;}
+.carr-btns{display:flex;flex-wrap:wrap;gap:4px;}
+.carr-btn{padding:3px 8px;border-radius:3px;border:1px solid var(--border);background:var(--panel2);color:var(--muted);font-size:9px;font-weight:600;cursor:pointer;transition:all .15s;}
+.carr-btn.active,.carr-btn:hover{border-color:var(--accent);color:#C2410C;background:rgba(249,115,22,.08);}
+.map-legend{display:flex;flex-wrap:wrap;gap:9px;padding:8px 16px 12px;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--muted);}
+.leg-dot{width:6px;height:6px;border-radius:50%;}
+
+/* TELEMETRY */
+.telem-layout{display:grid;grid-template-columns:1fr 280px;gap:13px;margin-bottom:16px;}
+.stat-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:10px 12px;}
+.stat-mini{background:var(--panel2);border-radius:6px;padding:9px 11px;border:1px solid var(--border);}
+.stat-mini-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:2px;}
+.stat-mini-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--text);}
+.stat-mini-chg{font-size:9px;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.big-num{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:600;color:var(--text);text-align:center;padding:6px 0;}
+.num-label{font-size:9px;text-align:center;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
+
+/* HEATMAP */
+.hm-wrap{padding:10px 16px 12px;}
+.hm-row{display:grid;grid-template-columns:52px repeat(7,1fr);gap:2px;margin-bottom:2px;}
+.hm-day{font-size:8px;color:var(--muted);text-align:center;}
+.hm-cell{height:15px;border-radius:2px;cursor:pointer;transition:opacity .15s;}
+.hm-cell:hover{opacity:1!important;outline:1px solid rgba(249,115,22,.7);}
+.hm-carrier-lbl{font-size:8px;font-weight:600;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;}
+
+/* OPP */
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:16px;}
+.opp-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;transition:border-color .2s;}
+.opp-card:hover{border-color:rgba(249,115,22,.35);}
+.opp-score{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;margin-bottom:1px;}
+.opp-lbl{font-size:8px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:600;}
+.opp-city{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-top:3px;}
+.opp-detail{font-size:10px;color:var(--muted);line-height:1.4;margin-top:4px;}
+.ob-row{display:flex;align-items:center;gap:4px;margin-top:3px;}
+.ob-label{font-size:8px;color:var(--muted);min-width:60px;}
+.ob-bg{flex:1;height:3px;background:rgba(0,0,0,.07);border-radius:1px;overflow:hidden;}
+.ob-fill{height:100%;border-radius:1px;}
+
+/* FLOW */
+.flow-row{display:flex;align-items:center;padding:6px 16px;border-bottom:1px solid var(--border2);}
+.flow-row:last-child{border:none;}
+.flow-label{font-size:10px;color:var(--muted);min-width:78px;}
+.flow-bar{flex:1;height:3px;background:rgba(0,0,0,.07);border-radius:1px;margin:0 9px;overflow:hidden;}
+.flow-fill{height:100%;border-radius:1px;transition:width 1.2s ease;}
+.flow-val{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);min-width:28px;text-align:right;}
+
+/* MOVERS */
+.mover-row{display:flex;align-items:center;padding:5px 16px;border-bottom:1px solid var(--border2);}
+.mover-row:last-child{border:none;}
+.mover-carrier{font-size:10px;font-weight:600;min-width:70px;font-family:'JetBrains Mono',monospace;}
+.mover-detail{font-size:9px;color:var(--muted);flex:1;}
+.mover-val{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;}
+
+/* REGIONAL */
+.reg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
+.reg-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;}
+.reg-name{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.reg-parent{font-size:9px;color:var(--muted);margin-bottom:7px;}
+.reg-count{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;color:var(--text);}
+.reg-lbl{font-size:9px;color:var(--muted);}
+.reg-status{font-size:9px;font-weight:600;margin-top:6px;line-height:1.4;}
+
+/* FOOTER */
+.footer{text-align:center;padding:12px;font-size:9px;color:var(--muted);border-top:1px solid var(--border);}
+
+@media(max-width:1100px){.kpi-grid,.kpi-grid-6{grid-template-columns:repeat(3,1fr);}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid{grid-template-columns:repeat(2,1fr);}.telem-layout,.c2,.c3,.c32,.c23,.c4{grid-template-columns:1fr;}.opp-grid{grid-template-columns:repeat(2,1fr);}.reg-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.kpi-grid,.kpi-grid-6{grid-template-columns:1fr 1fr;}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid,.opp-grid,.reg-grid{grid-template-columns:1fr;}.main{padding:12px;}.hdr{padding:9px 12px;}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="brand">
+    <div class="brand-icon">✈</div>
+    <div><div class="brand-title">US Airlines Intelligence</div><div class="brand-sub">Command Center · v4</div></div>
+  </div>
+  <div class="hdr-right">
+    <div class="snap-badge">📅 Snapshot: FY 2024 · Q1 2025</div>
+    <div class="src-badge">BTS · DOT · SEC · OAG · EIA</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">Last data: Mar 2025</div>
+    <button onclick="downloadDashboard()" style="display:flex;align-items:center;gap:6px;background:var(--accent);border:none;border-radius:5px;padding:6px 13px;color:#fff;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='#EA580C'" onmouseout="this.style.background='#F97316'">⬇ Download</button>
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="nav-tab active" onclick="showTab('market',this)"><span class="tab-n">1</span>Market Overview</button>
+  <button class="nav-tab" onclick="showTab('financial',this)"><span class="tab-n">2</span>Financial</button>
+  <button class="nav-tab" onclick="showTab('loyalty',this)"><span class="tab-n">3</span>Loyalty & Credit Cards</button>
+  <button class="nav-tab" onclick="showTab('airports',this)"><span class="tab-n">4</span>Airport Intelligence</button>
+  <button class="nav-tab" onclick="showTab('carriers',this)"><span class="tab-n">5</span>Carrier Dynamics</button>
+  <button class="nav-tab" onclick="showTab('opportunity',this)"><span class="tab-n">6</span>Market Opportunity</button>
+</nav>
+
+<main class="main">
+
+<!-- ═══════════════════════ TAB 1: MARKET OVERVIEW ═══════════════════════ -->
+<div id="tab-market" class="tab-content active">
+  <div class="sec-hdr"><div class="sec-title">US Domestic Market Overview</div><div class="sec-sub">Industry snapshot · BTS / DOT / Airlines for America · FY 2024 + Q1 2025</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">So What — The Industry Story</div>
+    <div class="sowhat-text">The US domestic market has <strong>fully recovered and exceeded 2019 by +5.4%</strong>, but the recovery is deeply uneven. Delta and United are printing record profits while American earns a fraction of what it should at comparable revenue. <strong>Spirit's double bankruptcy eliminated ~8% of ULCC capacity</strong>, pushing fares up in vacated markets. The structural winner is whoever owns premium demand — and that's Delta by a mile. The ULCC model is broken at scale; the survivors (Breeze, Frontier) are adapting by going upmarket or staying hyper-niche.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Domestic Passengers (TTM)</div><div class="kpi-value">921M</div><div class="kpi-chg"><span class="up">↑ 2.4%</span><span class="kp">vs prior year</span></div></div>
+    <div class="kpi"><div class="kpi-label">Industry Load Factor</div><div class="kpi-value">85.6%</div><div class="kpi-chg"><span class="up">↑ 0.8pp</span><span class="kp">vs 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Avg Domestic Fare</div><div class="kpi-value">$391</div><div class="kpi-chg"><span class="up">↑ 1.9%</span><span class="kp">vs Q3 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Total Domestic ASMs</div><div class="kpi-value">1.08T</div><div class="kpi-chg"><span class="up">↑ 3.1%</span><span class="kp">YoY capacity</span></div></div>
+    <div class="kpi"><div class="kpi-label">vs 2019 Baseline (RPM)</div><div class="kpi-value">+5.4%</div><div class="kpi-chg"><span class="up">↑ Full recovery</span></div></div>
+  </div>
+  <div class="insight-strip">
+    <div class="insight"><div class="insight-icon">📈</div><div class="insight-lbl">Recovery</div><div class="insight-txt">Demand <span class="ia">+5.4% above 2019</span> — leisure led; business at 95% recovery</div></div>
+    <div class="insight"><div class="insight-icon">⚡</div><div class="insight-lbl">Capacity Discipline</div><div class="insight-txt">Legacies growing selectively; Spirit/JetBlue slashing — <span class="ia">ULCC capacity -39%</span></div></div>
+    <div class="insight"><div class="insight-icon">💰</div><div class="insight-lbl">Fare Environment</div><div class="insight-txt">Fares <span class="ia">elevated vs 2019</span>: Spirit exit removed price ceiling in 60+ markets</div></div>
+    <div class="insight"><div class="insight-icon">🏆</div><div class="insight-lbl">Premium Shift</div><div class="insight-txt">Delta premium cabin > main cabin — <span class="ia">structural change</span>, not a blip</div></div>
+  </div>
+  <div class="row c32">
+    <div class="panel"><div class="ph"><div><div class="pt">Market Share by ASMs — FY 2024</div><div class="ps">% Available Seat Miles incl. Hawaiian</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h260"><canvas id="mktShareChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Carrier Mix</div><div class="ps">Legacy vs LCC vs ULCC</div></div></div><div class="cw"><div class="h220"><canvas id="mixChart"></canvas></div></div></div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">Demand Recovery Index</div><div class="ps">RPMs indexed 2019=100</div></div><span class="ptag">BTS/A4A</span></div><div class="cw"><div class="h220"><canvas id="demandChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Avg Domestic Fare Trend</div><div class="ps">Per passenger quarterly 2022–2024</div></div><span class="ptag">DOT O&D</span></div><div class="cw"><div class="h220"><canvas id="fareChart"></canvas></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TAB 2: FINANCIAL ═══════════════════════ -->
+<div id="tab-financial" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">So What — The Financial Divide</div>
+    <div class="sowhat-text">The profit gap between winners and losers is <strong>structural, not cyclical</strong>. Delta earns 14.1% operating margin on $61.6B revenue. American earns 6.4% on $54.2B — nearly identical revenue, half the margin. <strong>The key driver: CASM-ex.</strong> Delta runs 13.2¢, American 14.1¢ — that 0.9¢ gap on 1 trillion ASMs = ~$9B in lost annual profit potential. Hawaiian's inclusion in Alaska's financials adds ~$2.8B revenue and Pacific route network value. JetBlue at -3.1% operating margin is the most urgent financial distress story outside Spirit.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Delta Net Income FY24</div><div class="kpi-value">$3.46B</div><div class="kpi-chg"><span class="up">↑ 22%</span><span class="kp">YoY</span></div></div>
+    <div class="kpi"><div class="kpi-label">United Net Income FY24</div><div class="kpi-value">$3.15B</div><div class="kpi-chg"><span class="up">↑ 20%</span><span class="kp">YoY</span></div></div>
+    <div class="kpi"><div class="kpi-label">American Net Income FY24</div><div class="kpi-value">$0.8B</div><div class="kpi-chg"><span class="dn">4.3× below Delta</span></div></div>
+    <div class="kpi"><div class="kpi-label">Jet Fuel $/gallon</div><div class="kpi-value">$2.68</div><div class="kpi-chg"><span class="dn">↓ 8.3%</span><span class="kp">vs 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Ind. Avg Op Margin</div><div class="kpi-value">9.2%</div><div class="kpi-chg"><span class="up">↑ 1.4pp</span><span class="kp">vs FY23</span></div></div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div></div></div>
+  </div>
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps">All major carriers incl. Hawaiian · FY 2024</div></div><span class="ptag">SEC/Earnings</span></div>
+    <div style="overflow-x:auto;padding:6px 0 0;">
+      <table class="dt">
+        <thead><tr><th>Carrier</th><th>TRASM¢</th><th>PRASM¢</th><th>CASM-ex¢</th><th>Fuel%</th><th>Op Margin</th><th>Net Margin</th><th>Net Debt/EBITDAR</th><th>S&P</th><th>Signal</th></tr></thead>
+        <tbody>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>20.8</td><td>16.9</td><td>13.2</td><td>22%</td><td style="color:var(--success);font-weight:700">14.1%</td><td style="color:var(--success);font-weight:700">9.8%</td><td style="color:var(--success);font-weight:700">1.8×</td><td><span class="badge bg">BB+</span></td><td><span class="badge bg">⬆ Leader</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>19.4</td><td>15.8</td><td>13.5</td><td>23%</td><td style="color:var(--success);font-weight:700">11.3%</td><td style="color:var(--success);font-weight:700">7.2%</td><td style="color:var(--warn);font-weight:700">2.4×</td><td><span class="badge bg">BB</span></td><td><span class="badge bg">⬆ Strong</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska+HA</span></td><td>19.1</td><td>15.5</td><td>13.7</td><td>22%</td><td style="color:var(--success);font-weight:700">8.3%</td><td style="color:var(--warn);font-weight:700">4.9%</td><td style="color:var(--warn);font-weight:700">2.8×</td><td><span class="badge ba">BB-</span></td><td><span class="badge bb">↔ Integrating</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>18.6</td><td>14.7</td><td>14.1</td><td>24%</td><td style="color:var(--warn);font-weight:700">6.4%</td><td style="color:var(--danger);font-weight:700">-1.2%</td><td style="color:var(--danger);font-weight:700">5.1×</td><td><span class="badge br">B</span></td><td><span class="badge br">⬇ Losing</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>17.9</td><td>15.1</td><td>14.4</td><td>25%</td><td style="color:var(--warn);font-weight:700">3.8%</td><td style="color:var(--warn);font-weight:700">2.1%</td><td style="color:var(--success);font-weight:700">1.2×</td><td><span class="badge ba">BBB-</span></td><td><span class="badge ba">↻ Transform</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>17.2</td><td>13.4</td><td>15.8</td><td>26%</td><td style="color:var(--danger);font-weight:700">-3.1%</td><td style="color:var(--danger);font-weight:700">-6.2%</td><td style="color:var(--danger);font-weight:700">6.8×</td><td><span class="badge br">B-</span></td><td><span class="badge br">⬇ Distressed</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>18.4</td><td>15.0</td><td>14.2</td><td>23%</td><td style="color:var(--warn);font-weight:700">5.1%</td><td style="color:var(--warn);font-weight:700">2.8%</td><td style="color:var(--warn);font-weight:700">3.2×</td><td><span class="badge bb">NR</span></td><td><span class="badge bb">↔ Merging</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--spirit)"></span>Spirit</span></td><td>13.8</td><td>11.2</td><td>16.2</td><td>27%</td><td style="color:var(--danger);font-weight:700">-18%</td><td style="color:var(--danger);font-weight:700">-22%</td><td style="color:var(--danger);font-weight:700">N/A</td><td><span class="badge br">NR</span></td><td><span class="badge br">⚠ Ch.22</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost as % of OPEX</div><div class="ps">2022–2024 trend</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps">Gulf Coast $/gallon · 2022–2025</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TAB 3: LOYALTY & CREDIT CARDS ═══════════════════════ -->
+<div id="tab-loyalty" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Loyalty & Co-Brand Credit Card Intelligence</div><div class="sec-sub">Miles sold to banks · co-brand economics · marketing partnerships · card issuer strategy · 2024–2025</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">So What — The $20B Hidden Profit Engine</div>
+    <div class="sowhat-text">Airline loyalty programs are now <strong>more profitable than flying itself</strong> for Delta and United. Delta earns $7B/yr from Amex — enough to cover its entire annual fuel bill. <strong>The divergence is widening:</strong> Delta/United have locked in decade-long bank deals worth $12.5B combined annually. American's dual-issuer structure (Citi + Barclays) creates complexity that caps growth. JetBlue's $0.4B loyalty revenue vs Delta's $7B tells the whole story. <strong>The biggest untapped opportunities:</strong> Breeze has no co-brand (massive upside), Frontier has weak monetization, and Hawaiian's Atmos Rewards post-merger integration is the credit card story to watch in 2025–26.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Total Loyalty Rev (Top 4)</div><div class="kpi-value">$20.5B</div><div class="kpi-chg"><span class="up">↑ 9.8%</span><span class="kp">YoY 2024</span></div></div>
+    <div class="kpi"><div class="kpi-label">Delta Loyalty % of Rev</div><div class="kpi-value">15.9%</div><div class="kpi-chg"><span class="up">↑ 1.1pp</span><span class="kp">vs 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Amex/Delta Annual Value</div><div class="kpi-value">~$7B</div><div class="kpi-chg"><span class="up">↑ 40%</span><span class="kp">vs prior deal</span></div></div>
+    <div class="kpi"><div class="kpi-label">US Co-Brand Spend (est.)</div><div class="kpi-value">$250B+</div><div class="kpi-chg"><span class="up">↑ 12%</span><span class="kp">annual card spend</span></div></div>
+    <div class="kpi"><div class="kpi-label">Loyalty as Moat Score</div><div class="kpi-value">Delta #1</div><div class="kpi-chg"><span class="fl">Amex deal = competitive barrier</span></div></div>
+  </div>
+
+  <!-- Loyalty Cards Grid -->
+  <div class="row c2" style="margin-bottom:16px;">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(200,16,46,.1)">🔴</div><div style="flex:1"><div class="lc-carrier" style="color:var(--delta)">Delta Air Lines — SkyMiles</div><div class="lc-prog">Partner: Amex · Contract through 2035 · Renewed 2023 at +40%</div><div class="lc-rev">$7.0B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">15.9% of total revenue · 4 premium cards · 50M+ members</div></div><span class="lc-badge" style="background:rgba(22,163,74,.1);color:#15803D">Best-in-Class</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(26,107,173,.1)">🔵</div><div style="flex:1"><div class="lc-carrier" style="color:var(--united)">United Airlines — MileagePlus</div><div class="lc-prog">Partner: Chase · Contract through 2030 · Securitized at $6.8B</div><div class="lc-rev">$5.5B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">13.1% of total revenue · Chase ecosystem integration</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Strong</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(0,87,183,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partners: Citi + Barclays · Dual-issuer · Through 2031</div><div class="lc-rev">$5.2B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">12.8% of total revenue · Complexity limits growth vs peers</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(224,103,0,.1)">🟠</div><div style="flex:1"><div class="lc-carrier" style="color:var(--southwest)">Southwest — Rapid Rewards</div><div class="lc-prog">Partner: Chase · Through 2030 · Companion Pass retention lever</div><div class="lc-rev">$2.8B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">11.2% of revenue · Bag fees now apply — brand risk to card spend</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Stable</span></div>
+    </div>
+    <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps">Miles sold to bank partners ($B) · 2020–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div></div></div>
+  </div>
+
+  <!-- What's Happening in Airlines Credit Card Space -->
+  <div class="sowhat" style="border-left-color:var(--united);margin-bottom:16px;">
+    <div class="sowhat-label">Credit Card Space — What's Happening Right Now</div>
+    <div class="sowhat-text"><strong>Banks are paying more per mile than ever.</strong> Amex reportedly pays Delta ~14¢ per SkyMile sold — double what it paid a decade ago. Chase pays United ~11¢. The economics work because premium airline cardholders spend 3–5× more than average credit card users. <strong>Key trends:</strong> (1) Banks are pushing co-brand as a premium product anchor — airline miles are the #1 reason consumers hold premium cards. (2) Interchange income from airline cards funds airline loyalty at near-zero cost to the airline. (3) Competition between Amex and Chase to lock up Delta/United respectively has <strong>inflated deal values by 30–50%</strong> since 2019. (4) The "miles as currency" model is expanding — Delta SkyMiles now accepted at 30+ retail partners. (5) <strong>Super-premium cards</strong> (Amex Centurion, Chase Sapphire Reserve) increasingly compete with airline cards, creating new distribution channels for airlines.</div>
+  </div>
+
+  <!-- Co-Brand Deal Summary Table -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Credit Card Deal Summary</div><div class="ps">All major carriers incl. Hawaiian · 2025</div></div><span class="ptag">Public Filings</span></div>
+    <div style="overflow-x:auto;padding:5px 0 0;">
+      <table class="dt">
+        <thead><tr><th>Airline</th><th>Program</th><th>Bank Partner(s)</th><th>Est. Annual Value</th><th>Expiry</th><th>Key Cards</th><th>¢/Mile Paid</th><th>Opportunity / Risk</th></tr></thead>
+        <tbody>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>SkyMiles</td><td><span class="badge bg">Amex</span></td><td style="color:var(--success);font-weight:700">~$7.0B</td><td>2035</td><td>Gold, Platinum, Reserve, Blue</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~14¢</td><td>Highest value co-brand in US history. Moat through 2035.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>MileagePlus</td><td><span class="badge bg">Chase</span></td><td style="color:var(--success);font-weight:700">~$5.5B</td><td>2030</td><td>Explorer, Quest, Club Infinite</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~11¢</td><td>Securitized at $6.8B. Strong Chase ecosystem synergy.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>AAdvantage</td><td><span class="badge ba">Citi</span> <span class="badge ba">Barclays</span></td><td style="color:var(--warn);font-weight:700">~$5.2B</td><td>2031</td><td>Platinum, Executive, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~10¢</td><td>Dual-issuer caps per-issuer investment. Simplification upside.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>Rapid Rewards</td><td><span class="badge bg">Chase</span></td><td>~$2.8B</td><td>2030</td><td>Priority, Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~9¢</td><td>Bag fees may reduce card spend motivation. Watch attrition.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska</span></td><td>Mileage Plan→Atmos</td><td><span class="badge bg">BoA</span></td><td>~$0.9B</td><td>2028</td><td>Visa Signature, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~8¢</td><td>Atmos Rewards Oct 2025. Hawaiian merger adds Pacific routes value.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>HawaiianMiles→Atmos</td><td><span class="badge ba">BoA</span></td><td>~$0.3B</td><td>Merging</td><td>Hawaiian Airlines Visa</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>Merging into Atmos Rewards. BoA relationship extends. Pacific niche.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>TrueBlue</td><td><span class="badge br">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.4B</td><td>2026</td><td>JetBlue Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>⚠ Contract expires 2026. Renewal at risk given financial distress.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--frontier)"></span>Frontier</span></td><td>FRONTIER Miles</td><td><span class="badge ba">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.1B</td><td>2025</td><td>Frontier Airlines Mastercard</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~6¢</td><td>⚠ Massively undermonetized. Pivoting upmarket creates card opportunity.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--breeze)"></span>Breeze</span></td><td>BreezePoints</td><td style="color:var(--danger);font-weight:600">None</td><td style="color:var(--danger);font-weight:700">$0</td><td>—</td><td>No co-brand card yet</td><td style="font-family:'JetBrains Mono',monospace;color:var(--danger)">N/A</td><td>🔥 Biggest untapped opportunity. 78% route growth, no card revenue.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CC Opportunity Cards for smaller carriers -->
+  <div style="margin-bottom:10px;"><span style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text)">Credit Card & Market Share Strategy — Smaller Carriers</span><span style="font-size:10px;color:var(--muted);margin-left:8px;">What JetBlue, Frontier, Hawaiian & Breeze must do to capture market share</span></div>
+  <div class="cc-opp-grid">
+    <div class="cc-opp">
+      <div class="cc-opp-carrier" style="color:var(--jetblue)">JetBlue Airways</div>
+      <div class="cc-opp-status">TrueBlue · Barclays · ~$0.4B · Expires 2026</div>
+      <div class="cc-opp-label">Credit Card Moves</div>
+      <div class="cc-opp-item">🔑 <strong>Must re-sign or switch issuers by 2026.</strong> Capital One or Synchrony as alternatives to Barclays given distress.</div>
+      <div class="cc-opp-item">Add premium card tier (currently only one card). Premium card = 3–5× higher cardholder spend.</div>
+      <div class="cc-opp-item">Launch BOGO miles on card spend to compete with SW Companion Pass. Northeast market responds to value mechanics.</div>
+      <div class="cc-opp-label">Market Share Moves</div>
+      <div class="cc-opp-item">Double down on BOS + JFK. Retreat from unprofitable markets (already underway — 24 routes cut).</div>
+      <div class="cc-opp-item">Premium cabin product by 2026 to raise PRASM above 13.4¢ (currently lowest of legacy/LCC set).</div>
+    </div>
+    <div class="cc-opp">
+      <div class="cc-opp-carrier" style="color:var(--frontier)">Frontier Airlines</div>
+      <div class="cc-opp-status">FRONTIER Miles · Barclays · ~$0.1B · Undermonetized</div>
+      <div class="cc-opp-label">Credit Card Moves</div>
+      <div class="cc-opp-item">🔥 <strong>Launch a true premium co-brand card</strong> (World Elite tier) to match new first-class product strategy.</div>
+      <div class="cc-opp-item">Partner with a second issuer (Capital One) for better distribution. Current Barclays deal is minimal.</div>
+      <div class="cc-opp-item">GoWild Pass holders = perfect co-brand target. Card-linked pass access = high engagement loyalty loop.</div>
+      <div class="cc-opp-label">Market Share Moves</div>
+      <div class="cc-opp-item">ATL expansion post-SW retreat (+40% YoY) is working. Build card acquisition at ATL terminal.</div>
+      <div class="cc-opp-item">First-class launch (late 2025) changes the revenue quality story — enable card spend on premium upgrades.</div>
+    </div>
+    <div class="cc-opp">
+      <div class="cc-opp-carrier" style="color:var(--hawaiian)">Hawaiian Airlines → Atmos</div>
+      <div class="cc-opp-status">Merging into Alaska's Atmos Rewards · BoA · Pacific niche</div>
+      <div class="cc-opp-label">Credit Card Moves</div>
+      <div class="cc-opp-item">🌺 <strong>Atmos Rewards (Oct 2025)</strong> must retain HawaiianMiles cardholders through migration. Attrition risk is high.</div>
+      <div class="cc-opp-item">Launch Atmos-branded Hawaii-specific card with inter-island benefits + mainland perks. Pacific niche is defensible.</div>
+      <div class="cc-opp-item">BoA relationship extension gives distribution reach. Pacific/Asia corridor cardholders are high-value.</div>
+      <div class="cc-opp-label">Market Share Moves</div>
+      <div class="cc-opp-item">Leverage Alaska's West Coast network + Hawaiian's Pacific routes. Combined = strongest US-Pacific carrier.</div>
+      <div class="cc-opp-item">Japan, South Korea, Australia connections that United cannot match from HNL specifically.</div>
+    </div>
+    <div class="cc-opp">
+      <div class="cc-opp-carrier" style="color:var(--breeze)">Breeze Airways</div>
+      <div class="cc-opp-status">BreezePoints · No co-brand · $0 card revenue · Biggest gap</div>
+      <div class="cc-opp-label">Credit Card Moves</div>
+      <div class="cc-opp-item">🔥 <strong>Launch first co-brand card immediately.</strong> At $680M revenue + 78% growth rate, Capital One or Synchrony will compete for this deal.</div>
+      <div class="cc-opp-item">Secondary market customers (BNA, BDL, RIC) are underserved by existing airline cards — low competition for cardholder wallet share.</div>
+      <div class="cc-opp-item">Companion-style benefit (BreezeThru connecting perk with card spend) would drive high engagement.</div>
+      <div class="cc-opp-label">Market Share Moves</div>
+      <div class="cc-opp-item">87% routes uncontested — card acquisition at gate is high-conversion when there's no competing airline card offered.</div>
+      <div class="cc-opp-item">International expansion (2025) creates premium card opportunity: vacation destination routes convert well.</div>
+    </div>
+  </div>
+
+  <!-- Marketing Partnerships Section -->
+  <div class="sowhat" style="border-left-color:var(--hawaiian);margin-bottom:16px;">
+    <div class="sowhat-label">Airlines × Card Issuers — How They Partner to Capture Market Share</div>
+    <div class="sowhat-text">Airlines and banks have built a <strong>$250B+ annual co-branded card spend ecosystem</strong> using every available channel. The playbook goes far beyond the card itself — it's a full-funnel acquisition machine operating at every customer touchpoint, from booking to deplaning. <strong>The carriers doing this best (Delta, United) are generating 40–60% higher revenue per cardholder</strong> than those treating co-brand as an afterthought (Frontier, JetBlue).</div>
+  </div>
+  <div class="mktg-grid">
+    <div class="mktg-card" style="border-left-color:var(--accent)">
+      <div class="mktg-title">✈ Terminal & Gate Marketing</div>
+      <div class="mktg-item"><strong>Gate screen advertising</strong> — Airline-controlled displays show card offers during boarding waits. Delta's ATL gates reach 108M pax/yr. <span class="mktg-stat">~$0.8B annual impression value</span></div>
+      <div class="mktg-item"><strong>Kiosk card acquisition</strong> — Check-in and upgrade kiosks prompt card applications. High-intent moment (pre-travel excitement). Delta/Amex drives 20%+ of new card applications this way.</div>
+      <div class="mktg-item"><strong>Lounge access hook</strong> — Access to Sky Club / United Club / Admirals Club requires card membership. Creates premium card pull. Delta Sky Club limited access without Amex Reserve card (waitlist by 2025).</div>
+      <div class="mktg-item"><strong>Terminal pop-up booths</strong> — Staffed Amex/Chase kiosks in Delta/United terminals. Industry standard approval-on-the-spot. High conversion: traveler already has airline top-of-mind.</div>
+    </div>
+    <div class="mktg-card" style="border-left-color:var(--delta)">
+      <div class="mktg-title">🛫 Inflight Marketing</div>
+      <div class="mktg-item"><strong>Cabin crew card pitches</strong> — Seatback envelope card applications + crew verbal pitch on 3–4 hour+ flights. FA commission structures on approved applications ($50–100/card) drive genuine advocacy. <span class="mktg-stat">Delta: ~300K inflight apps/yr est.</span></div>
+      <div class="mktg-item"><strong>Seatback entertainment pre-rolls</strong> — IFE systems (Delta Studio, United Entertainment) run 30-sec card promos before content. Captive audience, high dwell time.</div>
+      <div class="mktg-item"><strong>Meal tray card inserts</strong> — Physical card applications on premium cabin meal trays. High net-worth demographic, premium card target.</div>
+      <div class="mktg-item"><strong>Wi-Fi sponsored passes</strong> — "Fly free on [Amex/Chase card]" — bank sponsors inflight Wi-Fi in exchange for card application display and data capture. United/Chase pioneer model.</div>
+    </div>
+    <div class="mktg-card" style="border-left-color:var(--united)">
+      <div class="mktg-title">📱 Digital & App-Based Channels</div>
+      <div class="mktg-item"><strong>App card upgrade prompts</strong> — Delta/United apps trigger card upsell when a customer books upgrades, checks status, or redeems miles. In-app applications now outpace physical. <span class="mktg-stat">~40% of new co-brand apps now digital-first</span></div>
+      <div class="mktg-item"><strong>Email lifecycle sequences</strong> — Status match offers ("earn Gold status with 3 card purchases"), mile bonus triggers, anniversary offers. Delta sends 200M+ targeted emails/yr to SkyMiles base.</div>
+      <div class="mktg-item"><strong>Booking flow card integration</strong> — "Pay with miles + card" prompts at checkout. United MileagePlus allows mile top-ups at point of purchase — drives card applications when miles are short.</div>
+      <div class="mktg-item"><strong>Social retargeting</strong> — Airlines share anonymized purchase intent signals with bank partners for Meta/Google retargeting. "You searched ATL–JFK — earn 70K miles with the Delta Amex card."</div>
+    </div>
+  </div>
+  <div class="panel" style="margin-bottom:16px;"><div class="ph"><div><div class="pt">Loyalty as % of Total Revenue</div><div class="ps">Strategic importance benchmark · FY 2024 · Delta leads — every pp gain = ~$600M revenue</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="loyaltyPctChart"></canvas></div></div></div>
+</div>
+
+<!-- ═══════════════════════ TAB 4: AIRPORT INTELLIGENCE ═══════════════════════ -->
+<div id="tab-airports" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Airport Intelligence</div><div class="sec-sub">Hub dominance · HHI concentration · Animated route network · Slot control · FAA / BTS / OAG · 2024</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">So What — Hub Concentration Is the Real Competitive Moat</div>
+    <div class="sowhat-text"><strong>Fortress hubs are the most durable competitive advantage in US aviation.</strong> Delta's 75% seat share at ATL means it can price 20–30% above market on connecting routes and passengers have no choice. American's 85% at DFW and CLT is similarly impenetrable. <strong>The strategic battlegrounds are the in-between airports:</strong> Nashville (BNA) is contested as Southwest retreats and Frontier/Delta expand. Denver (HHI 1,600) is the most competitive major hub — all three legacies plus Frontier fight for share. <strong>Sun Belt airports (TYS +18.6%, CLT +10%, ORD +8.3%)</strong> are where the next decade's market share is being won.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">ATL — World's Busiest</div><div class="kpi-value">108.1M</div><div class="kpi-chg"><span class="up">↑ 3.3%</span><span class="kp">Delta ~75%</span></div></div>
+    <div class="kpi"><div class="kpi-label">DFW Record 2024</div><div class="kpi-value">87.8M</div><div class="kpi-chg"><span class="up">↑ 7.4%</span><span class="kp">American ~85%</span></div></div>
+    <div class="kpi"><div class="kpi-label">ORD All-Time Record</div><div class="kpi-value">80.0M</div><div class="kpi-chg"><span class="up">↑ 8.3%</span><span class="kp">70-year high</span></div></div>
+    <div class="kpi"><div class="kpi-label">HNL — Hawaiian Hub</div><div class="kpi-value">21.4M</div><div class="kpi-chg"><span class="up">↑ 4.1%</span><span class="kp">Alaska/Hawaiian</span></div></div>
+    <div class="kpi"><div class="kpi-label">TYS Fastest Growing</div><div class="kpi-value">+18.6%</div><div class="kpi-chg"><span class="up">Top-100 leader</span><span class="kp">Knoxville</span></div></div>
+  </div>
+
+  <!-- Animated Map with Telemetry -->
+  <div class="telem-layout">
+    <div style="display:flex;flex-direction:column;gap:13px;">
+      <div class="map-container">
+        <div class="map-controls">
+          <div class="ap-selector" id="apSel">
+            <button class="ap-chip active" onclick="filterAp('ALL',this)">ALL</button>
+            <button class="ap-chip" onclick="filterAp('ATL',this)">ATL</button>
+            <button class="ap-chip" onclick="filterAp('DFW',this)">DFW</button>
+            <button class="ap-chip" onclick="filterAp('ORD',this)">ORD</button>
+            <button class="ap-chip" onclick="filterAp('LAX',this)">LAX</button>
+            <button class="ap-chip" onclick="filterAp('DEN',this)">DEN</button>
+            <button class="ap-chip" onclick="filterAp('JFK',this)">JFK</button>
+            <button class="ap-chip" onclick="filterAp('HNL',this)">HNL</button>
+            <button class="ap-chip" onclick="filterAp('MSP',this)">MSP</button>
+            <button class="ap-chip" onclick="filterAp('BNA',this)">BNA</button>
+            <button class="ap-chip" onclick="filterAp('SFO',this)">SFO</button>
+          </div>
+          <div class="carr-btns" id="carrBtns">
+            <button class="carr-btn active" onclick="setCarrier('all',this)">All</button>
+            <button class="carr-btn" onclick="setCarrier('delta',this)" style="color:var(--delta)">DL</button>
+            <button class="carr-btn" onclick="setCarrier('united',this)" style="color:var(--united)">UA</button>
+            <button class="carr-btn" onclick="setCarrier('american',this)" style="color:var(--american)">AA</button>
+            <button class="carr-btn" onclick="setCarrier('southwest',this)" style="color:var(--southwest)">WN</button>
+            <button class="carr-btn" onclick="setCarrier('jetblue',this)" style="color:var(--jetblue)">B6</button>
+            <button class="carr-btn" onclick="setCarrier('frontier',this)" style="color:var(--frontier)">F9</button>
+            <button class="carr-btn" onclick="setCarrier('breeze',this)" style="color:var(--breeze)">MX</button>
+            <button class="carr-btn" onclick="setCarrier('alaska',this)" style="color:var(--alaska)">AS</button>
+            <button class="carr-btn" onclick="setCarrier('hawaiian',this)" style="color:var(--hawaiian)">HA</button>
+            <button class="carr-btn" onclick="setCarrier('emirates',this)" style="color:#9A7B0A">EK</button>
+          </div>
+        </div>
+        <canvas id="routeMap" height="360"></canvas>
+        <div class="map-legend">
+          <div class="leg-item"><div class="leg-dot" style="background:var(--delta)"></div>Delta</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--united)"></div>United</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--american)"></div>American</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--southwest)"></div>Southwest</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--alaska)"></div>Alaska</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--jetblue)"></div>JetBlue</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--frontier)"></div>Frontier</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--breeze)"></div>Breeze</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--hawaiian)"></div>Hawaiian</div>
+          <div class="leg-item" style="color:var(--muted);font-size:9px">← click airport to filter</div>
+        </div>
+      </div>
+      <!-- Route share timeline -->
+      <div class="panel"><div class="ph"><div><div class="pt">Domestic Seat Share Over Time</div><div class="ps">Monthly % · Q1 2022 → Q1 2025 · Spirit collapse, Breeze rise</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h180"><canvas id="timelineChart"></canvas></div></div></div>
+      <!-- Busiest routes table -->
+      <div class="panel"><div class="ph"><div><div class="pt">Busiest Domestic Routes</div><div class="ps">Avg weekly departures · annual pax · BTS FY 2024</div></div><span class="ptag">BTS 2024</span></div>
+        <div style="overflow-x:auto;padding:4px 0 0;"><table class="dt"><thead><tr><th>#</th><th>Route</th><th>Wkly Flt</th><th>Ann. Pax</th><th>Dominant</th><th>YoY</th></tr></thead><tbody id="routeTableBody"></tbody></table></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px;">
+      <!-- KPI snapshot -->
+      <div class="panel"><div class="ph"><div><div class="pt">Industry KPI Snapshot</div><div class="ps">FY 2024 actuals · BTS / DOT</div></div><span class="ptag">BTS FY2024</span></div>
+        <div style="padding:8px 0 2px;text-align:center;"><div class="big-num">7.5M</div><div class="num-label">Domestic Departures FY2024</div></div>
+        <div class="stat-mini-grid">
+          <div class="stat-mini"><div class="stat-mini-label">Load Factor</div><div class="stat-mini-val">85.6%</div><div class="stat-mini-chg up">↑ 0.8pp YoY</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">Avg Fare</div><div class="stat-mini-val">$391</div><div class="stat-mini-chg up">↑ 1.9% YoY</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">On-Time Rate</div><div class="stat-mini-val">79.2%</div><div class="stat-mini-chg dn">↓ 1.1pp</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">Cancel Rate</div><div class="stat-mini-val">1.8%</div><div class="stat-mini-chg up">↓ 0.4pp</div></div>
+        </div>
+      </div>
+      <!-- Seat share donut -->
+      <div class="panel"><div class="ph"><div><div class="pt">Live Seat Share · Mar 2025</div><div class="ps">OAG forward schedule</div></div><span class="ptag">OAG</span></div><div class="cw"><div style="height:180px;"><canvas id="shareDonut"></canvas></div></div></div>
+      <!-- Heatmap -->
+      <div class="panel"><div class="ph"><div><div class="pt">Capacity by Day of Week</div><div class="ps">OAG Q4 2024 schedule</div></div><span class="ptag">OAG</span></div>
+        <div class="hm-wrap"><div class="hm-row" style="margin-bottom:5px;"><div></div><div class="hm-day">Mon</div><div class="hm-day">Tue</div><div class="hm-day">Wed</div><div class="hm-day">Thu</div><div class="hm-day">Fri</div><div class="hm-day">Sat</div><div class="hm-day">Sun</div></div><div id="heatmapGrid"></div></div>
+      </div>
+      <!-- Movers -->
+      <div class="panel"><div class="ph"><div><div class="pt">Route Share Movers</div><div class="ps">Biggest shifts · Q4 2024 vs Q4 2023</div></div></div><div id="moversContainer" style="padding:4px 0;"></div></div>
+    </div>
+  </div>
+
+  <!-- Airport cards + HHI chart -->
+  <div class="ap-grid">
+    <div class="ap-card" style="border-left:3px solid var(--delta)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI 5,800</span><div class="ap-code">ATL</div><div class="ap-name">Hartsfield-Jackson · Atlanta</div><div class="ap-top" style="color:var(--delta)">Delta fortress · 75%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Delta</span><div class="sb-bg"><div class="sb-fill" style="width:75%;background:var(--delta)"></div></div><span class="sb-pct" style="color:var(--delta)">75%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:10%;background:var(--southwest)"></div></div><span class="sb-pct">10%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">108.1M</div><div style="font-size:9px;color:var(--muted)">pax 2024</div></div><span class="badge bg">↑ 3.3%</span></div></div>
+    <div class="ap-card" style="border-left:3px solid var(--american)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI 7,300</span><div class="ap-code">DFW</div><div class="ap-name">Dallas/Fort Worth · Record 2024</div><div class="ap-top" style="color:var(--american)">American mega-hub · 85%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:85%;background:var(--american)"></div></div><span class="sb-pct" style="color:var(--american)">85%</span></div><div class="sb-row"><span class="sb-label">Others</span><div class="sb-bg"><div class="sb-fill" style="width:15%;background:rgba(0,0,0,.15)"></div></div><span class="sb-pct">15%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">87.8M</div><div style="font-size:9px;color:var(--muted)">pax · record</div></div><span class="badge bg">↑ 7.4%</span></div></div>
+    <div class="ap-card" style="border-left:3px solid var(--frontier)"><span class="hhi-chip" style="background:rgba(22,163,74,.1);color:#15803D">HHI 1,600</span><div class="ap-code">DEN</div><div class="ap-name">Denver International</div><div class="ap-top" style="color:var(--success)">3-way competitive market</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:30%;background:var(--united)"></div></div><span class="sb-pct" style="color:var(--united)">30%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:20%;background:var(--southwest)"></div></div><span class="sb-pct">20%</span></div><div class="sb-row"><span class="sb-label">Frontier</span><div class="sb-bg"><div class="sb-fill" style="width:15%;background:var(--frontier)"></div></div><span class="sb-pct">15%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">82.0M</div><div style="font-size:9px;color:var(--muted)">+9.3M vs 2019</div></div><span class="badge bg">↑ 5.7%</span></div></div>
+    <div class="ap-card" style="border-left:3px solid var(--united)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI 3,200</span><div class="ap-code">ORD</div><div class="ap-name">Chicago O'Hare · 70yr record</div><div class="ap-top" style="color:var(--united)">United dominant · 49%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:49%;background:var(--united)"></div></div><span class="sb-pct" style="color:var(--united)">49%</span></div><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:28%;background:var(--american)"></div></div><span class="sb-pct">28%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">80.0M</div><div style="font-size:9px;color:var(--muted)">all-time record</div></div><span class="badge bg">↑ 8.3%</span></div></div>
+    <div class="ap-card" style="border-left:3px solid var(--hawaiian)"><span class="hhi-chip" style="background:rgba(91,45,142,.1);color:#5B2D8E">HHI 5,200</span><div class="ap-code">HNL</div><div class="ap-name">Honolulu Intl · Hawaii hub</div><div class="ap-top" style="color:var(--hawaiian)">Hawaiian/Alaska dominant</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Hawaiian</span><div class="sb-bg"><div class="sb-fill" style="width:48%;background:var(--hawaiian)"></div></div><span class="sb-pct" style="color:var(--hawaiian)">48%</span></div><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:18%;background:var(--united)"></div></div><span class="sb-pct">18%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:14%;background:var(--southwest)"></div></div><span class="sb-pct">14%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">21.4M</div><div style="font-size:9px;color:var(--muted)">pax 2024</div></div><span class="badge bg">↑ 4.1%</span></div></div>
+    <div class="ap-card" style="border-left:3px solid var(--southwest)"><span class="hhi-chip" style="background:rgba(202,138,4,.1);color:#92400E">HHI 2,200</span><div class="ap-code">BNA</div><div class="ap-name">Nashville · SW building SE hub</div><div class="ap-top" style="color:var(--southwest)">Southwest + contested growth</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:44%;background:var(--southwest)"></div></div><span class="sb-pct" style="color:var(--southwest)">44%</span></div><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:18%;background:var(--american)"></div></div><span class="sb-pct">18%</span></div><div class="sb-row"><span class="sb-label">Delta</span><div class="sb-bg"><div class="sb-fill" style="width:16%;background:var(--delta)"></div></div><span class="sb-pct">16%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">24.7M</div><div style="font-size:9px;color:var(--muted)">record 2024</div></div><span class="badge bg">↑ 7.4%</span></div></div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">Airport HHI Concentration</div><div class="ps">>2,500 = Highly Concentrated (DOT threshold)</div></div><span class="ptag">DOT/BTS</span></div><div class="cw"><div class="h300"><canvas id="hhiChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Sun Belt Airport Growth</div><div class="ps">Passenger growth YoY % · 2024 vs 2023</div></div><span class="ptag">ACI-NA</span></div><div class="cw"><div class="h300"><canvas id="airportGrowthChart"></canvas></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TAB 5: CARRIER DYNAMICS ═══════════════════════ -->
+<div id="tab-carriers" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Carrier Dynamics</div><div class="sec-sub">Select a carrier to explore their story, or view the industry overview · FY 2024 · SEC / BTS / Earnings</div></div>
+
+  <!-- CARRIER SWITCHER -->
+  <div class="carrier-switcher">
+    <span class="csw-label">Carrier:</span>
+    <button class="csw-btn active" onclick="switchCarrier('overview',this)" style="background:var(--accent);border-color:var(--accent);color:#fff">Industry Overview</button>
+    <button class="csw-btn" onclick="switchCarrier('delta',this)" style="--c:var(--delta)">Delta (DAL)</button>
+    <button class="csw-btn" onclick="switchCarrier('united',this)" style="--c:var(--united)">United (UAL)</button>
+    <button class="csw-btn" onclick="switchCarrier('american',this)" style="--c:var(--american)">American (AAL)</button>
+    <button class="csw-btn" onclick="switchCarrier('southwest',this)" style="--c:var(--southwest)">Southwest (LUV)</button>
+    <button class="csw-btn" onclick="switchCarrier('jetblue',this)" style="--c:var(--jetblue)">JetBlue (JBLU)</button>
+    <button class="csw-btn" onclick="switchCarrier('hawaiian',this)" style="--c:var(--hawaiian)">Hawaiian/Alaska (ALK)</button>
+    <button class="csw-btn" onclick="switchCarrier('newentrants',this)" style="--c:var(--breeze)">New Entrants</button>
+  </div>
+
+  <!-- OVERVIEW PANEL -->
+  <div id="cp-overview" class="carrier-panel active">
+    <div class="sowhat"><div class="sowhat-label">So What — Industry Verdict FY 2024</div><div class="sowhat-text">The US airline industry has <strong>permanently bifurcated</strong>. Delta and United generate $6.65B combined profit — more than the other 8 major carriers combined. American earns ⅛ of Delta's profit on comparable revenue. Spirit's double bankruptcy proves the ULCC model is broken at scale. <strong>Winners build fortress hubs, premium revenue, and loyalty engines. Losers are trapped by debt and cost structures they cannot exit in one cycle.</strong></div></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Delta + United Combined NI</div><div class="kpi-value">$6.65B</div><div class="kpi-chg"><span class="up">↑ 21% YoY</span></div></div>
+      <div class="kpi"><div class="kpi-label">AA Profit vs Delta</div><div class="kpi-value">4.3× gap</div><div class="kpi-chg"><span class="dn">Same revenue, ⅛ profit</span></div></div>
+      <div class="kpi"><div class="kpi-label">Spirit Fleet Destroyed</div><div class="kpi-value">-55%</div><div class="kpi-chg"><span class="dn">214→94 jets · Ch.22</span></div></div>
+      <div class="kpi"><div class="kpi-label">Southwest Transformation</div><div class="kpi-value">3 yrs</div><div class="kpi-chg"><span class="fl">Elliott-forced · assigned seats</span></div></div>
+      <div class="kpi"><div class="kpi-label">Breeze Growth</div><div class="kpi-value">+78%</div><div class="kpi-chg"><span class="up">First profit Q4 2024</span></div></div>
+    </div>
+    <div class="row c2">
+      <div class="panel">
+        <div class="ph"><div><div class="pt">Net Income Divergence · FY 2022–2024</div><div class="ps">Profit gap is structural, not cyclical</div></div><span class="ptag">SEC</span></div>
+        <div class="cw"><div class="h260"><canvas id="netIncomeChart"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div><div class="pt">Seat Share · All Carriers</div><div class="ps">Mar 2025 OAG forward schedule</div></div><span class="ptag">OAG</span></div>
+        <div class="cw"><div class="h260"><canvas id="fullShareChart"></canvas></div></div>
+      </div>
+    </div>
+    <div class="row c2">
+      <div class="panel">
+        <div class="ph"><div><div class="pt">Cities Served — Network Depth</div><div class="ps">Domestic airports by carrier</div></div><span class="ptag">OAG</span></div>
+        <div style="padding:6px 0" id="flowBars"></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div><div class="pt">Total Revenue FY 2024</div><div class="ps">Operating revenue ($B)</div></div><span class="ptag">SEC</span></div>
+        <div class="cw"><div class="h220"><canvas id="revenueChart"></canvas></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELTA PANEL -->
+  <div id="cp-delta" class="carrier-panel">
+    <div class="c-hero" style="background:#FFF5F5;border-color:#FED7D7;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--delta)">D</div><div><div class="c-name">Delta Air Lines</div><div class="c-sub-line">NYSE: DAL · BB+ rated · ATL/MSP/DTW/SLC hubs · oneworld</div></div><span class="badge bg" style="margin-left:auto;font-size:10px;padding:3px 10px">⬆ CLEAR WINNER</span></div>
+      <div class="c-summary">Delta is the undisputed leader of US aviation. It is the <strong>only US airline where premium cabin revenue now exceeds main cabin</strong> — a structural shift signaling repositioning from airline to premium travel brand. Its Amex deal (~$7B/yr through 2035), ATL fortress hub (75% share, 108M pax), and A321neo fleet renewal are compounding advantages that compound annually.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — Delta's Moat</div><div class="sowhat-text"><strong>Delta is building an economic moat, not just an airline.</strong> The Amex deal through 2035 generates $7B/yr regardless of fuel prices or recessions. The ATL fortress means 75% of its connecting traffic faces zero competition. Premium cabin now earns more than main cabin — meaning Delta now earns more per passenger than any other US carrier by design. <strong>Key watch:</strong> Can it sustain premium pricing in a recession? ATL concentration (75%) is a single point of failure in weather/ATC events. Amex renewal at 2035 is the next major negotiation.</div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi" style="--c:var(--delta)"><div class="kpi-label">FY24 Revenue</div><div class="kpi-value">$61.6B</div><div class="kpi-chg"><span class="up">↑ 6.2%</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Income FY24</div><div class="kpi-value">$3.46B</div><div class="kpi-chg"><span class="up">↑ 22%</span></div></div>
+      <div class="kpi"><div class="kpi-label">Op Margin</div><div class="kpi-value">14.1%</div><div class="kpi-chg"><span class="up">Best Big 4</span></div></div>
+      <div class="kpi"><div class="kpi-label">Load Factor</div><div class="kpi-value">87.2%</div><div class="kpi-chg"><span class="up">↑ 0.8pp</span></div></div>
+      <div class="kpi"><div class="kpi-label">Loyalty Revenue</div><div class="kpi-value">$7.0B</div><div class="kpi-chg"><span class="fl">15.9% of rev</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">1.8×</div><div class="kpi-chg"><span class="up">Lowest Big 4</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--delta)">🏆 Why Delta Wins</div><div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Premium > main cabin (Q4 2024)</strong> — First time in US aviation history. Delta now earns more from premium cabins than coach.</span></div><div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Amex deal ~$7B/yr through 2035</strong> — Renewed 2023 at 40% higher value. Most lucrative co-brand deal in US history.</span></div><div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>ATL fortress 75% share</strong> — 1.1M weekly seats, 968 daily flights, 215 destinations. Rivals cannot compete here.</span></div><div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>189 A321neo on order</strong> — 317 total aircraft ordered. Fuel efficiency advantage widens annually.</span></div></div>
+      <div class="story-card"><div class="sc-title">📅 Key Timeline</div><div class="tl-item"><div class="tl-date">Q4 2024</div><div class="tl-dot" style="background:var(--delta)"></div><div class="tl-text">Premium revenue surpasses main cabin — industry first in US aviation history</div><span class="tl-tag" style="background:rgba(22,163,74,.1);color:#15803D">Milestone</span></div><div class="tl-item"><div class="tl-date">Jan 2025</div><div class="tl-dot" style="background:var(--delta)"></div><div class="tl-text">CEO Bastian guides 2025 as "best financial year in our history" — $7.35+ EPS</div><span class="tl-tag" style="background:rgba(22,163,74,.1);color:#15803D">Bullish</span></div><div class="tl-item"><div class="tl-date">Mar 2025</div><div class="tl-dot" style="background:var(--delta)"></div><div class="tl-text">Orders 34 additional A321neos; largest domestic fleet renewal in company history</div><span class="tl-tag" style="background:rgba(249,115,22,.1);color:#C2410C">Fleet</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ Key Risks</div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>ATL single-hub concentration</strong> — 75% dependency = systemic weather/ATC risk. One major ATL disruption = national crisis.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>Premium leisure cyclicality</strong> — The growth engine. A consumer recession tests the premium thesis harder than coach demand.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>Low leverage advantage</strong> — 1.8× Net Debt/EBITDAR gives Delta flexibility no peers have in a downturn.</span></div></div>
+    </div>
+  </div>
+
+  <!-- UNITED PANEL -->
+  <div id="cp-united" class="carrier-panel">
+    <div class="c-hero" style="background:#EFF6FF;border-color:#BFDBFE;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--united)">U</div><div><div class="c-name">United Airlines</div><div class="c-sub-line">NYSE: UAL · BB rated · ORD/DEN/IAH/EWR/SFO hubs · Star Alliance</div></div><span class="badge bg" style="margin-left:auto;font-size:10px;padding:3px 10px">⬆ STRONG MOMENTUM</span></div>
+      <div class="c-summary">United operates the world's largest airline fleet (1,018 aircraft), posted record Q4 2024 profit, and is executing the most aggressive international expansion of any US carrier. Its multi-hub model across ORD, DEN, IAH, EWR, SFO deliberately reduces concentration risk and diversifies revenue streams.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — United's Strategic Edge</div><div class="sowhat-text">United is the <strong>safest bet among the three legacy carriers for 2025–27.</strong> Debt at 2.4× is manageable. Chase MileagePlus generates $5.5B/yr. Fleet expansion creates long-term cost efficiency tailwinds. The risk is execution — 630 aircraft by 2034 is unprecedented and Boeing delivery risk is real. <strong>International expansion is the differentiator:</strong> No US rival can match United's network breadth — 9 new international routes in Summer 2025, 8 previously unserved by any US carrier.</div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi"><div class="kpi-label">FY24 Revenue</div><div class="kpi-value">$57.1B</div><div class="kpi-chg"><span class="up">↑ 5.8%</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Income FY24</div><div class="kpi-value">$3.15B</div><div class="kpi-chg"><span class="up">↑ 20%</span></div></div>
+      <div class="kpi"><div class="kpi-label">Op Margin</div><div class="kpi-value">11.3%</div><div class="kpi-chg"><span class="up">Record high</span></div></div>
+      <div class="kpi"><div class="kpi-label">Fleet Size</div><div class="kpi-value">1,018</div><div class="kpi-chg"><span class="up">World's largest</span></div></div>
+      <div class="kpi"><div class="kpi-label">Loyalty Revenue</div><div class="kpi-value">$5.5B</div><div class="kpi-chg"><span class="fl">13.1% of rev</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">2.4×</div><div class="kpi-chg"><span class="up">↓ Improving</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--united)">✈ United Next Wins</div><div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>630 aircraft on order by 2034</strong> — Largest US airline order book. 737 MAX, 787, A321neo mix.</span></div><div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>SFO fortress build</strong> — 20% more flying in 2025 vs 2024, 300+ daily flights, targeting Alaska on home turf.</span></div><div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>Largest-ever international expansion</strong> — 9 new destinations Summer 2025, 8 unserved by any US carrier (Ulaanbaatar, Nuuk, Kaohsiung, Palermo, Bilbao).</span></div></div>
+      <div class="story-card"><div class="sc-title">📅 Key Timeline</div><div class="tl-item"><div class="tl-date">Q4 2024</div><div class="tl-dot" style="background:var(--united)"></div><div class="tl-text">Record Q4 profit — adj. EPS $3.26 vs $2.62 expected. First time exceeding Q4 target in company history.</div><span class="tl-tag" style="background:rgba(22,163,74,.1);color:#15803D">Record</span></div><div class="tl-item"><div class="tl-date">Jan 2025</div><div class="tl-dot" style="background:var(--united)"></div><div class="tl-text">Reiterates path to double-digit pre-tax margin. FY2025 adj. EPS guidance $11.50–13.50.</div><span class="tl-tag" style="background:rgba(22,163,74,.1);color:#15803D">Bullish</span></div><div class="tl-item"><div class="tl-date">Mar 2025</div><div class="tl-dot" style="background:var(--united)"></div><div class="tl-text">Announces largest-ever summer international schedule. 9 new routes, 8 previously unserved by any US carrier.</div><span class="tl-tag" style="background:rgba(249,115,22,.1);color:#C2410C">Expand</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ Risks</div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>Boeing delivery risk</strong> — 630-aircraft order depends on Boeing meeting production. MAX issues have caused delays.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>International forex risk</strong> — Aggressive global expansion adds currency and geopolitical exposure.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>Multi-hub resilience</strong> — ORD/DEN/IAH/EWR/SFO balanced model reduces ATL-style concentration risk.</span></div></div>
+    </div>
+  </div>
+
+  <!-- AMERICAN PANEL -->
+  <div id="cp-american" class="carrier-panel">
+    <div class="c-hero" style="background:#FFF7ED;border-color:#FED7AA;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--american)">A</div><div><div class="c-name">American Airlines</div><div class="c-sub-line">NASDAQ: AAL · B rated · DFW/CLT/MIA hubs · oneworld</div></div><span class="badge ba" style="margin-left:auto;font-size:10px;padding:3px 10px">⚠ RECOVERY STORY</span></div>
+      <div class="c-summary">American carries more passengers than any US airline but earns a fraction of Delta's profit. A 2023 NDC distribution strategy backfired — costing ~$1.5B in revenue. Combined with the industry's highest leverage (5.1× Net Debt/EBITDAR), two union no-confidence votes, and removal from the S&P 500, American is in a structural profitability trap it cannot exit quickly.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — The Hard Truth About American</div><div class="sowhat-text">American is the most complex investment case in US aviation. Biggest route network, most passengers — but earns 12¢ of profit for every dollar Delta earns. <strong>The NDC debacle is fixable but the $38B+ debt burden is a decade-long albatross.</strong> S&P 500 removal in Sep 2024 triggered forced selling. Until leverage falls below 4×, the stock remains a trading vehicle. The DFW Terminal F expansion ($4B, 31 new gates) is the 10-year bet on Sunbelt dominance — <strong>that's the right thesis if they can survive long enough to collect.</strong></div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi"><div class="kpi-label">FY24 Revenue</div><div class="kpi-value">$54.2B</div><div class="kpi-chg"><span class="up">Record high</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Income FY24</div><div class="kpi-value">$0.8B</div><div class="kpi-chg"><span class="dn">⅛ of Delta</span></div></div>
+      <div class="kpi"><div class="kpi-label">Op Margin</div><div class="kpi-value">6.4%</div><div class="kpi-chg"><span class="dn">Half of Delta</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">5.1×</div><div class="kpi-chg"><span class="dn">Highest Big 4</span></div></div>
+      <div class="kpi"><div class="kpi-label">Loyalty Revenue</div><div class="kpi-value">$5.2B</div><div class="kpi-chg"><span class="fl">12.8% of rev</span></div></div>
+      <div class="kpi"><div class="kpi-label">S&P Rating</div><div class="kpi-value">B</div><div class="kpi-chg"><span class="dn">Removed S&P 500</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">🔥 What Went Wrong</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>NDC strategy backfire</strong> — Cut OTA partnerships 2023 to push direct booking. Corporate buyers moved to Delta and United. Cost: ~$1.5B in lost revenue.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Removed from S&P 500</strong> — Sep 2024. Forced index fund selling pressure compounded stock decline.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Jan 2025 DCA crash</strong> — Flight 5342 (67 fatalities). ~$200M Q1 revenue impact. APA + APFA issued no-confidence in CEO Isom.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--american)">🔧 Turnaround Path</div><div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>OTA re-engagement underway</strong> — Reversed NDC in 2024, re-signed agencies. Recovery slow (18–24 months to rebuild trust).</span></div><div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>DFW Terminal F</strong> — $4B, 31 new gates. Sunbelt fortress strategy for the next decade's growth engine.</span></div><div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>CLT/MIA geographic moats</strong> — Charlotte (87% share) and Miami (Latin America gateway) are impenetrable hubs.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ What Must Happen</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Leverage below 4×</strong> before investment case is compelling. Currently 5.1× — every $1B extra debt costs ~$50M annual interest.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Corporate travel must return</strong> — Structural fix takes 18–24 months minimum. Gap vs Delta/United persists.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>Leadership clarity</strong> — Both APA and APFA issued no-confidence in CEO Isom. Board under pressure to act.</span></div></div>
+    </div>
+  </div>
+
+  <!-- SOUTHWEST PANEL -->
+  <div id="cp-southwest" class="carrier-panel">
+    <div class="c-hero" style="background:#FFFBEB;border-color:#FDE68A;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--southwest)">W</div><div><div class="c-name">Southwest Airlines</div><div class="c-sub-line">NYSE: LUV · BBB- rated · DAL/MDW/HOU/BWI hubs · No alliance</div></div><span class="badge ba" style="margin-left:auto;font-size:10px;padding:3px 10px">↻ FORCED TRANSFORMATION</span></div>
+      <div class="c-summary">Southwest is undergoing its most radical transformation since deregulation. Elliott Investment Management's $1.9B activist stake forced sweeping changes: assigned seating (Jan 2026), bag fees (May 2025), first-ever mass layoffs, and OTA distribution. The airline that invented no-frills LCC travel is being remade into something closer to a traditional carrier.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — The $1.5B Revenue Bet</div><div class="sowhat-text">Southwest is a value creation story if the transformation works, and value destruction if it doesn't. <strong>The BBB- rating and low leverage (1.2×) give it time to find out.</strong> Assigned seating + bag fees could add $1–1.5B annual revenue by 2027. But Southwest's entire brand rested on "no fees, open boarding, Companion Pass" — abandoning two of three is an enormous bet. <strong>Watch Nashville (BNA) as the bellwether</strong> — if SW builds a new fortress there to replace Atlanta's 57% cut, the strategy is working.</div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi"><div class="kpi-label">FY24 Revenue</div><div class="kpi-value">$27.5B</div><div class="kpi-chg"><span class="up">Record high</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Income FY24</div><div class="kpi-value">$0.47B</div><div class="kpi-chg"><span class="dn">↓ vs peers</span></div></div>
+      <div class="kpi"><div class="kpi-label">Op Margin</div><div class="kpi-value">3.8%</div><div class="kpi-chg"><span class="dn">Well below legacies</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">1.2×</div><div class="kpi-chg"><span class="up">Lowest Big 4</span></div></div>
+      <div class="kpi"><div class="kpi-label">ATL Cut</div><div class="kpi-value">-57%</div><div class="kpi-chg"><span class="dn">567→381 weekly depts</span></div></div>
+      <div class="kpi"><div class="kpi-label">S&P Rating</div><div class="kpi-value">BBB-</div><div class="kpi-chg"><span class="up">Only IG-rated LCC</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--southwest)">🔄 Elliott's Agenda</div><div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Assigned seating Jan 27, 2026</strong> — 53 years of open boarding ends. Research: 80% customers preferred assigned. FA retraining cost significant.</span></div><div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Bags Fly Free ended May 2025</strong> — First bag $35, second $45. Est. $500M+ annual revenue upside.</span></div><div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>OTA distribution first-ever</strong> — Now on Expedia, Sabre. Opens 40%+ of booking market previously inaccessible.</span></div></div>
+      <div class="story-card"><div class="sc-title">🗺️ ATL Out, BNA In</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>ATL retreat -57%</strong> — 567→381 weekly depts, 18→11 gates, 300+ crew jobs eliminated. Delta won Atlanta.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>Nashville new SE hub</strong> — New crew base, 174 Sunday departures, 6 new routes. BNA = what ATL was.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>Red-eye flights Feb 2025</strong> — 5 initial markets, 33 by summer. New customer segments + utilization gains.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ Brand Risk</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Brand equity erosion</strong> — Southwest = "no fees, no surprises." Bag fees fundamentally change that promise. NPS impact unknown until 2026 data.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Companion Pass at risk?</strong> — The loyalty crown jewel. If bag fees change card spend calculus, Chase renewal becomes complicated.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>1.2× leverage safety net</strong> — Can afford to get the transformation partially wrong. Other carriers couldn't.</span></div></div>
+    </div>
+  </div>
+
+  <!-- JETBLUE PANEL -->
+  <div id="cp-jetblue" class="carrier-panel">
+    <div class="c-hero" style="background:#F0F9FF;border-color:#BAE6FD;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--jetblue)">B6</div><div><div class="c-name">JetBlue Airways</div><div class="c-sub-line">NASDAQ: JBLU · B- rated · JFK/BOS/FLL hubs · No alliance</div></div><span class="badge br" style="margin-left:auto;font-size:10px;padding:3px 10px">⬇ DISTRESSED</span></div>
+      <div class="c-summary">JetBlue is the US airline sector's most acute financial distress story after Spirit. At -3.1% operating margin and 6.8× Net Debt/EBITDAR, it has the worst leverage of any solvent US carrier. The DOJ blocking both the Spirit merger and the Northeast Alliance with American forced a fundamental strategy reset. JetBlue is now shrinking to survive: 24+ routes cut, 7 cities abandoned, Atlantic routes slashed.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — JetBlue's Survival Equation</div><div class="sowhat-text">JetBlue's survival hinges on two things: <strong>(1) getting CASM-ex below 15¢</strong> (currently 15.8¢ — highest in the peer set) and <strong>(2) renegotiating or replacing the Barclays TrueBlue deal before 2026 expiry.</strong> The loyalty program generates only $0.4B — 17× less than Delta on similar cardholder base. A new premium card tier and second card issuer partnership could add $300–500M/yr. <strong>Strategic path:</strong> JFK + BOS super-fortress strategy, abandoning all other markets. If it survives to 2027, the Northeast premium franchise is genuinely valuable.</div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi"><div class="kpi-label">FY24 Revenue</div><div class="kpi-value">$8.9B</div><div class="kpi-chg"><span class="dn">↓ Route cuts</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Income FY24</div><div class="kpi-value">-$0.55B</div><div class="kpi-chg"><span class="dn">-6.2% net margin</span></div></div>
+      <div class="kpi"><div class="kpi-label">Op Margin</div><div class="kpi-value">-3.1%</div><div class="kpi-chg"><span class="dn">Highest loss rate</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">6.8×</div><div class="kpi-chg"><span class="dn">Critical level</span></div></div>
+      <div class="kpi"><div class="kpi-label">Routes Cut</div><div class="kpi-value">24+</div><div class="kpi-chg"><span class="dn">7 cities abandoned</span></div></div>
+      <div class="kpi"><div class="kpi-label">TrueBlue Rev</div><div class="kpi-value">$0.4B</div><div class="kpi-chg"><span class="dn">17× below Delta</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">🔥 What Went Wrong</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>DOJ blocked Spirit merger</strong> — $3.8B deal would have added ULCC scale. Instead: Spirit went bankrupt twice, JetBlue got nothing.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Northeast Alliance dissolved</strong> — DOJ antitrust ruling May 2023 ended AA/B6 JFK/BOS code-share. Lost feed revenue overnight.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>CASM-ex 15.8¢</strong> — Highest of any legacy/LCC carrier. Small aircraft + heavy debt = structural cost disadvantage.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--jetblue)">🔧 Survival Strategy</div><div class="si"><div class="sdot" style="background:var(--jetblue)"></div><span><strong>JFK + BOS fortress</strong> — Abandoning all non-core markets. Doubling down on Northeast premium leisure and transatlantic.</span></div><div class="si"><div class="sdot" style="background:var(--jetblue)"></div><span><strong>Premium product 2026</strong> — First-class cabin addition planned. Raise PRASM from 13.4¢ (currently lowest peer set).</span></div><div class="si"><div class="sdot" style="background:var(--jetblue)"></div><span><strong>Cost reduction program</strong> — $250M target savings. Fleet simplification (removing E190s), vendor renegotiations.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ Critical Watchpoints</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Barclays TrueBlue expires 2026</strong> — Must renegotiate. At current distress level, Barclays may demand better terms or exit. Co-brand revenue is survival-critical.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Debt wall 2025–2027</strong> — $1.5B+ in maturities. Must refinance in a higher-rate environment while losing money.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>One thing going right</strong> — Northeast market premium demand is real. JFK/BOS premium leisure is JetBlue's legitimate franchise if it can survive.</span></div></div>
+    </div>
+  </div>
+
+  <!-- HAWAIIAN PANEL -->
+  <div id="cp-hawaiian" class="carrier-panel">
+    <div class="c-hero" style="background:#F5F3FF;border-color:#DDD6FE;">
+      <div class="c-hero-row"><div class="c-avatar" style="background:var(--hawaiian)">HA</div><div><div class="c-name">Hawaiian Airlines → Alaska Air Group</div><div class="c-sub-line">ALK · BB- rated · HNL hub · oneworld pending · Pacific routes</div></div><span class="badge bb" style="margin-left:auto;font-size:10px;padding:3px 10px">↔ INTEGRATING</span></div>
+      <div class="c-summary">Alaska Airlines closed its $1.9B acquisition of Hawaiian Airlines on September 18, 2024, creating the fifth-largest US carrier with ~350 aircraft. The combined entity holds Hawaii's dominant position (48% seat share at HNL), the strongest Pacific route network of any US carrier, and Japan/South Korea/Australia connections that United cannot match from Honolulu specifically. The integration story through 2026 is the key watch.</div>
+    </div>
+    <div class="sowhat"><div class="sowhat-label">So What — The Pacific Franchise Play</div><div class="sowhat-text">Hawaiian is the most strategically interesting merger story in US aviation right now. Alaska gains Hawaii's <strong>impenetrable island network</strong> (inter-island + mainland) and Pacific connections to Japan, South Korea, and Australia — routes United cannot serve competitively from HNL. The big question is <strong>Atmos Rewards (Oct 2025):</strong> merging HawaiianMiles into Alaska's Mileage Plan risks losing Hawaii-focused cardholders who value the Pacific-specific earning structure. <strong>BoA relationship extends</strong> — but a Pacific-specific premium card targeted at Japan/Korea/Australia travelers is the untapped credit card opportunity.</div></div>
+    <div class="kpi-grid-6">
+      <div class="kpi"><div class="kpi-label">Combined Fleet</div><div class="kpi-value">~350</div><div class="kpi-chg"><span class="up">5th largest US carrier</span></div></div>
+      <div class="kpi"><div class="kpi-label">HNL Seat Share</div><div class="kpi-value">48%</div><div class="kpi-chg"><span class="up">Dominant position</span></div></div>
+      <div class="kpi"><div class="kpi-label">Merger Cost</div><div class="kpi-value">$1.9B</div><div class="kpi-chg"><span class="fl">Closed Sep 18, 2024</span></div></div>
+      <div class="kpi"><div class="kpi-label">Loyalty Program</div><div class="kpi-value">Atmos</div><div class="kpi-chg"><span class="fl">Launched Oct 2025</span></div></div>
+      <div class="kpi"><div class="kpi-label">Pacific Routes</div><div class="kpi-value">Japan, Korea, AUS</div><div class="kpi-chg"><span class="up">US-unique advantage</span></div></div>
+      <div class="kpi"><div class="kpi-label">Net Debt/EBITDAR</div><div class="kpi-value">2.8×</div><div class="kpi-chg"><span class="fl">Post-merger elevated</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--hawaiian)">🌺 What Alaska Gets</div><div class="si"><div class="sdot" style="background:var(--hawaiian)"></div><span><strong>Hawaii dominance</strong> — HNL 48% share, inter-island monopoly, Neighbor Island routes competitors cannot enter without significant cost.</span></div><div class="si"><div class="sdot" style="background:var(--hawaiian)"></div><span><strong>Pacific route network</strong> — Japan (NRT/KIX), South Korea (ICN), Australia (SYD), New Zealand, Tahiti. No other US domestic carrier has this from HNL.</span></div><div class="si"><div class="sdot" style="background:var(--hawaiian)"></div><span><strong>787 Dreamliner fleet</strong> — Hawaiian brought 787s and A330s. Extends Alaska's long-haul capability for the first time.</span></div></div>
+      <div class="story-card"><div class="sc-title">📅 Integration Timeline</div><div class="tl-item"><div class="tl-date">Sep 2024</div><div class="tl-dot" style="background:var(--hawaiian)"></div><div class="tl-text">Merger closes. DOJ allowed antitrust review to expire without challenge. #5 US carrier created.</div><span class="tl-tag" style="background:rgba(22,163,74,.1);color:#15803D">Closed</span></div><div class="tl-item"><div class="tl-date">Oct 2025</div><div class="tl-dot" style="background:var(--hawaiian)"></div><div class="tl-text">Atmos Rewards launches — HawaiianMiles and Mileage Plan merge into unified program. BoA relationship extends.</div><span class="tl-tag" style="background:rgba(249,115,22,.1);color:#C2410C">Loyalty</span></div><div class="tl-item"><div class="tl-date">2026E</div><div class="tl-dot" style="background:var(--hawaiian)"></div><div class="tl-text">Expected oneworld alliance entry for Hawaiian brand. Pacific partnership expansion with Japan Airlines/Qantas.</div><span class="tl-tag" style="background:rgba(91,45,142,.1);color:#5B2D8E">Alliance</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--danger)">⚠ Integration Risks</div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>Atmos cardholder attrition</strong> — HawaiianMiles holders valued Pacific-specific earning. Migration to mainland-focused Atmos may lose Hawaii-loyal customers.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>IT systems integration</strong> — PSS (reservation systems) merger is the most complex and risky part. United/Continental took 3+ years.</span></div><div class="si"><div class="sdot" style="background:var(--success)"></div><span><strong>Pacific moat</strong> — No US competitor can replicate HNL's island network + trans-Pacific reach in less than a decade. Durable advantage.</span></div></div>
+    </div>
+  </div>
+
+  <!-- NEW ENTRANTS PANEL -->
+  <div id="cp-newentrants" class="carrier-panel">
+    <div class="sowhat"><div class="sowhat-label">So What — The ULCC Model is Broken, But the Niche Survives</div><div class="sowhat-text">Spirit filed bankruptcy twice in 18 months proving the pure ULCC model is unsustainable at scale. JetBlue is contracting. Frontier is pivoting upmarket. <strong>The only new entrant winning is Breeze — and it wins by avoiding competition entirely.</strong> 87% of its routes have zero direct competition. The lesson: in a fortress-hub dominated market, the only viable new entrant strategy is to serve gaps no one else serves. <strong>Breeze's model is now the template</strong> for sustainable US aviation disruption.</div></div>
+    <div class="kpi-grid">
+      <div class="kpi" style="--c:var(--breeze)"><div class="kpi-label">Breeze Revenue FY24</div><div class="kpi-value">$680M</div><div class="kpi-chg"><span class="up">↑ 78% YoY</span></div></div>
+      <div class="kpi" style="--c:var(--spirit)"><div class="kpi-label">Spirit Fleet Shrinkage</div><div class="kpi-value">214→94</div><div class="kpi-chg"><span class="dn">Chapter 22</span></div></div>
+      <div class="kpi" style="--c:var(--frontier)"><div class="kpi-label">Frontier RASM Growth</div><div class="kpi-value">+15%</div><div class="kpi-chg"><span class="up">Q4 2024 YoY</span></div></div>
+      <div class="kpi"><div class="kpi-label">Allegiant+Sun Country</div><div class="kpi-value">~195</div><div class="kpi-chg"><span class="up">$1.5B merger Jan 2026</span></div></div>
+      <div class="kpi"><div class="kpi-label">Breeze Uncontested Routes</div><div class="kpi-value">87%</div><div class="kpi-chg"><span class="up">Zero direct competition</span></div></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-card"><div class="sc-title" style="color:var(--breeze)">🌸 Breeze — The Blueprint</div><div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>78% revenue growth FY2024</strong> — $382M (2023) → $680M (2024). First quarterly profit Q4 2024.</span></div><div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>87% routes uncontested</strong> — David Neeleman's thesis: secondary markets with demand but no nonstop. MKE, BDL, RIC, SAT.</span></div><div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>A220-300 fleet</strong> — 43 delivered, 90 on order. Right-sized for secondary markets; better fuel burn than 737 on thin routes.</span></div><div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>International 2025</strong> — US Flag Carrier certification. Cancun, Punta Cana, Montego Bay — first new US Flag Carrier in a decade.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--frontier)">🏔 Frontier — Going Upmarket</div><div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>First-class launch late 2025</strong> — "The New Frontier." Capturing Spirit vacuum customers with higher spend capacity.</span></div><div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>ATL +40% YoY</strong> — Moving aggressively into Southwest's retreat. Now serves 10 JFK routes.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>7.48× debt-to-equity</strong> — $885M liquidity. One demand shock from distress. Fragile transformation.</span></div></div>
+      <div class="story-card"><div class="sc-title" style="color:var(--spirit)">⚠ Spirit — Cautionary Tale</div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>Chapter 22 Aug 2025</strong> — DOJ blocked JetBlue deal. Daily operating loss: $3.1M. Fleet 214→~94 aircraft.</span></div><div class="si"><div class="sdot" style="background:var(--danger)"></div><span><strong>West Coast fully abandoned</strong> — SAC, SJC, SAN, PDX, OAK, BOI, SLC all exited. Bookings halted beyond Apr 2026.</span></div><div class="si"><div class="sdot" style="background:var(--warn)"></div><span><strong>Frontier merger possible</strong> — Would create ~200-aircraft ULCC. Spirit management resistant but options are narrowing.</span></div></div>
+    </div>
+    <div class="row c2">
+      <div class="panel"><div class="ph"><div><div class="pt">Spirit Exit — Fare Impact</div><div class="ps">Avg fare change in vacated markets · DOT O&D</div></div><span class="ptag">DOT</span></div><div class="cw"><div class="h220"><canvas id="spiritExitChart"></canvas></div></div></div>
+      <div class="panel"><div class="ph"><div><div class="pt">Breeze Network Growth</div><div class="ps">Routes + Revenue · 2021–2025E</div></div><span class="ptag">OAG/BTS</span></div><div class="cw"><div class="h220"><canvas id="breezeGrowthChart"></canvas></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TAB 6: MARKET OPPORTUNITY ═══════════════════════ -->
+<div id="tab-opportunity" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Market Opportunity Intelligence</div><div class="sec-sub">Underserved markets · ULCC vacuum · New entrant scoring · Aviation A2Z / DOT O&D / BTS</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">So What — Where the Next Market Share Is Won</div>
+    <div class="sowhat-text">Spirit's collapse created a <strong>$4B+ revenue vacuum</strong> in ~60 markets where fares jumped 35–52% with no competition replacing them. The biggest unserved market in the US is still Milwaukee–LA (226 daily pax, no nonstop). <strong>Three structural opportunities dominate:</strong> (1) Sun Belt airports where population growth outpaces infrastructure — DEN, AUS, BNA, PHX all capacity-constrained; (2) Spirit-vacated city pairs where only Breeze or Frontier are moving fast enough to capture; (3) Pacific routes via HNL where Alaska/Hawaiian has no credible near-term competition. The carriers that act in 2025–26 on these windows will own the geography for a decade.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Largest Unserved Pair</div><div class="kpi-value">MKE–LAX</div><div class="kpi-chg"><span class="fl">226 daily one-way pax</span></div></div>
+    <div class="kpi"><div class="kpi-label">Spirit-Vacated Routes</div><div class="kpi-value">60+</div><div class="kpi-chg"><span class="up">Fare up 7.1% avg</span></div></div>
+    <div class="kpi"><div class="kpi-label">SW ATL Capacity Cut</div><div class="kpi-value">-57%</div><div class="kpi-chg"><span class="up">Frontier filling gap</span></div></div>
+    <div class="kpi"><div class="kpi-label">Breeze Uncontested</div><div class="kpi-value">87%</div><div class="kpi-chg"><span class="up">Zero direct competition</span></div></div>
+    <div class="kpi"><div class="kpi-label">HNL Pacific Moat</div><div class="kpi-value">Decade</div><div class="kpi-chg"><span class="up">Alaska/Hawaiian advantage</span></div></div>
+  </div>
+  <div class="opp-grid">
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--success)">9.2</div><div class="opp-city">Milwaukee (MKE)</div><div class="opp-detail">1.6M metro · Largest unserved US market (MKE–LAX: 226 daily pax) · Zero hub carrier · High fare premium all routes</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:88%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:90%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:18%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge bg" style="font-size:8px">Best for: Breeze, Frontier</span></div></div>
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--success)">8.8</div><div class="opp-city">San Antonio (SAT)</div><div class="opp-detail">2.5M metro · No hub carrier · Spirit exited · AA won exclusive DCA–SAT 2024 · Sunbelt growth leader</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:80%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:82%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:33%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge bg" style="font-size:8px">Best for: Breeze, SW expand</span></div></div>
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--success)">8.5</div><div class="opp-city">Nashville (BNA)</div><div class="opp-detail">Record 24.7M pax · SW +6 new routes · Spirit exited · Frontier +40% ATL growth spills here</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:92%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:74%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:52%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge bb" style="font-size:8px">Best for: Breeze, Delta expand</span></div></div>
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--warn)">8.1</div><div class="opp-city">Pacific / HNL Gateway</div><div class="opp-detail">Alaska/Hawaiian merger creates Pacific moat · Japan, S.Korea, AUS routes · No viable competitor for 5–10 years</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:85%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:78%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:15%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge" style="background:rgba(91,45,142,.1);color:#5B2D8E;border:1px solid rgba(91,45,142,.2);font-size:8px">Best for: Alaska/Hawaiian</span></div></div>
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--warn)">7.9</div><div class="opp-city">Sacramento (SMF)</div><div class="opp-detail">2.4M metro · Spirit West Coast exit · SFO congestion drives demand · Tech corridor growth</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:72%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:68%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:38%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge ba" style="font-size:8px">Best for: Frontier, SW</span></div></div>
+    <div class="opp-card"><div class="opp-lbl">Opportunity Score</div><div class="opp-score" style="color:var(--warn)">7.6</div><div class="opp-city">Hartford (BDL)</div><div class="opp-detail">1.2M metro between BOS and JFK · All routes connecting · High fare premiums · Corporate base (insurance, finance)</div><div class="ob-row"><span class="ob-label">Demand</span><div class="ob-bg"><div class="ob-fill" style="width:64%;background:var(--success)"></div></div></div><div class="ob-row"><span class="ob-label">Fare Premium</span><div class="ob-bg"><div class="ob-fill" style="width:85%;background:var(--accent)"></div></div></div><div class="ob-row"><span class="ob-label">Competition</span><div class="ob-bg"><div class="ob-fill" style="width:22%;background:var(--danger)"></div></div></div><div style="margin-top:8px;"><span class="badge bb" style="font-size:8px">Best for: Breeze (current)</span></div></div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">Spirit Exit — Fare Impact</div><div class="ps">Avg fare increase in vacated markets</div></div><span class="ptag">DOT O&D</span></div><div class="cw"><div class="h220"><canvas id="spiritExitChartOpp"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Busiest Unserved City Pairs</div><div class="ps">Daily one-way passengers · no nonstop · DOT Q2 2024</div></div><span class="ptag">DOT</span></div>
+      <div style="overflow-x:auto;padding:6px 0 0;"><table class="dt"><thead><tr><th>City Pair</th><th>Daily Pax</th><th>Status</th><th>Fare Premium</th><th>Best Carrier</th></tr></thead><tbody>
+        <tr><td><strong>Milwaukee–Los Angeles</strong></td><td>226</td><td><span class="badge br">No nonstop</span></td><td>+45%</td><td>Breeze / Frontier</td></tr>
+        <tr><td><strong>Louisville–Los Angeles</strong></td><td>107</td><td><span class="badge br">No nonstop</span></td><td>+38%</td><td>Breeze / Frontier</td></tr>
+        <tr><td><strong>Austin–Louisville</strong></td><td>59</td><td><span class="badge br">No nonstop</span></td><td>+32%</td><td>Breeze</td></tr>
+        <tr><td><strong>FLL–Birmingham</strong></td><td>~45</td><td><span class="badge br">Spirit exited</span></td><td>+52%</td><td>Breeze (entered)</td></tr>
+        <tr><td><strong>ATL–Mid-Tier Leisure</strong></td><td>Variable</td><td><span class="badge ba">SW -57%</span></td><td>+30–45%</td><td>Frontier (+40% ATL)</td></tr>
+        <tr><td><strong>HNL–New Cities</strong></td><td>Growing</td><td><span class="badge bb">Alaska+HA moat</span></td><td>Structural premium</td><td>Alaska/Hawaiian</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</div>
+
+</main>
+<div class="footer">Sources: BTS T-100 · DOT O&D Survey · SEC Form 10-K · FAA · Airlines for America · OAG · Cirium · ACI-NA · EIA · Aviation A2Z · Oliver Wyman · Airline Earnings Reports · March 2025 · For analytical purposes only</div>
+
+<script>
+// ═══ DOWNLOAD ═══
+function downloadDashboard(){
+  const html=document.documentElement.outerHTML;
+  const blob=new Blob(['<!DOCTYPE html>'+html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='US_Airlines_Intelligence_v4.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ═══ DATA ═══
+const CC={Delta:'#C8102E',United:'#1A6BAD',American:'#0057B7',Southwest:'#E06700',Alaska:'#015DAA',JetBlue:'#0088BB',Spirit:'#92700A',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#C04E1A',Hawaiian:'#5B2D8E',Emirates:'#9A7B0A',Lufthansa:'#8B6914'};
+const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:57,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:57,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:43,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:50,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:49,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:36,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
+const ROUTES=[
+  ['LAX','JFK','American',280,3.1,1.2],['LAX','JFK','Delta',260,2.9,-0.4],['LAX','JFK','United',240,2.7,0.8],
+  ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],['ATL','LAX','Delta',340,3.9,0.6],
+  ['DFW','ORD','American',320,3.6,0.3],['DFW','LAX','American',310,3.5,-0.8],['DFW','MIA','American',290,3.2,1.4],
+  ['ORD','DEN','United',280,3.1,2.2],['ORD','LAX','United',270,3.0,1.8],['SFO','LAX','United',310,3.5,-0.6],
+  ['SFO','SEA','Alaska',280,3.1,2.4],['JFK','BOS','Delta',420,4.7,0.3],['JFK','LAX','JetBlue',220,2.5,-3.1],
+  ['MSP','ATL','Delta',280,3.1,3.2],['MIA','ATL','American',300,3.4,0.9],
+  ['SEA','LAX','Alaska',270,3.0,2.8],['LAS','LAX','Southwest',380,4.3,-0.2],
+  ['PHX','LAX','Southwest',340,3.8,1.2],['CLT','ATL','American',320,3.6,2.4],
+  ['BNA','ATL','Southwest',310,3.5,-5.7],['BNA','ORD','Southwest',240,2.7,4.2],
+  ['MCO','ATL','Delta',300,3.4,1.8],['MCO','JFK','JetBlue',260,2.9,-2.4],
+  ['DTW','ATL','Delta',280,3.2,2.6],['IAH','ORD','United',270,3.0,0.8],
+  ['SLC','DEN','Delta',250,2.8,3.2],['BOS','MIA','JetBlue',260,2.9,-1.8],
+  // JetBlue
+  ['JFK','MCO','JetBlue',240,2.7,0.8],['JFK','FLL','JetBlue',220,2.5,-0.6],['BOS','MCO','JetBlue',200,2.3,1.1],
+  // Frontier
+  ['DEN','MCO','Frontier',200,2.2,3.1],['DEN','LAS','Frontier',210,2.4,2.2],['ATL','MCO','Frontier',175,1.9,4.0],
+  // Breeze
+  ['BNA','BOS','Breeze',140,1.5,6.2],['BNA','LAX','Breeze',125,1.4,7.1],['CLT','BOS','Breeze',135,1.5,4.9],
+  // Hawaiian
+  ['HNL','LAX','Hawaiian',180,2.0,2.8],['HNL','SFO','Hawaiian',160,1.8,2.4],['HNL','SEA','Hawaiian',140,1.6,3.1],
+  ['HNL','DEN','Hawaiian',120,1.4,2.2],['HNL','MCO','Hawaiian',95,1.1,1.8],
+  // Emirates gateways
+  ['JFK','LAX','Emirates',120,1.4,2.1],['JFK','MIA','Emirates',110,1.2,1.8],['ORD','JFK','Emirates',115,1.3,2.4],
+];
+const TOP_ROUTES=[
+  {rank:1,route:'LAX–JFK',weekly:780,pax:8.7,carrier:'Multi',color:'#5B5A5A',yoy:0.5},
+  {rank:2,route:'ATL–ORD',weekly:420,pax:4.8,carrier:'Delta',color:'#C8102E',yoy:2.1},
+  {rank:3,route:'ATL–DFW',weekly:380,pax:4.2,carrier:'American',color:'#0057B7',yoy:-1.1},
+  {rank:4,route:'JFK–BOS',weekly:420,pax:4.7,carrier:'Delta/B6',color:'#C8102E',yoy:0.3},
+  {rank:5,route:'LAS–LAX',weekly:380,pax:4.3,carrier:'Southwest',color:'#E06700',yoy:-0.2},
+  {rank:6,route:'CLT–ATL',weekly:320,pax:3.6,carrier:'American',color:'#0057B7',yoy:2.4},
+  {rank:7,route:'PHX–LAX',weekly:340,pax:3.8,carrier:'Southwest',color:'#E06700',yoy:1.2},
+  {rank:8,route:'SFO–LAX',weekly:310,pax:3.5,carrier:'United',color:'#1A6BAD',yoy:-0.6},
+  {rank:9,route:'HNL–LAX',weekly:180,pax:2.0,carrier:'Hawaiian',color:'#5B2D8E',yoy:2.8},
+  {rank:10,route:'BNA–ATL',weekly:310,pax:3.5,carrier:'Southwest',color:'#E06700',yoy:-5.7},
+  {rank:11,route:'SLC–DEN',weekly:250,pax:2.8,carrier:'Delta',color:'#C8102E',yoy:3.2},
+  {rank:12,route:'HNL–SFO',weekly:160,pax:1.8,carrier:'Hawaiian',color:'#5B2D8E',yoy:2.4},
+];
+
+// ═══ CHART DEFAULTS ═══
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.color='#78716C';
+Chart.defaults.plugins.legend.display=false;
+const GRID={color:'rgba(0,0,0,.06)',borderDash:[4,4]};
+const TICK={font:{size:9},color:'#78716C'};
+
+// ═══ TAB NAVIGATION ═══
+function showTab(n,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+  btn.classList.add('active');
+  if(n==='airports')setTimeout(()=>resizeMap(),50);
+}
+
+// ═══ CARRIER SWITCHER ═══
+function switchCarrier(name,btn){
+  document.querySelectorAll('.carrier-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.csw-btn').forEach(b=>{
+    b.classList.remove('active');
+    b.style.background='';b.style.borderColor='';b.style.color='';
+  });
+  document.getElementById('cp-'+name).classList.add('active');
+  btn.classList.add('active');
+  const cMap={delta:'#C8102E',united:'#1A6BAD',american:'#0057B7',southwest:'#E06700',jetblue:'#0088BB',hawaiian:'#5B2D8E',newentrants:'#CC3370',overview:'#F97316'};
+  const c=cMap[name]||'#F97316';
+  btn.style.background=c; btn.style.borderColor=c; btn.style.color='#fff';
+}
+
+// ═══ ROUTE TABLE ═══
+function buildRouteTable(){
+  const tb=document.getElementById('routeTableBody');if(!tb)return;
+  tb.innerHTML=TOP_ROUTES.map(r=>{
+    const up=r.yoy>=0;
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">${r.rank}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text)">${r.route}</td><td>${r.weekly}</td><td>${r.pax}M</td><td><span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;background:${r.color}15;color:${r.color}">${r.carrier}</span></td><td style="color:${up?'#16A34A':'#DC2626'};font-weight:700;font-size:10px;font-family:'JetBrains Mono',monospace">${up?'↑':'↓'}${Math.abs(r.yoy).toFixed(1)}%</td></tr>`;
+  }).join('');
+}
+buildRouteTable();
+
+// ═══ FLOW BARS ═══
+function buildFlowBars(){
+  const data=[{n:'Allegiant',v:124,c:'#C04E1A'},{n:'Frontier',v:104,c:'#2A7A35'},{n:'American',v:95,c:'#0057B7'},{n:'Southwest',v:89,c:'#E06700'},{n:'Delta',v:78,c:'#C8102E'},{n:'Breeze',v:78,c:'#CC3370'},{n:'United',v:70,c:'#1A6BAD'},{n:'Alaska+HA',v:52,c:'#015DAA'}];
+  const max=Math.max(...data.map(d=>d.v));
+  const el=document.getElementById('flowBars');if(!el)return;
+  el.innerHTML=data.map(d=>`<div class="flow-row"><span class="flow-label">${d.n}</span><div class="flow-bar"><div class="flow-fill" id="fb-${d.n.replace(/\W/g,'')}" style="width:0%;background:${d.c}"></div></div><span class="flow-val">${d.v}</span></div>`).join('');
+  setTimeout(()=>data.forEach(d=>{const e=document.getElementById('fb-'+d.n.replace(/\W/g,''));if(e)e.style.width=(d.v/max*100)+'%';}),400);
+}
+buildFlowBars();
+
+// ═══ HEATMAP ═══
+function buildHeatmap(){
+  const C=[['Delta','#C8102E'],['United','#1A6BAD'],['American','#0057B7'],['Southwest','#E06700'],['Alaska','#015DAA'],['JetBlue','#0088BB'],['Frontier','#2A7A35'],['Hawaiian','#5B2D8E']];
+  const D=[[80,70,72,75,95,90,85],[75,68,70,72,88,85,78],[78,72,74,76,92,88,82],[82,75,70,72,90,95,88],[60,55,58,60,75,82,70],[55,50,52,55,70,80,65],[62,58,60,62,78,75,68],[55,60,58,62,75,88,80]];
+  const el=document.getElementById('heatmapGrid');if(!el)return;
+  el.innerHTML=C.map(([c,col],ci)=>`<div class="hm-row"><div class="hm-carrier-lbl" style="color:${col}">${c.slice(0,5)}</div>${D[ci].map(v=>{const op=((v/100)*.6+.12).toFixed(2);return `<div class="hm-cell" style="background:${col};opacity:${op}" title="${c}: ${v}%" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='${op}'"></div>`;}).join('')}</div>`).join('');
+}
+buildHeatmap();
+
+// ═══ MOVERS ═══
+function buildMovers(){
+  const m=[{c:'Breeze',r:'Secondary markets',v:'+78%',u:true,col:'#CC3370'},{c:'Delta',r:'MSP hub expansion',v:'+3.2pp',u:true,col:'#C8102E'},{c:'Hawaiian',r:'Pacific routes post-merger',v:'+4.1%',u:true,col:'#5B2D8E'},{c:'Spirit',r:'West Coast exit',v:'-39%',u:false,col:'#92700A'},{c:'JetBlue',r:'NE Alliance dissolved',v:'-24 routes',u:false,col:'#0088BB'},{c:'Southwest',r:'ATL retreat',v:'-57%',u:false,col:'#E06700'}];
+  const el=document.getElementById('moversContainer');if(!el)return;
+  el.innerHTML=m.map(x=>`<div class="mover-row"><span class="mover-carrier" style="color:${x.col}">${x.u?'↑':'↓'} ${x.c}</span><span class="mover-detail">${x.r}</span><span class="mover-val" style="color:${x.u?'#16A34A':'#DC2626'}">${x.v}</span></div>`).join('');
+}
+buildMovers();
+
+// ═══ ANIMATED MAP ═══
+const canvas=document.getElementById('routeMap');
+const rc=canvas.getContext('2d');
+let mapW,mapH,particles=[],activeCar='all',activeAp='ALL';
+
+function resizeMap(){const r=canvas.parentElement.getBoundingClientRect();mapW=canvas.width=r.width;mapH=canvas.height=360;initParticles();}
+window.addEventListener('resize',resizeMap);
+
+function apPx(code){const a=AP[code];if(!a)return null;return{x:a.x===0?mapW*0.02:a.x*mapW,y:a.y*mapH};}
+function ctrlPt(p1,p2){const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,dx=p2.x-p1.x,dy=p2.y-p1.y;return{x:mx+dy*.28,y:my-dx*.28};}
+function bezPt(t,p0,p1,p2){const u=1-t;return{x:u*u*p0.x+2*u*t*p1.x+t*t*p2.x,y:u*u*p0.y+2*u*t*p1.y+t*t*p2.y};}
+
+class Dot{constructor(r){const[from,to,carrier]=r;this.from=from;this.to=to;this.carrier=carrier;this.color=CC[carrier]||'#888';this.t=Math.random();this.speed=0.0018+Math.random()*.003;this.sz=1.2+Math.random()*.7;}
+update(){this.t+=this.speed;if(this.t>1)this.t=0;}
+draw(){const p1=apPx(this.from),p2=apPx(this.to);if(!p1||!p2)return;const c=ctrlPt(p1,p2),pos=bezPt(this.t,p1,c,p2);const g=rc.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,this.sz*3.5);g.addColorStop(0,this.color+'DD');g.addColorStop(.5,this.color+'55');g.addColorStop(1,'transparent');rc.beginPath();rc.arc(pos.x,pos.y,this.sz*3,0,Math.PI*2);rc.fillStyle=g;rc.fill();rc.beginPath();rc.arc(pos.x,pos.y,this.sz,0,Math.PI*2);rc.fillStyle=this.color;rc.fill();}}
+
+function getFR(){return ROUTES.filter(r=>{const ck=activeCar==='all'||r[2].toLowerCase().replace(/\s/g,'')===activeCar;const ak=activeAp==='ALL'||(r[0]===activeAp||r[1]===activeAp);return ck&&ak;});}
+function initParticles(){particles=[];getFR().forEach(r=>{const n=Math.max(1,Math.floor(r[3]/85));for(let i=0;i<n;i++)particles.push(new Dot(r));});}
+
+function drawRoutes(){getFR().forEach(r=>{const p1=apPx(r[0]),p2=apPx(r[1]);if(!p1||!p2)return;const c=ctrlPt(p1,p2);rc.beginPath();rc.moveTo(p1.x,p1.y);rc.quadraticCurveTo(c.x,c.y,p2.x,p2.y);rc.strokeStyle=(CC[r[2]]||'#888')+'55';rc.lineWidth=0.7;rc.stroke();});}
+function drawAirports(){const aSet=new Set();getFR().forEach(r=>{aSet.add(r[0]);aSet.add(r[1]);});Object.entries(AP).forEach(([code,a])=>{if(activeAp!=='ALL'&&!aSet.has(code)&&code!==activeAp)return;const p=apPx(code);if(!p)return;const r=Math.max(3,Math.min(9,a.pax/13));const isA=activeAp===code;const g=rc.createRadialGradient(p.x,p.y,0,p.x,p.y,r*5);g.addColorStop(0,a.color+(isA?'44':'20'));g.addColorStop(1,'transparent');rc.beginPath();rc.arc(p.x,p.y,r*4.5,0,Math.PI*2);rc.fillStyle=g;rc.fill();rc.beginPath();rc.arc(p.x,p.y,r,0,Math.PI*2);rc.fillStyle=a.color;rc.fill();rc.strokeStyle='rgba(255,255,255,.6)';rc.lineWidth=1;rc.stroke();rc.fillStyle='rgba(28,25,23,.85)';rc.font=`bold ${isA?11:9}px 'JetBrains Mono'`;rc.textAlign='center';rc.fillText(code,p.x,p.y-r-3);if(isA||a.pax>60){rc.fillStyle='rgba(28,25,23,.5)';rc.font="8px 'Inter'";rc.fillText(a.pax+'M',p.x,p.y+r+9);}});}
+
+let mapRunning=false;
+function mapLoop(){if(!mapRunning)return;rc.clearRect(0,0,mapW,mapH);drawRoutes();particles.forEach(p=>{p.update();p.draw();});drawAirports();requestAnimationFrame(mapLoop);}
+function startMap(){if(!mapRunning){mapRunning=true;resizeMap();mapLoop();}}
+
+const _origShow=showTab;
+function showTab(n,btn){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+n).classList.add('active');btn.classList.add('active');if(n==='airports')setTimeout(startMap,80);}
+setTimeout(()=>{if(document.getElementById('tab-airports').classList.contains('active'))startMap();},200);
+
+canvas.addEventListener('click',e=>{const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;let clicked=null;Object.entries(AP).forEach(([code])=>{const p=apPx(code);if(!p)return;if(Math.sqrt((mx-p.x)**2+(my-p.y)**2)<13)clicked=code;});if(clicked)filterAp(clicked,null,true);});
+
+function setCarrier(c,btn){document.querySelectorAll('.carr-btn').forEach(b=>{b.classList.remove('active');b.style.background='';});btn.classList.add('active');activeCar=c;initParticles();}
+function filterAp(code,btn,fromCanvas=false){activeAp=code;document.querySelectorAll('.ap-chip').forEach(b=>b.classList.toggle('active',b.textContent===code));if(!fromCanvas&&btn){document.querySelectorAll('.ap-chip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}initParticles();}
+
+// ═══ CHART BUILDER ═══
+function mk(id,type,data,opts){const el=document.getElementById(id);if(!el)return;return new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,...opts}});}
+
+window.addEventListener('load',()=>{
+
+// TAB 1 CHARTS
+mk('mktShareChart','bar',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#A8A29E'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% domestic ASMs`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
+
+mk('mixChart','doughnut',{labels:['Legacy (AA/DL/UA)','LCC (WN/AS+HA/B6)','ULCC (NK/F9/BRZ)'],datasets:[{data:[57.3,30.4,7.7],backgroundColor:['#1A6BAD','#E06700','#CA8A04'],borderWidth:0,hoverOffset:8}]},{cutout:'68%',plugins:{legend:{display:true,position:'bottom',labels:{color:'#78716C',font:{size:9},boxWidth:8,padding:6}}}});
+
+mk('demandChart','line',{labels:['2019','2020','2021','2022','2023','2024','2025E'],datasets:[{label:'RPM Index',data:[100,41.9,72.8,92.1,97.2,105.4,109],borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#F97316',pointBorderColor:'#fff',pointBorderWidth:2},{label:'2019 Baseline',data:[100,100,100,100,100,100,100],borderColor:'rgba(0,0,0,.2)',borderDash:[5,4],borderWidth:1.5,fill:false,pointRadius:0}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:10}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:TICK,border:{display:false},min:30,max:120}}});
+
+mk('fareChart','line',{labels:['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','Q1\'24','Q2','Q3','Q4'],datasets:[{data:[331,398,411,378,360,407,420,388,371,403,415,391],borderColor:'#EA580C',backgroundColor:'rgba(234,88,12,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#EA580C'}]},{plugins:{tooltip:{callbacks:{label:c=>` Avg Fare: $${c.parsed.y}`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:40},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v},border:{display:false},min:300}}});
+
+// TAB 2 CHARTS
+mk('trasmCasmChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue'],datasets:[{label:'TRASM ¢',data:[20.8,19.4,19.1,18.6,17.9,17.2],backgroundColor:'rgba(249,115,22,.85)',borderRadius:4,borderSkipped:false},{label:'CASM-ex ¢',data:[13.2,13.5,13.7,14.1,14.4,15.8],backgroundColor:'rgba(220,38,38,.75)',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}¢`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'¢'},border:{display:false},min:10}}});
+
+const mC=[['Delta',[7.8,11.3,14.1],'#C8102E'],['United',[3.2,8.9,11.3],'#1A6BAD'],['American',[1.1,5.2,6.4],'#0057B7'],['Southwest',[0.5,2.1,3.8],'#E06700'],['Alaska',[4.2,6.8,8.3],'#015DAA'],['JetBlue',[-5.2,-4.1,-3.1],'#0088BB'],['Hawaiian',[2.1,4.2,5.1],'#5B2D8E']];
+mk('marginChart','line',{labels:['FY2022','FY2023','FY2024'],datasets:mC.map(([l,d,c])=>({label:l,data:d,borderColor:c,borderWidth:2,pointRadius:4,tension:.3,fill:false,pointBackgroundColor:c,pointBorderColor:'#fff',pointBorderWidth:1.5}))},{plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:5}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
+
+mk('fuelPctChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue'],datasets:[{label:'2022',data:[27,28,26,29,30,31],backgroundColor:'rgba(0,0,0,.12)',borderRadius:3,borderSkipped:false},{label:'2023',data:[24,25,23,26,27,28],backgroundColor:'rgba(249,115,22,.5)',borderRadius:3,borderSkipped:false},{label:'2024',data:[22,23,22,24,25,26],backgroundColor:'rgba(249,115,22,.85)',borderRadius:3,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false},min:15}}});
+
+mk('fuelPriceChart','line',{labels:['J\'22','A','J','O','J\'23','A','J','O','J\'24','A','J','O','J\'25'],datasets:[{data:[2.48,3.89,4.12,3.71,3.22,2.98,3.41,3.15,2.88,2.91,2.74,2.68,2.62],borderColor:'#EA580C',backgroundColor:'rgba(234,88,12,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#EA580C'}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}/gal`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:45},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v},border:{display:false},min:2.0}}});
+
+// TAB 3 CHARTS
+mk('loyaltyRevChart','bar',{labels:['2020','2021','2022','2023','2024'],datasets:[{label:'Delta',data:[3.4,4.5,6.0,6.5,7.0],backgroundColor:'#C8102E',borderRadius:4,borderSkipped:false},{label:'United',data:[2.8,3.6,4.7,5.1,5.5],backgroundColor:'#1A6BAD',borderRadius:4,borderSkipped:false},{label:'American',data:[2.5,3.3,4.4,4.9,5.2],backgroundColor:'#0057B7',borderRadius:4,borderSkipped:false},{label:'Southwest',data:[1.4,1.8,2.2,2.5,2.8],backgroundColor:'#E06700',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
+
+mk('loyaltyPctChart','bar',{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],datasets:[{data:[15.9,13.1,12.8,11.2,7.4,5.8,4.5,1.8],backgroundColor:['#C8102E','#1A6BAD','#0057B7','#E06700','#015DAA','#5B2D8E','#0088BB','#2A7A35'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% of total revenue`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
+
+// TAB 4 CHARTS
+const tlLabels=['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','Q1\'24','Q2','Q3','Q4','Q1\'25'];
+const tlD=[{l:'Delta',d:[18.2,18.5,18.8,18.4,18.6,18.9,19.1,18.7,18.9,19.2,19.4,19.0,18.5],c:'#C8102E'},{l:'United',d:[16.8,17.0,17.2,17.0,17.1,17.4,17.6,17.3,17.4,17.7,17.9,17.5,17.8],c:'#1A6BAD'},{l:'American',d:[21.2,21.0,20.8,21.1,20.9,20.7,20.5,21.0,20.8,20.6,20.4,21.0,21.0],c:'#0057B7'},{l:'Southwest',d:[20.1,19.8,19.5,19.8,19.6,19.4,19.2,19.5,19.3,19.1,18.9,19.2,19.0],c:'#E06700'},{l:'Spirit',d:[5.8,5.6,5.4,5.2,5.0,4.8,4.4,4.0,3.5,3.2,2.8,2.0,2.0],c:'#92700A'},{l:'Breeze',d:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.1,1.3,1.5,1.8],c:'#CC3370'},{l:'Hawaiian',d:[2.4,2.4,2.3,2.3,2.3,2.2,2.3,2.2,2.2,2.1,2.2,2.1,2.1],c:'#5B2D8E'}];
+mk('timelineChart','line',{labels:tlLabels,datasets:tlD.map(x=>({label:x.l,data:x.d,borderColor:x.c,backgroundColor:x.c+'12',borderWidth:1.8,fill:false,tension:.4,pointRadius:0}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:8},boxWidth:8,padding:6}},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{grid:GRID,ticks:{...TICK,font:{size:8}},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false},min:0,max:25}},animation:{duration:1600,easing:'easeInOutQuart'}});
+
+mk('shareDonut','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#A8A29E'],borderWidth:0,hoverOffset:6}]},{cutout:'62%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
+
+const hhiAp=['DAL','MDW','DFW','CLT','ATL','HNL','MSP','DTW','IAH','EWR','ORD','BNA','PHX','DEN','LAX'];
+const hhiV=[9200,8200,7300,7300,5800,5200,5000,5000,4500,4200,3200,2200,1900,1600,1200];
+mk('hhiChart','bar',{labels:hhiAp,datasets:[{data:hhiV,backgroundColor:hhiV.map(h=>h>2500?'rgba(220,38,38,.75)':h>1500?'rgba(202,138,4,.75)':'rgba(22,163,74,.75)'),borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` HHI: ${c.parsed.x.toLocaleString()}${c.parsed.x>2500?' (Concentrated)':' (Competitive)'}`}}},scales:{x:{grid:GRID,ticks:TICK,border:{display:false}},y:{grid:{display:false},ticks:{...TICK,font:{size:9}},border:{display:false}}}});
+
+mk('airportGrowthChart','bar',{labels:['TYS','CLT','ORD','DFW','MSP','BNA','HNL','DEN','AUS','ATL','SFO'],datasets:[{data:[18.6,10.0,8.3,7.4,6.9,7.4,4.1,5.7,5.2,3.3,-2.1],backgroundColor:d=>d.parsed.y>=0?'rgba(22,163,74,.75)':'rgba(220,38,38,.75)',borderRadius:5,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed.y>0?'+':''}${c.parsed.y}% YoY`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
+
+// TAB 5 CHARTS
+const ncA=[['Delta',[1.9,4.2,3.46],'#C8102E'],['United',[1.6,3.0,3.15],'#1A6BAD'],['American',[0.6,2.1,0.8],'#0057B7'],['Southwest',[0.8,1.3,0.47],'#E06700'],['Alaska+HA',[0.5,0.8,0.64],'#015DAA'],['JetBlue',[-1.0,-0.4,-0.55],'#0088BB'],['Hawaiian',[0.1,0.2,0.25],'#5B2D8E']];
+mk('netIncomeChart','bar',{labels:['FY2022','FY2023','FY2024'],datasets:ncA.map(([l,d,c])=>({label:l,data:d,backgroundColor:c+'CC',borderRadius:4,borderSkipped:false}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:7}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
+
+mk('fullShareChart','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Allegiant','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,1.8,1.7],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#C04E1A','#A8A29E'],borderWidth:1,borderColor:'#fff',hoverOffset:5}]},{cutout:'55%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
+
+mk('revenueChart','bar',{labels:['Delta','United','American','Southwest','Alaska+HA','JetBlue','Hawaiian'],datasets:[{data:[61.6,57.1,54.2,27.5,11.8,8.9,2.8],backgroundColor:['#C8102E','#1A6BAD','#0057B7','#E06700','#015DAA','#0088BB','#5B2D8E'],borderRadius:6,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}B total revenue`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
+
+// NEW ENTRANTS + OPP CHARTS (shared)
+function buildSpiritChart(id){mk(id,'bar',{labels:['FLL–BHM','CLT–LAX','ATL–JFK','LAX–SLC','ORL–STL','BWI–TPA','FLL–SAN','MIA–OAK'],datasets:[{data:[52,44,38,41,35,48,39,44],backgroundColor:'rgba(220,38,38,.75)',borderRadius:5,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` +${c.parsed.y}% fare increase after Spirit exit`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:40,font:{size:8}},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'+'+v+'%'},border:{display:false},min:0}}});}
+buildSpiritChart('spiritExitChart');
+buildSpiritChart('spiritExitChartOpp');
+
+mk('breezeGrowthChart','line',{labels:['2021','2022','2023','2024','2025E'],datasets:[{label:'Routes',data:[12,45,89,180,220],borderColor:'#CC3370',borderWidth:2.5,tension:.4,yAxisID:'y',fill:false,pointRadius:5,pointBackgroundColor:'#CC3370',pointBorderColor:'#fff',pointBorderWidth:2},{label:'Revenue $M',data:[28,180,382,680,950],borderColor:'#F97316',borderWidth:2.5,tension:.4,yAxisID:'y1',fill:false,pointRadius:5,pointBackgroundColor:'#F97316',pointBorderColor:'#fff',pointBorderWidth:2}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:7}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+' rts'},border:{display:false},position:'left'},y1:{grid:{display:false},ticks:{...TICK,callback:v=>'$'+v+'M'},border:{display:false},position:'right'}}});
+
+});
+</script>
+</body>
+</html>
