@@ -505,6 +505,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
             <button class="ap-chip" onclick="filterAp('MSP',this)">MSP</button>
             <button class="ap-chip" onclick="filterAp('BNA',this)">BNA</button>
             <button class="ap-chip" onclick="filterAp('SFO',this)">SFO</button>
+            <button class="ap-chip" onclick="filterAp('FLL',this)">FLL</button>
           </div>
           <div class="carr-btns" id="carrBtns">
             <button class="carr-btn active" onclick="setCarrier('all',this)">All</button>
@@ -517,7 +518,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
             <button class="carr-btn" onclick="setCarrier('breeze',this)" style="color:var(--breeze)">MX</button>
             <button class="carr-btn" onclick="setCarrier('alaska',this)" style="color:var(--alaska)">AS</button>
             <button class="carr-btn" onclick="setCarrier('hawaiian',this)" style="color:var(--hawaiian)">HA</button>
-            <button class="carr-btn" onclick="setCarrier('emirates',this)" style="color:#9A7B0A">EK</button>
+            <button class="carr-btn" onclick="setCarrier('spirit',this)" style="color:#92700A">NK</button>
           </div>
         </div>
         <canvas id="routeMap" height="360"></canvas>
@@ -531,6 +532,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
           <div class="leg-item"><div class="leg-dot" style="background:var(--frontier)"></div>Frontier</div>
           <div class="leg-item"><div class="leg-dot" style="background:var(--breeze)"></div>Breeze</div>
           <div class="leg-item"><div class="leg-dot" style="background:var(--hawaiian)"></div>Hawaiian</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#92700A"></div>Spirit</div>
           <div class="leg-item" style="color:var(--muted);font-size:9px">← click airport to filter</div>
           <div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:6px;">
             <div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">
@@ -539,7 +541,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
               <strong style="color:var(--text)">Airport size:</strong> Total passengers (enplaned + deplaned) · ACI-NA 2024
             </div>
             <div style="font-size:9px;color:var(--muted);font-family:'Inter',sans-serif;font-style:italic;">
-              Particle speed ∝ weekly frequency · Node size ∝ annual passenger volume · Routes bidirectional · HA routes West Coast/Mountain only · EK shown as US gateway legs only
+              Particle speed ∝ weekly frequency · Node size ∝ annual passenger volume · Routes bidirectional · HA routes West Coast/Mountain only · NK shown as 2024 routes only (bankrupt Aug 2025)
             </div>
           </div>
         </div>
@@ -1322,7 +1324,7 @@ function downloadDashboard(){
 
 // ═══ DATA ═══
 const CC={Delta:'#C8102E',United:'#1A6BAD',American:'#0057B7',Southwest:'#E06700',Alaska:'#015DAA',JetBlue:'#0088BB',Spirit:'#92700A',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#C04E1A',Hawaiian:'#5B2D8E',Emirates:'#9A7B0A',Lufthansa:'#8B6914'};
-const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:52,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:54,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
+const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:52,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:54,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'},FLL:{x:.72,y:.86,pax:36,color:'#0088BB'}};
 const ROUTES=[ // OAG Q4 2024 · BTS T-100 FY2024
   ['LAX','JFK','American',280,3.1,1.2],['LAX','JFK','Delta',260,2.9,-0.4],['LAX','JFK','United',240,2.7,0.8],
   ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],['ATL','LAX','Delta',340,3.9,0.6],
@@ -1345,8 +1347,12 @@ const ROUTES=[ // OAG Q4 2024 · BTS T-100 FY2024
   // Hawaiian
   ['HNL','LAX','Hawaiian',180,2.0,2.8],['HNL','SFO','Hawaiian',160,1.8,2.4],['HNL','SEA','Hawaiian',140,1.6,3.1],
   ['HNL','DEN','Hawaiian',120,1.4,2.2],['HNL','PHX','Hawaiian',105,1.2,2.1],['HNL','LAS','Hawaiian',98,1.1,1.9],
-  // Emirates gateways
-  ['JFK','LAX','Emirates',120,1.4,2.1],['JFK','MIA','Emirates',110,1.2,1.8],['ORD','JFK','Emirates',115,1.3,2.4],
+  // Spirit (2024 - still operating before Aug 2025 Ch22)
+  ['LAX','ATL','Spirit',148,1.7,-8.2],['LAS','ATL','Spirit',122,1.4,-6.1],['LAX','DFW','Spirit',108,1.2,-5.8],
+  // Additional Alaska
+  ['SEA','ORD','Alaska',180,2.0,1.8],['SEA','JFK','Alaska',145,1.6,2.2],
+  // Additional United
+  ['IAH','LAX','United',195,2.2,1.4],['EWR','LAX','United',210,2.4,0.9],
 ];
 
 // OAG Q1 2025 forward schedule — key structural changes reflected:
@@ -1384,8 +1390,11 @@ const ROUTES_2025=[
   ['HNL','SEA','Hawaiian',155,1.7,5.6],['HNL','DEN','Hawaiian',132,1.5,4.8],
   ['HNL','PHX','Hawaiian',112,1.3,3.2],['HNL','LAS','Hawaiian',102,1.2,2.8],
   ['HNL','SLC','Hawaiian',88,1.0,4.1], // post-merger new SLC route
-  // Emirates gateways
-  ['JFK','LAX','Emirates',122,1.4,2.2],['JFK','MIA','Emirates',114,1.3,2.1],['ORD','JFK','Emirates',120,1.4,2.8],
+  // Spirit (gone by Aug 2025 - no routes)
+  // Alaska expanded
+  ['SEA','ORD','Alaska',188,2.1,2.4],['SEA','JFK','Alaska',152,1.7,3.1],['SEA','DEN','Alaska',165,1.9,2.8],
+  // United expanded
+  ['IAH','LAX','United',202,2.3,1.8],['EWR','LAX','United',218,2.5,1.4],
 ];
 
 const TOP_ROUTES_2025=[
