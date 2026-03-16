@@ -455,17 +455,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <!-- ═══════════════════════ TAB 4: AIRPORT INTELLIGENCE ═══════════════════════ -->
 <div id="tab-airports" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Airport Intelligence</div><div class="sec-sub">Hub dominance · HHI concentration · Animated route network · Slot control · FAA / BTS / OAG · 2024</div></div>
+  <div class="sec-hdr" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div><div class="sec-title">Airport Intelligence</div><div class="sec-sub" id="apTabSub">Hub dominance · HHI concentration · Animated route network · FAA / BTS / OAG · FY 2024</div></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <span style="font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;">Period:</span>
+      <div id="apYearToggle" style="display:flex;background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:2px;gap:2px;">
+        <button onclick="setApYear(2024,this)" class="apyr-btn active-yr" style="padding:4px 16px;border-radius:4px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;background:var(--accent);color:#fff;transition:all .2s;">2024</button>
+        <button onclick="setApYear(2025,this)" class="apyr-btn" style="padding:4px 16px;border-radius:4px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;background:transparent;color:var(--muted);transition:all .2s;">2025</button>
+      </div>
+      <span id="apPeriodBadge" style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;background:var(--panel2);border:1px solid var(--border);padding:3px 9px;border-radius:4px;white-space:nowrap;">FY 2024 · BTS T-100 · OAG Q4 2024</span>
+    </div>
+  </div>
   <div class="sowhat">
     <div class="sowhat-label">Hub Concentration — The Real Competitive Moat</div>
     <div class="sowhat-text"><strong>Fortress hubs are the most durable competitive advantage in US aviation.</strong> Delta's 75% seat share at ATL means it can price 20–30% above market on connecting routes and passengers have no choice. American's 85% at DFW and CLT is similarly impenetrable. <strong>The strategic battlegrounds are the in-between airports:</strong> Nashville (BNA) is contested as Southwest retreats and Frontier/Delta expand. Denver (HHI 1,600) is the most competitive major hub — all three legacies plus Frontier fight for share. <strong>Sun Belt airports (TYS +18.6%, CLT +10%, ORD +8.3%)</strong> are where the next decade's market share is being won.</div>
   </div>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-label">ATL — World's Busiest</div><div class="kpi-value">108.1M</div><div class="kpi-chg"><span class="up">↑ 3.3%</span><span class="kp">Delta ~75%</span></div></div>
-    <div class="kpi"><div class="kpi-label">DFW Record 2024</div><div class="kpi-value">87.8M</div><div class="kpi-chg"><span class="up">↑ 7.4%</span><span class="kp">American ~85%</span></div></div>
-    <div class="kpi"><div class="kpi-label">ORD All-Time Record</div><div class="kpi-value">80.0M</div><div class="kpi-chg"><span class="up">↑ 8.3%</span><span class="kp">70-year high</span></div></div>
-    <div class="kpi"><div class="kpi-label">HNL — Hawaiian Hub</div><div class="kpi-value">21.4M</div><div class="kpi-chg"><span class="up">↑ 4.1%</span><span class="kp">Alaska/Hawaiian</span></div></div>
-    <div class="kpi"><div class="kpi-label">TYS Fastest Growing</div><div class="kpi-value">+18.6%</div><div class="kpi-chg"><span class="up">Top-100 leader</span><span class="kp">Knoxville</span></div></div>
+  <div class="kpi-grid" id="apKpiGrid">
+    <div class="kpi"><div class="kpi-label" id="apKpi1L">ATL — World's Busiest</div><div class="kpi-value" id="apKpi1V">108.1M</div><div class="kpi-chg" id="apKpi1C"><span class="up">↑ 3.3%</span><span class="kp">Delta ~75%</span></div></div>
+    <div class="kpi"><div class="kpi-label" id="apKpi2L">DFW Record 2024</div><div class="kpi-value" id="apKpi2V">87.8M</div><div class="kpi-chg" id="apKpi2C"><span class="up">↑ 7.4%</span><span class="kp">American ~85%</span></div></div>
+    <div class="kpi"><div class="kpi-label" id="apKpi3L">ORD All-Time Record</div><div class="kpi-value" id="apKpi3V">80.0M</div><div class="kpi-chg" id="apKpi3C"><span class="up">↑ 8.3%</span><span class="kp">70-year high</span></div></div>
+    <div class="kpi"><div class="kpi-label" id="apKpi4L">HNL — Hawaiian Hub</div><div class="kpi-value" id="apKpi4V">21.4M</div><div class="kpi-chg" id="apKpi4C"><span class="up">↑ 4.1%</span><span class="kp">Alaska/Hawaiian</span></div></div>
+    <div class="kpi"><div class="kpi-label" id="apKpi5L">TYS Fastest Growing</div><div class="kpi-value" id="apKpi5V">+18.6%</div><div class="kpi-chg" id="apKpi5C"><span class="up">Top-100 leader</span><span class="kp">Knoxville</span></div></div>
   </div>
 
   <!-- Animated Map with Telemetry -->
@@ -544,12 +554,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div style="display:flex;flex-direction:column;gap:13px;">
       <!-- KPI snapshot -->
       <div class="panel"><div class="ph"><div><div class="pt">Industry KPI Snapshot</div><div class="ps">FY 2024 actuals · BTS / DOT</div></div><span class="ptag">BTS FY2024</span></div>
-        <div style="padding:8px 0 2px;text-align:center;"><div class="big-num">7.5M</div><div class="num-label">Domestic Departures FY2024</div></div>
+        <div style="padding:8px 0 2px;text-align:center;"><div class="big-num" id="apBigNum">7.5M</div><div class="num-label" id="apBigNumLabel">Domestic Departures FY2024</div></div>
         <div class="stat-mini-grid">
-          <div class="stat-mini"><div class="stat-mini-label">Load Factor</div><div class="stat-mini-val">85.6%</div><div class="stat-mini-chg up">↑ 0.8pp YoY</div></div>
-          <div class="stat-mini"><div class="stat-mini-label">Avg Fare</div><div class="stat-mini-val">$391</div><div class="stat-mini-chg up">↑ 1.9% YoY</div></div>
-          <div class="stat-mini"><div class="stat-mini-label">On-Time Rate</div><div class="stat-mini-val">79.2%</div><div class="stat-mini-chg dn">↓ 1.1pp</div></div>
-          <div class="stat-mini"><div class="stat-mini-label">Cancel Rate</div><div class="stat-mini-val">1.8%</div><div class="stat-mini-chg up">↓ 0.4pp</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">Load Factor</div><div class="stat-mini-val" id="apLF">85.6%</div><div class="stat-mini-chg up" id="apLFc">↑ 0.8pp YoY</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">Avg Fare</div><div class="stat-mini-val" id="apFare">$391</div><div class="stat-mini-chg up" id="apFarec">↑ 1.9% YoY</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">On-Time Rate</div><div class="stat-mini-val" id="apOTP">79.2%</div><div class="stat-mini-chg dn" id="apOTPc">↓ 1.1pp</div></div>
+          <div class="stat-mini"><div class="stat-mini-label">Cancel Rate</div><div class="stat-mini-val" id="apCxl">1.8%</div><div class="stat-mini-chg up" id="apCxlc">↓ 0.4pp</div></div>
         </div>
       </div>
       <!-- Seat share donut -->
@@ -564,7 +574,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
 
   <!-- Airport cards + HHI chart -->
-  <div class="ap-grid">
+  <div class="ap-grid" id="apCardsGrid">
     <div class="ap-card" style="border-left:3px solid var(--delta)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI 5,800</span><div class="ap-code">ATL</div><div class="ap-name">Hartsfield-Jackson · Atlanta</div><div class="ap-top" style="color:var(--delta)">Delta fortress · 75%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Delta</span><div class="sb-bg"><div class="sb-fill" style="width:75%;background:var(--delta)"></div></div><span class="sb-pct" style="color:var(--delta)">75%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:10%;background:var(--southwest)"></div></div><span class="sb-pct">10%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">108.1M</div><div style="font-size:9px;color:var(--muted)">pax 2024</div></div><span class="badge bg">↑ 3.3%</span></div></div>
     <div class="ap-card" style="border-left:3px solid var(--american)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI 7,300</span><div class="ap-code">DFW</div><div class="ap-name">Dallas/Fort Worth · Record 2024</div><div class="ap-top" style="color:var(--american)">American mega-hub · 85%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:85%;background:var(--american)"></div></div><span class="sb-pct" style="color:var(--american)">85%</span></div><div class="sb-row"><span class="sb-label">Others</span><div class="sb-bg"><div class="sb-fill" style="width:15%;background:rgba(0,0,0,.15)"></div></div><span class="sb-pct">15%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">87.8M</div><div style="font-size:9px;color:var(--muted)">pax · record</div></div><span class="badge bg">↑ 7.4%</span></div></div>
     <div class="ap-card" style="border-left:3px solid var(--frontier)"><span class="hhi-chip" style="background:rgba(22,163,74,.1);color:#15803D">HHI 1,600</span><div class="ap-code">DEN</div><div class="ap-name">Denver International</div><div class="ap-top" style="color:var(--success)">3-way competitive market</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:30%;background:var(--united)"></div></div><span class="sb-pct" style="color:var(--united)">30%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:20%;background:var(--southwest)"></div></div><span class="sb-pct">20%</span></div><div class="sb-row"><span class="sb-label">Frontier</span><div class="sb-bg"><div class="sb-fill" style="width:15%;background:var(--frontier)"></div></div><span class="sb-pct">15%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">82.0M</div><div style="font-size:9px;color:var(--muted)">+9.3M vs 2019</div></div><span class="badge bg">↑ 5.7%</span></div></div>
@@ -1476,21 +1486,104 @@ function buildFlowBars(){
 buildFlowBars();
 
 // ═══ HEATMAP ═══
-function buildHeatmap(){
+function buildHeatmap(yr){
   const C=[['Delta','#C8102E'],['United','#1A6BAD'],['American','#0057B7'],['Southwest','#E06700'],['Alaska','#015DAA'],['JetBlue','#0088BB'],['Frontier','#2A7A35'],['Hawaiian','#5B2D8E']];
-  const D=[[80,70,72,75,95,90,85],[75,68,70,72,88,85,78],[78,72,74,76,92,88,82],[82,75,70,72,90,95,88],[60,55,58,60,75,82,70],[55,50,52,55,70,80,65],[62,58,60,62,78,75,68],[55,60,58,62,75,88,80]];
+  // 2025: SW reduced (esp Fri/Sat ATL), Frontier up, JetBlue down, Hawaiian slightly up
+  const D24=[[80,70,72,75,95,90,85],[75,68,70,72,88,85,78],[78,72,74,76,92,88,82],[82,75,70,72,90,95,88],[60,55,58,60,75,82,70],[55,50,52,55,70,80,65],[62,58,60,62,78,75,68],[55,60,58,62,75,88,80]];
+  const D25=[[82,72,74,77,96,92,87],[76,69,71,73,89,86,79],[79,73,75,77,93,89,83],[68,62,60,63,78,82,76],[61,56,59,61,76,83,71],[48,44,46,48,60,68,55],[72,68,70,72,88,85,78],[57,62,60,64,77,90,82]];
+  const D=yr===2025?D25:D24;
   const el=document.getElementById('heatmapGrid');if(!el)return;
   el.innerHTML=C.map(([c,col],ci)=>`<div class="hm-row"><div class="hm-carrier-lbl" style="color:${col}">${c.slice(0,5)}</div>${D[ci].map(v=>{const op=((v/100)*.6+.12).toFixed(2);return `<div class="hm-cell" style="background:${col};opacity:${op}" title="${c}: ${v}%" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='${op}'"></div>`;}).join('')}</div>`).join('');
 }
-buildHeatmap();
+buildHeatmap(2024);
 
 // ═══ MOVERS ═══
-function buildMovers(){
-  const m=[{c:'Breeze',r:'Secondary markets',v:'+78%',u:true,col:'#CC3370'},{c:'Delta',r:'MSP hub expansion',v:'+3.2pp',u:true,col:'#C8102E'},{c:'Hawaiian',r:'Pacific routes post-merger',v:'+4.1%',u:true,col:'#5B2D8E'},{c:'Spirit',r:'West Coast exit',v:'-39%',u:false,col:'#92700A'},{c:'JetBlue',r:'NE Alliance dissolved',v:'-24 routes',u:false,col:'#0088BB'},{c:'Southwest',r:'ATL retreat',v:'-57%',u:false,col:'#E06700'}];
+function buildMovers(yr){
+  const m24=[{c:'Breeze',r:'Secondary markets',v:'+78%',u:true,col:'#CC3370'},{c:'Delta',r:'MSP hub expansion',v:'+3.2pp',u:true,col:'#C8102E'},{c:'Hawaiian',r:'Pacific routes post-merger',v:'+4.1%',u:true,col:'#5B2D8E'},{c:'Spirit',r:'West Coast exit',v:'-39%',u:false,col:'#92700A'},{c:'JetBlue',r:'NE Alliance dissolved',v:'-24 routes',u:false,col:'#0088BB'},{c:'Southwest',r:'ATL retreat',v:'-57%',u:false,col:'#E06700'}];
+  const m25=[{c:'Frontier',r:'ATL capacity surge',v:'+40%',u:true,col:'#2A7A35'},{c:'Breeze',r:'BNA + new leisure mkts',v:'+7 routes',u:true,col:'#CC3370'},{c:'Delta',r:'ATL fortress deepens',v:'+76% share',u:true,col:'#C8102E'},{c:'Hawaiian',r:'New ORD/DFW post-merger',v:'+3 routes',u:true,col:'#5B2D8E'},{c:'Southwest',r:'ATL retreat continues',v:'-57% seats',u:false,col:'#E06700'},{c:'JetBlue',r:'Route cuts ongoing',v:'-24 routes',u:false,col:'#0088BB'}];
+  const m=yr===2025?m25:m24;
   const el=document.getElementById('moversContainer');if(!el)return;
   el.innerHTML=m.map(x=>`<div class="mover-row"><span class="mover-carrier" style="color:${x.col}">${x.u?'↑':'↓'} ${x.c}</span><span class="mover-detail">${x.r}</span><span class="mover-val" style="color:${x.u?'#16A34A':'#DC2626'}">${x.v}</span></div>`).join('');
 }
-buildMovers();
+buildMovers(2024);
+
+// ═══ AIRPORT PAGE YEAR TOGGLE ═══
+const AP_CARDS_2024=document.getElementById('apCardsGrid')?document.getElementById('apCardsGrid').innerHTML:'';
+
+const AP_KPI_2025={
+  sub:'Hub dominance · Network shift · OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cuts · HA merged',
+  badge:'Q1 2025 fwd · OAG · est. filed schedules',
+  kpis:[
+    {l:"ATL — Delta Fortress Grows",   v:'~110M',  c:'<span class="up">↑ ~2%</span><span class="kp">Delta ~76%</span>'},
+    {l:"DFW Continues Record Pace",    v:'~90M',   c:'<span class="up">↑ ~3%</span><span class="kp">American ~84%</span>'},
+    {l:"ORD Sustained Growth",         v:'~82M',   c:'<span class="up">↑ ~3%</span><span class="kp">United 49%</span>'},
+    {l:"HNL Post-Merger Expansion",    v:'~22M',   c:'<span class="up">↑ ~3%</span><span class="kp">Alaska+HA · new routes</span>'},
+    {l:"BNA Network Battleground",     v:'+~9%',   c:'<span class="up">Multi-carrier contest</span><span class="kp">SW pivot · F9 · Breeze</span>'}
+  ],
+  bigNum:'~7.6M', bigLabel:'Est. Domestic Departures 2025E',
+  lf:'~86%',lfc:'<span class="up">↑ est. +0.4pp</span>',
+  fare:'~$398',farec:'<span class="up">↑ est. +1.8%</span>',
+  otp:'~80%',otpc:'<span class="up">↑ improving trend</span>',
+  cxl:'~1.6%',cxlc:'<span class="up">↓ est. improvement</span>'
+};
+const AP_KPI_2024={
+  sub:'Hub dominance · HHI concentration · Animated route network · FAA / BTS / OAG · FY 2024',
+  badge:'FY 2024 · BTS T-100 · OAG Q4 2024',
+  kpis:[
+    {l:'ATL — World\'s Busiest',   v:'108.1M',c:'<span class="up">↑ 3.3%</span><span class="kp">Delta ~75%</span>'},
+    {l:'DFW Record 2024',          v:'87.8M', c:'<span class="up">↑ 7.4%</span><span class="kp">American ~85%</span>'},
+    {l:'ORD All-Time Record',      v:'80.0M', c:'<span class="up">↑ 8.3%</span><span class="kp">70-year high</span>'},
+    {l:'HNL — Hawaiian Hub',       v:'21.4M', c:'<span class="up">↑ 4.1%</span><span class="kp">Alaska/Hawaiian</span>'},
+    {l:'TYS Fastest Growing',      v:'+18.6%',c:'<span class="up">Top-100 leader</span><span class="kp">Knoxville</span>'}
+  ],
+  bigNum:'7.5M',bigLabel:'Domestic Departures FY2024',
+  lf:'85.6%',lfc:'<span class="up">↑ 0.8pp YoY</span>',
+  fare:'$391',farec:'<span class="up">↑ 1.9% YoY</span>',
+  otp:'79.2%',otpc:'<span class="dn">↓ 1.1pp</span>',
+  cxl:'1.8%',cxlc:'<span class="up">↓ 0.4pp</span>'
+};
+const AP_CARDS_2025=`
+  <div class="ap-card" style="border-left:3px solid var(--delta)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI ~5,900</span><div class="ap-code">ATL</div><div class="ap-name">Hartsfield-Jackson · SW retreating</div><div class="ap-top" style="color:var(--delta)">Delta growing · ~76%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Delta</span><div class="sb-bg"><div class="sb-fill" style="width:76%;background:var(--delta)"></div></div><span class="sb-pct" style="color:var(--delta)">76%</span></div><div class="sb-row"><span class="sb-label">Frontier</span><div class="sb-bg"><div class="sb-fill" style="width:8%;background:var(--frontier)"></div></div><span class="sb-pct">8%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:6%;background:var(--southwest)"></div></div><span class="sb-pct">6%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~110M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~2%</span></div></div>
+  <div class="ap-card" style="border-left:3px solid var(--american)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI ~7,100</span><div class="ap-code">DFW</div><div class="ap-name">Dallas/Fort Worth · Terminal F underway</div><div class="ap-top" style="color:var(--american)">American fortress · ~84%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:84%;background:var(--american)"></div></div><span class="sb-pct" style="color:var(--american)">84%</span></div><div class="sb-row"><span class="sb-label">Others</span><div class="sb-bg"><div class="sb-fill" style="width:16%;background:rgba(0,0,0,.15)"></div></div><span class="sb-pct">16%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~90M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~3%</span></div></div>
+  <div class="ap-card" style="border-left:3px solid var(--frontier)"><span class="hhi-chip" style="background:rgba(22,163,74,.1);color:#15803D">HHI ~1,650</span><div class="ap-code">DEN</div><div class="ap-name">Denver · Frontier expanding</div><div class="ap-top" style="color:var(--success)">Still 3-way competitive</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:31%;background:var(--united)"></div></div><span class="sb-pct" style="color:var(--united)">31%</span></div><div class="sb-row"><span class="sb-label">Frontier</span><div class="sb-bg"><div class="sb-fill" style="width:18%;background:var(--frontier)"></div></div><span class="sb-pct">18%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:17%;background:var(--southwest)"></div></div><span class="sb-pct">17%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~84M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~3%</span></div></div>
+  <div class="ap-card" style="border-left:3px solid var(--united)"><span class="hhi-chip" style="background:rgba(220,38,38,.1);color:#B91C1C">HHI ~3,250</span><div class="ap-code">ORD</div><div class="ap-name">Chicago O'Hare · sustained growth</div><div class="ap-top" style="color:var(--united)">United dominant · 49%</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:49%;background:var(--united)"></div></div><span class="sb-pct" style="color:var(--united)">49%</span></div><div class="sb-row"><span class="sb-label">American</span><div class="sb-bg"><div class="sb-fill" style="width:28%;background:var(--american)"></div></div><span class="sb-pct">28%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~82M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~3%</span></div></div>
+  <div class="ap-card" style="border-left:3px solid var(--hawaiian)"><span class="hhi-chip" style="background:rgba(91,45,142,.1);color:#5B2D8E">HHI ~5,100</span><div class="ap-code">HNL</div><div class="ap-name">Honolulu · post-merger new routes</div><div class="ap-top" style="color:var(--hawaiian)">Alaska+HA · ORD/DFW added</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Hawaiian</span><div class="sb-bg"><div class="sb-fill" style="width:49%;background:var(--hawaiian)"></div></div><span class="sb-pct" style="color:var(--hawaiian)">49%</span></div><div class="sb-row"><span class="sb-label">United</span><div class="sb-bg"><div class="sb-fill" style="width:17%;background:var(--united)"></div></div><span class="sb-pct">17%</span></div><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:13%;background:var(--southwest)"></div></div><span class="sb-pct">13%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~22M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~3%</span></div></div>
+  <div class="ap-card" style="border-left:3px solid var(--frontier)"><span class="hhi-chip" style="background:rgba(202,138,4,.1);color:#92400E">HHI ~1,900</span><div class="ap-code">BNA</div><div class="ap-name">Nashville · contested battleground</div><div class="ap-top" style="color:var(--frontier)">SW pivot + Frontier surge + Breeze</div><div class="sb-wrap"><div class="sb-row"><span class="sb-label">Southwest</span><div class="sb-bg"><div class="sb-fill" style="width:38%;background:var(--southwest)"></div></div><span class="sb-pct" style="color:var(--southwest)">38%</span></div><div class="sb-row"><span class="sb-label">Frontier</span><div class="sb-bg"><div class="sb-fill" style="width:12%;background:var(--frontier)"></div></div><span class="sb-pct">12%</span></div><div class="sb-row"><span class="sb-label">Breeze</span><div class="sb-bg"><div class="sb-fill" style="width:8%;background:var(--breeze)"></div></div><span class="sb-pct">8%</span></div></div><div style="display:flex;justify-content:space-between;margin-top:8px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text)">~27M</div><div style="font-size:9px;color:var(--muted)">est. 2025</div></div><span class="badge bg">↑ ~9%</span></div></div>`;
+
+function setApYear(yr,btn){
+  activeYear=yr;
+  // sync map toggle
+  const mapBtn=document.getElementById(yr===2024?'yr2024btn':'yr2025btn');
+  if(mapBtn)setYear(yr,mapBtn);
+  // update page toggle style
+  document.querySelectorAll('.apyr-btn').forEach(b=>{b.style.background='transparent';b.style.color='var(--muted)';});
+  btn.style.background='var(--accent)';btn.style.color='#fff';
+  const d=yr===2025?AP_KPI_2025:AP_KPI_2024;
+  // subtitle + badge
+  const sub=document.getElementById('apTabSub');if(sub)sub.textContent=d.sub;
+  const badge=document.getElementById('apPeriodBadge');if(badge)badge.textContent=d.badge;
+  // KPIs
+  for(let i=1;i<=5;i++){
+    const lEl=document.getElementById('apKpi'+i+'L');const vEl=document.getElementById('apKpi'+i+'V');const cEl=document.getElementById('apKpi'+i+'C');
+    if(lEl)lEl.textContent=d.kpis[i-1].l;if(vEl)vEl.textContent=d.kpis[i-1].v;if(cEl)cEl.innerHTML=d.kpis[i-1].c;
+  }
+  // sidebar
+  const set=(id,val,html)=>{const e=document.getElementById(id);if(e)html?e.innerHTML=val:e.textContent=val;};
+  set('apBigNum',d.bigNum);set('apBigNumLabel',d.bigLabel);
+  set('apLF',d.lf);set('apLFc',d.lfc,true);
+  set('apFare',d.fare);set('apFarec',d.farec,true);
+  set('apOTP',d.otp);set('apOTPc',d.otpc,true);
+  set('apCxl',d.cxl);set('apCxlc',d.cxlc,true);
+  // airport cards
+  const grid=document.getElementById('apCardsGrid');if(grid)grid.innerHTML=yr===2025?AP_CARDS_2025:AP_CARDS_2024_SAVED;
+  // heatmap + movers
+  buildHeatmap(yr);buildMovers(yr);
+  // route table
+  buildRouteTable(yr===2025?TOP_ROUTES_2025:TOP_ROUTES);
+}
+// save original cards HTML after DOM ready
+let AP_CARDS_2024_SAVED='';
+window.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('apCardsGrid');if(g)AP_CARDS_2024_SAVED=g.innerHTML;});
 
 // ═══ ANIMATED MAP ═══
 const canvas=document.getElementById('routeMap');
