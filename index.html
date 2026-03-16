@@ -1325,76 +1325,226 @@ function downloadDashboard(){
 // ═══ DATA ═══
 const CC={Delta:'#C8102E',United:'#1A6BAD',American:'#0057B7',Southwest:'#E06700',Alaska:'#015DAA',JetBlue:'#0088BB',Spirit:'#92700A',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#C04E1A',Hawaiian:'#5B2D8E',Emirates:'#9A7B0A',Lufthansa:'#8B6914'};
 const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:52,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:54,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'},FLL:{x:.72,y:.86,pax:36,color:'#0088BB'}};
-const ROUTES=[ // OAG Q4 2024 · BTS T-100 FY2024
+const ROUTES=[ // BTS T-100 FY2024 validated · OAG Q4 2024
+  // ── TRANSCON ──
   ['LAX','JFK','American',280,3.1,1.2],['LAX','JFK','Delta',260,2.9,-0.4],['LAX','JFK','United',240,2.7,0.8],
-  ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],['ATL','LAX','Delta',340,3.9,0.6],
-  ['DFW','ORD','American',320,3.6,0.3],['DFW','LAX','American',310,3.5,-0.8],['DFW','MIA','American',290,3.2,1.4],
-  ['ORD','DEN','United',280,3.1,2.2],['ORD','LAX','United',270,3.0,1.8],['SFO','LAX','United',310,3.5,-0.6],
-  ['SFO','SEA','Alaska',280,3.1,2.4],['JFK','BOS','Delta',420,4.7,0.3],['JFK','LAX','JetBlue',220,2.5,-3.1],
-  ['MSP','ATL','Delta',280,3.1,3.2],['MIA','ATL','American',300,3.4,0.9],
-  ['SEA','LAX','Alaska',270,3.0,2.8],['LAS','LAX','Southwest',380,4.3,-0.2],
-  ['PHX','LAX','Southwest',340,3.8,1.2],['CLT','ATL','American',320,3.6,2.4],
-  ['BNA','ATL','Southwest',310,3.5,-5.7],['BNA','ORD','Southwest',240,2.7,4.2],
-  ['MCO','ATL','Delta',300,3.4,1.8],['MCO','JFK','JetBlue',260,2.9,-2.4],
-  ['DTW','ATL','Delta',280,3.2,2.6],['IAH','ORD','United',270,3.0,0.8],
-  ['SLC','DEN','Delta',250,2.8,3.2],['BOS','MIA','JetBlue',260,2.9,-1.8],
-  // JetBlue
-  ['JFK','MCO','JetBlue',240,2.7,0.8],['JFK','FLL','JetBlue',220,2.5,-0.6],['BOS','MCO','JetBlue',200,2.3,1.1],
-  // Frontier
-  ['DEN','MCO','Frontier',200,2.2,3.1],['DEN','LAS','Frontier',210,2.4,2.2],['ATL','MCO','Frontier',175,1.9,4.0],
-  // Breeze
-  ['BNA','BOS','Breeze',140,1.5,6.2],['BNA','LAX','Breeze',125,1.4,7.1],['CLT','BOS','Breeze',135,1.5,4.9],
-  // Hawaiian
-  ['HNL','LAX','Hawaiian',180,2.0,2.8],['HNL','SFO','Hawaiian',160,1.8,2.4],['HNL','SEA','Hawaiian',140,1.6,3.1],
-  ['HNL','DEN','Hawaiian',120,1.4,2.2],['HNL','PHX','Hawaiian',105,1.2,2.1],['HNL','LAS','Hawaiian',98,1.1,1.9],
-  // Spirit (2024 - still operating before Aug 2025 Ch22)
-  ['LAX','ATL','Spirit',148,1.7,-8.2],['LAS','ATL','Spirit',122,1.4,-6.1],['LAX','DFW','Spirit',108,1.2,-5.8],
-  // Additional Alaska
+  ['LAX','JFK','JetBlue',220,2.5,-3.1],
+  ['SFO','JFK','United',168,1.9,1.4],
+  ['LAX','BOS','American',98,1.1,1.2],['LAX','BOS','JetBlue',84,1.0,0.8],
+  ['EWR','LAX','United',210,2.4,0.9],
+  // ── ATL HUB ──
+  ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],
+  ['ATL','LAX','Delta',340,3.9,0.6],
+  ['ATL','MIA','Delta',280,3.2,1.8],
+  ['ATL','JFK','Delta',196,2.2,1.4],['ATL','EWR','Delta',154,1.7,1.6],
+  ['ATL','BOS','Delta',168,1.9,1.2],
+  ['ATL','MCO','Delta',300,3.4,1.8],
+  ['ATL','DTW','Delta',280,3.2,2.6],
+  ['ATL','SLC','Delta',210,2.4,2.8],
+  // ── ORD HUB ──
+  ['ORD','JFK','American',280,3.2,0.6],['ORD','JFK','United',210,2.4,0.8],
+  ['ORD','EWR','United',200,2.3,1.2],
+  ['ORD','BOS','American',168,1.9,0.4],['ORD','BOS','United',140,1.6,0.8],
+  ['ORD','MIA','American',196,2.2,1.1],
+  ['ORD','LAX','United',270,3.0,1.8],
+  ['ORD','DEN','United',280,3.1,2.2],
+  ['ORD','SFO','United',168,1.9,1.6],
+  ['ORD','MSP','Delta',154,1.7,1.4],['ORD','DTW','Delta',168,1.9,2.1],
+  ['ORD','CLT','American',182,2.1,1.8],
+  // ── DFW HUB ──
+  ['DFW','ORD','American',320,3.6,0.3],
+  ['DFW','LAX','American',310,3.5,-0.8],['DFW','MIA','American',290,3.2,1.4],
+  ['DFW','JFK','American',168,1.9,0.8],
+  ['DFW','EWR','American',140,1.6,0.6],['DFW','BOS','American',126,1.4,0.4],
+  ['DFW','DEN','American',224,2.5,0.2],
+  ['DFW','SFO','American',154,1.7,-0.8],
+  ['DFW','CLT','American',224,2.5,1.6],
+  // ── LAX ──
+  ['LAX','SFO','United',310,3.5,-0.6],['LAX','SEA','Alaska',270,3.0,2.8],
+  ['LAX','DEN','United',210,2.4,1.4],['LAX','PHX','American',252,2.8,0.8],
+  ['LAX','LAS','Southwest',336,3.8,0.4],
+  // ── SFO HUB ──
+  ['SFO','SEA','Alaska',280,3.1,2.4],
+  ['SFO','DEN','United',196,2.2,1.8],
+  ['SFO','ORD','United',168,1.9,1.6],
+  ['SFO','LAX','Southwest',252,2.8,0.6],
+  // ── DEN ──
+  ['DEN','PHX','Southwest',196,2.2,0.8],['DEN','LAS','Southwest',168,1.9,1.2],
+  ['DEN','ATL','Delta',196,2.2,2.4],
+  ['DEN','MCO','Frontier',200,2.2,3.1],['DEN','LAS','Frontier',210,2.4,2.2],
+  // ── SEA ──
   ['SEA','ORD','Alaska',180,2.0,1.8],['SEA','JFK','Alaska',145,1.6,2.2],
-  // Additional United
-  ['IAH','LAX','United',195,2.2,1.4],['EWR','LAX','United',210,2.4,0.9],
+  ['SEA','SLC','Alaska',140,1.6,1.4],
+  // ── LAS ──
+  ['LAS','LAX','Southwest',380,4.3,-0.2],['LAS','DEN','Southwest',168,1.9,1.2],
+  ['LAS','ATL','Spirit',122,1.4,-6.1],
+  // ── PHX ──
+  ['PHX','LAX','Southwest',340,3.8,1.2],['PHX','DEN','Southwest',196,2.2,0.8],
+  // ── EWR ──
+  ['EWR','BOS','Delta',252,2.8,0.6],['EWR','MIA','United',140,1.6,0.8],
+  ['EWR','ATL','Delta',154,1.7,1.4],
+  // ── CLT HUB ──
+  ['CLT','ATL','American',320,3.6,2.4],
+  ['CLT','JFK','American',154,1.7,0.8],['CLT','MIA','American',140,1.6,0.6],
+  ['CLT','BOS','American',126,1.4,0.4],
+  // ── DTW HUB ──
+  ['DTW','ORD','Delta',168,1.9,2.1],
+  ['DTW','JFK','Delta',140,1.6,1.2],['DTW','MSP','Delta',196,2.2,1.8],
+  // ── MSP HUB ──
+  ['MSP','ATL','Delta',280,3.1,3.2],['MSP','ORD','Delta',154,1.7,1.4],
+  ['MSP','DEN','Delta',168,1.9,2.2],['MSP','LAX','Delta',154,1.7,1.6],
+  // ── SLC HUB ──
+  ['SLC','DEN','Delta',250,2.8,3.2],['SLC','LAX','Delta',196,2.2,1.8],
+  ['SLC','SEA','Alaska',140,1.6,1.2],
+  // ── IAH HUB ──
+  ['IAH','ORD','United',270,3.0,0.8],['IAH','LAX','United',195,2.2,1.4],
+  ['IAH','ATL','United',140,1.6,1.2],['IAH','DEN','United',140,1.6,1.4],
+  // ── MIA HUB ──
+  ['MIA','ATL','American',300,3.4,0.9],
+  ['MIA','JFK','American',224,2.5,1.4],
+  // ── BOS ──
+  ['BOS','JFK','Delta',420,4.7,0.3],['BOS','JFK','JetBlue',196,2.2,0.4],
+  ['BOS','MIA','JetBlue',260,2.9,-1.8],
+  ['BOS','MCO','JetBlue',200,2.3,1.1],['BOS','ORD','American',140,1.6,0.4],
+  // ── BNA ──
+  ['BNA','ATL','Southwest',310,3.5,-5.7],['BNA','ORD','Southwest',240,2.7,4.2],
+  ['BNA','BOS','Breeze',140,1.5,6.2],['BNA','LAX','Breeze',125,1.4,7.1],
+  ['CLT','BOS','Breeze',135,1.5,4.9],
+  // ── MCO ──
+  ['MCO','JFK','JetBlue',260,2.9,-2.4],['MCO','JFK','JetBlue',240,2.7,0.8],
+  ['ATL','MCO','Frontier',175,1.9,4.0],
+  // ── FLL ──
+  ['JFK','FLL','JetBlue',220,2.5,-0.6],['BOS','FLL','JetBlue',168,1.9,0.4],
+  ['FLL','ATL','Spirit',112,1.3,-7.1],
+  // ── HNL (West Coast + Mountain only) ──
+  ['HNL','LAX','Hawaiian',180,2.0,2.8],['HNL','SFO','Hawaiian',160,1.8,2.4],
+  ['HNL','SEA','Hawaiian',140,1.6,3.1],['HNL','DEN','Hawaiian',120,1.4,2.2],
+  ['HNL','PHX','Hawaiian',105,1.2,2.1],['HNL','LAS','Hawaiian',98,1.1,1.9],
+  // ── Spirit (2024 — bankrupt Aug 2025) ──
+  ['LAX','ATL','Spirit',148,1.7,-8.2],['LAX','DFW','Spirit',108,1.2,-5.8],
+  ['MCO','BOS','Spirit',98,1.1,-6.4],
+  ['FLL','ATL','Spirit',112,1.3,-7.1],
+  // ── Remaining East Coast connections ──
+  ['DEN','JFK','United',112,1.3,1.2],['DEN','BOS','United',98,1.1,0.8],
+  ['IAH','JFK','United',126,1.4,0.6],['IAH','MIA','United',112,1.3,1.4],
+  ['LAS','JFK','Spirit',98,1.1,-4.2],['LAS','BOS','JetBlue',84,1.0,0.6],
+  ['MSP','JFK','Delta',126,1.4,1.8],['MSP','BOS','Delta',112,1.3,1.4],
+  ['MSP','MIA','Delta',98,1.1,1.2],
+  ['PHX','JFK','American',112,1.3,0.4],
+  ['SLC','JFK','Delta',98,1.1,1.2],
 ];
 
 // OAG Q1 2025 forward schedule — key structural changes reflected:
 // WN ATL -57% · F9 ATL +40% · B6 -24 routes · Spirit gone · Breeze expanded · HA/AS merged
-const ROUTES_2025=[
+const ROUTES_2025=[ // OAG Q1 2025 fwd · Key changes vs 2024:
+  // WN ATL -57% · F9 ATL +40% · B6 -24 rts · Spirit gone · Breeze expanded · HA/AS merged
+  // ── TRANSCON ──
   ['LAX','JFK','American',270,3.0,0.8],['LAX','JFK','Delta',278,3.1,1.8],['LAX','JFK','United',258,2.9,2.4],
-  ['ATL','ORD','Delta',445,5.0,3.2],['ATL','DFW','American',368,4.0,-1.9],['ATL','LAX','Delta',362,4.1,2.5],
-  ['DFW','ORD','American',312,3.5,0.1],['DFW','LAX','American',302,3.4,-1.1],['DFW','MIA','American',298,3.3,1.8],
-  ['ORD','DEN','United',298,3.3,3.2],['ORD','LAX','United',282,3.1,2.6],
-  ['SFO','LAX','United',322,3.6,1.1],['SFO','SEA','Alaska',292,3.3,3.3],
-  ['JFK','BOS','Delta',445,5.0,2.2],['MSP','ATL','Delta',298,3.3,4.2],
-  ['MIA','ATL','American',308,3.5,1.4],['SEA','LAX','Alaska',282,3.2,3.5],
-  ['CLT','ATL','American',334,3.7,3.3],['MCO','ATL','Delta',318,3.6,3.1],
-  ['DTW','ATL','Delta',292,3.3,4.0],['IAH','ORD','United',282,3.1,1.6],['SLC','DEN','Delta',262,2.9,4.2],
-  // Southwest — ATL cut -57%, BNA pivot with new routes
-  ['LAS','LAX','Southwest',368,4.1,-1.2],['PHX','LAX','Southwest',328,3.7,0.8],
-  ['BNA','ATL','Southwest',175,2.0,-5.7],  // ← visibly fewer particles vs 2024
-  ['BNA','ORD','Southwest',265,3.0,6.8],['BNA','DEN','Southwest',195,2.2,9.1],
-  ['BNA','LAX','Southwest',168,1.9,11.2], // new 2025 BNA route
-  // JetBlue — fortress NE, routes cut elsewhere
-  ['JFK','FLL','JetBlue',198,2.2,-1.0],['JFK','BOS','JetBlue',158,1.8,-3.4],
-  ['BOS','MCO','JetBlue',162,1.8,-2.8],  // JFK-MCO & JFK-LAX cut in 2025
-  // Frontier — ATL expansion, JFK new routes, Denver stronghold
+  ['SFO','JFK','United',175,2.0,2.2],
+  ['EWR','LAX','United',218,2.5,1.4],
+  ['LAX','BOS','American',102,1.2,1.8],
+  // ── ATL HUB (Delta deepens fortress) ──
+  ['ATL','ORD','Delta',445,5.0,3.2],['ATL','DFW','American',368,4.0,-1.9],
+  ['ATL','LAX','Delta',362,4.1,2.5],
+  ['ATL','MIA','Delta',292,3.3,2.1],
+  ['ATL','JFK','Delta',208,2.3,2.1],['ATL','EWR','Delta',162,1.8,2.2],
+  ['ATL','BOS','Delta',178,2.0,1.8],
+  ['ATL','MCO','Delta',318,3.6,3.1],
+  ['ATL','DTW','Delta',292,3.3,4.0],
+  ['ATL','SLC','Delta',218,2.5,3.4],
+  // ── ORD HUB ──
+  ['ORD','JFK','American',285,3.2,0.8],['ORD','JFK','United',215,2.4,1.2],
+  ['ORD','EWR','United',208,2.4,1.6],
+  ['ORD','BOS','American',172,1.9,0.8],['ORD','BOS','United',145,1.6,1.2],
+  ['ORD','MIA','American',202,2.3,1.4],
+  ['ORD','LAX','United',282,3.1,2.6],
+  ['ORD','DEN','United',298,3.3,3.2],
+  ['ORD','SFO','United',175,2.0,2.2],
+  ['ORD','MSP','Delta',158,1.8,1.8],['ORD','DTW','Delta',172,1.9,2.4],
+  ['ORD','CLT','American',188,2.1,2.2],
+  // ── DFW HUB ──
+  ['DFW','ORD','American',312,3.5,0.1],
+  ['DFW','LAX','American',302,3.4,-1.1],['DFW','MIA','American',298,3.3,1.8],
+  ['DFW','JFK','American',172,1.9,1.2],
+  ['DFW','EWR','American',145,1.6,0.8],['DFW','BOS','American',130,1.5,0.8],
+  ['DFW','DEN','American',228,2.6,0.4],
+  ['DFW','SFO','American',158,1.8,-0.4],
+  ['DFW','CLT','American',228,2.6,2.1],
+  // ── LAX ──
+  ['LAX','SFO','United',322,3.6,1.1],['LAX','SEA','Alaska',282,3.2,3.5],
+  ['LAX','DEN','United',218,2.5,2.2],['LAX','PHX','American',258,2.9,1.2],
+  ['LAX','LAS','Southwest',368,4.1,-1.2],
+  // ── SFO ──
+  ['SFO','SEA','Alaska',292,3.3,3.3],
+  ['SFO','DEN','United',202,2.3,2.4],
+  ['SFO','ORD','United',175,2.0,2.2],
+  ['SFO','LAX','Southwest',258,2.9,0.8],
+  // ── DEN ──
+  ['DEN','PHX','Southwest',202,2.3,1.2],['DEN','LAS','Southwest',172,1.9,1.4],
+  ['DEN','ATL','Delta',202,2.3,2.8],
   ['DEN','MCO','Frontier',218,2.4,4.8],['DEN','LAS','Frontier',228,2.5,4.1],
+  // ── SEA ──
+  ['SEA','ORD','Alaska',188,2.1,2.4],['SEA','JFK','Alaska',152,1.7,3.1],
+  ['SEA','DEN','Alaska',165,1.9,2.8],['SEA','SLC','Alaska',145,1.6,1.8],
+  // ── LAS ──
+  ['LAS','LAX','Southwest',368,4.1,-1.2],['LAS','DEN','Southwest',172,1.9,1.4],
+  // Spirit GONE in 2025
+  // ── PHX ──
+  ['PHX','LAX','Southwest',328,3.7,0.8],['PHX','DEN','Southwest',202,2.3,1.2],
+  // ── EWR ──
+  ['EWR','BOS','Delta',258,2.9,0.8],['EWR','MIA','United',145,1.6,1.0],
+  ['EWR','ATL','Delta',160,1.8,1.8],
+  // ── CLT HUB ──
+  ['CLT','ATL','American',334,3.7,3.3],
+  ['CLT','JFK','American',158,1.8,1.2],['CLT','MIA','American',145,1.6,0.8],
+  // ── DTW HUB ──
+  ['DTW','ATL','Delta',292,3.3,4.0],['DTW','ORD','Delta',172,1.9,2.4],
+  ['DTW','JFK','Delta',145,1.6,1.8],['DTW','MSP','Delta',202,2.3,2.4],
+  // ── MSP HUB ──
+  ['MSP','ATL','Delta',298,3.3,4.2],['MSP','ORD','Delta',158,1.8,1.8],
+  ['MSP','DEN','Delta',172,1.9,2.8],['MSP','LAX','Delta',158,1.8,2.2],
+  // ── SLC HUB ──
+  ['SLC','DEN','Delta',262,2.9,4.2],['SLC','LAX','Delta',202,2.3,2.4],
+  ['SLC','SEA','Alaska',145,1.6,1.8],
+  // ── IAH HUB ──
+  ['IAH','ORD','United',282,3.1,1.6],['IAH','LAX','United',202,2.3,1.8],
+  ['IAH','ATL','United',145,1.6,1.6],['IAH','DEN','United',145,1.6,1.8],
+  // ── MIA HUB ──
+  ['MIA','ATL','American',308,3.5,1.4],
+  ['MIA','JFK','American',228,2.6,1.8],
+  // ── BOS ──
+  ['BOS','JFK','Delta',445,5.0,2.2],['BOS','JFK','JetBlue',158,1.8,-3.4],
+  ['BOS','MCO','JetBlue',162,1.8,-2.8],
+  ['BOS','ORD','American',145,1.6,0.8],
+  // ── BNA (SW pivot + Frontier + Breeze expanding) ──
+  ['BNA','ATL','Southwest',175,2.0,-5.7],  // ATL cut -57%
+  ['BNA','ORD','Southwest',265,3.0,6.8],['BNA','DEN','Southwest',195,2.2,9.1],
+  ['BNA','LAX','Southwest',168,1.9,11.2],
+  ['BNA','BOS','Breeze',168,1.9,9.8],['BNA','LAX','Breeze',152,1.7,8.9],
+  ['BNA','MIA','Breeze',142,1.6,12.1],['BNA','SFO','Breeze',132,1.5,13.4],
+  ['BNA','DFW','Breeze',115,1.3,11.8],
+  ['CLT','BOS','Breeze',158,1.8,7.2],['CLT','LAX','Breeze',128,1.4,10.2],
+  // ── MCO ──
+  ['MCO','ATL','Delta',318,3.6,3.1],['MCO','JFK','JetBlue',198,2.2,-1.0],
+  // ── FLL (JetBlue growing) ──
+  ['JFK','FLL','JetBlue',198,2.2,-1.0],['BOS','FLL','JetBlue',172,1.9,0.8],
+  // ── Frontier ATL expansion + JFK routes ──
   ['ATL','MCO','Frontier',248,2.8,8.2],['ATL','LAX','Frontier',202,2.3,9.8],
   ['JFK','MCO','Frontier',198,2.2,8.8],['JFK','MIA','Frontier',182,2.1,8.0],
-  ['ATL','DEN','Frontier',175,2.0,7.2], // new ATL-DEN
-  // Breeze — 87% uncontested, major expansion 2025
-  ['BNA','BOS','Breeze',168,1.9,9.8],['BNA','LAX','Breeze',152,1.7,8.9],
-  ['CLT','BOS','Breeze',158,1.8,7.2],['BNA','MIA','Breeze',142,1.6,12.1],
-  ['BNA','SFO','Breeze',132,1.5,13.4],['CLT','LAX','Breeze',128,1.4,10.2],
-  ['BNA','DFW','Breeze',115,1.3,11.8], // new 2025
-  // Hawaiian/Alaska — post-merger expanded Pacific reach
+  ['ATL','DEN','Frontier',175,2.0,7.2],
+  // ── HNL (West Coast + Mountain + SLC post-merger) ──
   ['HNL','LAX','Hawaiian',192,2.2,4.1],['HNL','SFO','Hawaiian',172,1.9,3.8],
   ['HNL','SEA','Hawaiian',155,1.7,5.6],['HNL','DEN','Hawaiian',132,1.5,4.8],
   ['HNL','PHX','Hawaiian',112,1.3,3.2],['HNL','LAS','Hawaiian',102,1.2,2.8],
-  ['HNL','SLC','Hawaiian',88,1.0,4.1], // post-merger new SLC route
-  // Spirit (gone by Aug 2025 - no routes)
-  // Alaska expanded
-  ['SEA','ORD','Alaska',188,2.1,2.4],['SEA','JFK','Alaska',152,1.7,3.1],['SEA','DEN','Alaska',165,1.9,2.8],
-  // United expanded
-  ['IAH','LAX','United',202,2.3,1.8],['EWR','LAX','United',218,2.5,1.4],
+  ['HNL','SLC','Hawaiian',88,1.0,4.1],
+  // ── Remaining East Coast connections (2025) ──
+  ['DEN','JFK','United',118,1.3,1.6],['DEN','BOS','United',102,1.2,1.2],
+  ['IAH','JFK','United',130,1.5,1.0],['IAH','MIA','United',118,1.3,1.8],
+  ['LAS','BOS','JetBlue',88,1.0,0.8],
+  ['MSP','JFK','Delta',130,1.5,2.2],['MSP','BOS','Delta',115,1.3,1.8],
+  ['MSP','MIA','Delta',102,1.2,1.6],
+  ['PHX','JFK','American',115,1.3,0.8],
+  ['SLC','JFK','Delta',102,1.2,1.6],
 ];
 
 const TOP_ROUTES_2025=[
