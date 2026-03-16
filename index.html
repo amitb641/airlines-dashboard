@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Airlines Intelligence Dashboard</title>
-<meta name="version" content="1773676371"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -474,6 +473,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div style="display:flex;flex-direction:column;gap:13px;">
       <div class="map-container">
         <div class="map-controls">
+          <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Domestic Route Network</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);padding:2px 8px;border-radius:3px;">OAG Schedule · Q4 2024 &nbsp;|&nbsp; BTS T-100 · FY 2024</span>
+          </div>
           <div class="ap-selector" id="apSel">
             <button class="ap-chip active" onclick="filterAp('ALL',this)">ALL</button>
             <button class="ap-chip" onclick="filterAp('ATL',this)">ATL</button>
@@ -513,6 +516,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
           <div class="leg-item"><div class="leg-dot" style="background:var(--breeze)"></div>Breeze</div>
           <div class="leg-item"><div class="leg-dot" style="background:var(--hawaiian)"></div>Hawaiian</div>
           <div class="leg-item" style="color:var(--muted);font-size:9px">← click airport to filter</div>
+          <div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+            <div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">
+              <strong style="color:var(--text)">Data period:</strong> OAG Forward Schedule · Q4 2024 (Oct–Dec 2024) &nbsp;|&nbsp;
+              <strong style="color:var(--text)">Route presence:</strong> BTS T-100 FY 2024 segment data &nbsp;|&nbsp;
+              <strong style="color:var(--text)">Airport size:</strong> Total passengers (enplaned + deplaned) · ACI-NA 2024
+            </div>
+            <div style="font-size:9px;color:var(--muted);font-family:'Inter',sans-serif;font-style:italic;">
+              Particle speed ∝ weekly frequency · Node size ∝ annual passenger volume · EK shown as US domestic gateway legs only
+            </div>
+          </div>
         </div>
       </div>
       <!-- Route share timeline -->
@@ -534,7 +547,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
         </div>
       </div>
       <!-- Seat share donut -->
-      <div class="panel"><div class="ph"><div><div class="pt">Live Seat Share · Mar 2025</div><div class="ps">OAG forward schedule</div></div><span class="ptag">OAG</span></div><div class="cw"><div style="height:180px;"><canvas id="shareDonut"></canvas></div></div></div>
+      <div class="panel"><div class="ph"><div><div class="pt">Seat Share · Mar 2025 Schedule</div><div class="ps">OAG forward schedule · filed seats by carrier · does not reflect cancellations</div></div><span class="ptag">OAG Mar 2025</span></div><div class="cw"><div style="height:180px;"><canvas id="shareDonut"></canvas></div></div></div>
       <!-- Heatmap -->
       <div class="panel"><div class="ph"><div><div class="pt">Capacity by Day of Week</div><div class="ps">OAG Q4 2024 schedule</div></div><span class="ptag">OAG</span></div>
         <div class="hm-wrap"><div class="hm-row" style="margin-bottom:5px;"><div></div><div class="hm-day">Mon</div><div class="hm-day">Tue</div><div class="hm-day">Wed</div><div class="hm-day">Thu</div><div class="hm-day">Fri</div><div class="hm-day">Sat</div><div class="hm-day">Sun</div></div><div id="heatmapGrid"></div></div>
@@ -1293,7 +1306,7 @@ function downloadDashboard(){
 
 // ═══ DATA ═══
 const CC={Delta:'#C8102E',United:'#1A6BAD',American:'#0057B7',Southwest:'#E06700',Alaska:'#015DAA',JetBlue:'#0088BB',Spirit:'#92700A',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#C04E1A',Hawaiian:'#5B2D8E',Emirates:'#9A7B0A',Lufthansa:'#8B6914'};
-const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:57,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:57,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:43,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:50,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:49,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:36,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
+const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:52,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:54,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
 const ROUTES=[
   ['LAX','JFK','American',280,3.1,1.2],['LAX','JFK','Delta',260,2.9,-0.4],['LAX','JFK','United',240,2.7,0.8],
   ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],['ATL','LAX','Delta',340,3.9,0.6],
