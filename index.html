@@ -274,8 +274,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div><div class="brand-title">Airlines Intelligence Dashboard</div><div class="brand-sub">Domestic Market · v4</div></div>
   </div>
   <div class="hdr-right">
-    <div class="snap-badge">📅 Snapshot: FY 2024 · Q1 2025</div>
+    <div class="snap-badge">📅 Snapshot: FY 2024 · Q1 2025 · 2026E</div>
     <div class="src-badge">BTS · DOT · SEC · OAG · EIA</div>
+    <div id="globalYearToggle" style="display:flex;background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:2px;gap:2px;">
+      <button onclick="setGlobalYear(2024,this)" class="gyr-btn gyr-active" style="padding:3px 10px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:var(--accent);color:#fff;transition:all .2s;">2024</button>
+      <button onclick="setGlobalYear(2025,this)" class="gyr-btn" style="padding:3px 10px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:transparent;color:var(--muted);transition:all .2s;">2025</button>
+      <button onclick="setGlobalYear(2026,this)" class="gyr-btn" style="padding:3px 10px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:transparent;color:var(--muted);transition:all .2s;">2026E</button>
+    </div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">Last data: Mar 2025</div>
     <button onclick="downloadDashboard()" style="display:flex;align-items:center;gap:6px;background:var(--accent);border:none;border-radius:5px;padding:6px 13px;color:#fff;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='#EA580C'" onmouseout="this.style.background='#F97316'">⬇ Download</button>
   </div>
@@ -296,7 +301,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <!-- ═══════════════════════ TAB 1: MARKET OVERVIEW ═══════════════════════ -->
 <div id="tab-market" class="tab-content active">
-  <div class="sec-hdr"><div class="sec-title">US Domestic Market Overview</div><div class="sec-sub">Industry snapshot · BTS / DOT / Airlines for America · FY 2024 + Q1 2025</div></div>
+  <div class="sec-hdr"><div class="sec-title">US Domestic Market Overview</div><div class="sec-sub">Industry snapshot · BTS / DOT / Airlines for America · Use year toggle in header to switch periods</div></div>
   <div class="sowhat">
     <div class="sowhat-label">Industry Story</div>
     <div class="sowhat-text">The US domestic market has <strong>fully recovered and exceeded 2019 by +5.4%</strong>, but the recovery is deeply uneven. Delta and United are printing record profits while American earns a fraction of what it should at comparable revenue. <strong>Spirit's double bankruptcy eliminated ~8% of ULCC capacity</strong>, pushing fares up in vacated markets. The structural winner is whoever owns premium demand — and that's Delta by a mile. The ULCC model is broken at scale; the survivors (Breeze, Frontier) are adapting by going upmarket or staying hyper-niche.</div>
@@ -477,8 +482,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
             <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Domestic Route Network</span>
             <div style="display:flex;align-items:center;gap:8px;">
               <div id="yearToggle" style="display:flex;background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:2px;gap:2px;">
-                <button id="yr2024btn" onclick="setYear(2024,this)" style="padding:3px 12px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:var(--accent);color:#fff;transition:all .2s;">2024</button>
-                <button id="yr2025btn" onclick="setYear(2025,this)" style="padding:3px 12px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:transparent;color:var(--muted);transition:all .2s;">2025</button>
+                <button id="yr2024btn" onclick="setGlobalYear(2024,null);this.parentElement.querySelectorAll('button').forEach(b=>{b.style.background='transparent';b.style.color='var(--muted)'});this.style.background='var(--accent)';this.style.color='#fff';document.querySelectorAll('#globalYearToggle button').forEach((b,i)=>{b.style.background=i===0?'var(--accent)':'transparent';b.style.color=i===0?'#fff':'var(--muted)'})" style="padding:3px 12px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:var(--accent);color:#fff;transition:all .2s;">2024</button>
+                <button id="yr2025btn" onclick="setGlobalYear(2025,null);this.parentElement.querySelectorAll('button').forEach(b=>{b.style.background='transparent';b.style.color='var(--muted)'});this.style.background='var(--accent)';this.style.color='#fff';document.querySelectorAll('#globalYearToggle button').forEach((b,i)=>{b.style.background=i===1?'var(--accent)':'transparent';b.style.color=i===1?'#fff':'var(--muted)'})" style="padding:3px 12px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:transparent;color:var(--muted);transition:all .2s;">2025</button>
+                <button id="yr2026btn" onclick="setGlobalYear(2026,null);this.parentElement.querySelectorAll('button').forEach(b=>{b.style.background='transparent';b.style.color='var(--muted)'});this.style.background='var(--accent)';this.style.color='#fff';document.querySelectorAll('#globalYearToggle button').forEach((b,i)=>{b.style.background=i===2?'var(--accent)':'transparent';b.style.color=i===2?'#fff':'var(--muted)'})" style="padding:3px 12px;border-radius:3px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:transparent;color:var(--muted);transition:all .2s;">2026E</button>
               </div>
               <span id="yearDataLabel" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);padding:2px 8px;border-radius:3px;">OAG Q4 2024 · BTS T-100 FY2024</span>
             </div>
@@ -1378,6 +1384,61 @@ const ROUTES_2025=[
   ['JFK','LAX','Emirates',122,1.4,2.2],['JFK','MIA','Emirates',114,1.3,2.1],['ORD','JFK','Emirates',120,1.4,2.8],
 ];
 
+// OAG 2026E forward schedule — projected structural changes:
+// Spirit fully wound down · Breeze 250+ routes · SW transformation (assigned seats, bag fees) · HA/AS fully integrated as Atmos · Frontier first class launched · JetBlue NE fortress only
+const ROUTES_2026=[
+  ['LAX','JFK','American',265,3.0,0.4],['LAX','JFK','Delta',288,3.2,2.2],['LAX','JFK','United',265,3.0,2.0],
+  ['ATL','ORD','Delta',460,5.2,3.4],['ATL','DFW','American',360,3.9,-0.8],['ATL','LAX','Delta',375,4.2,2.8],
+  ['DFW','ORD','American',308,3.4,-0.2],['DFW','LAX','American',298,3.3,-0.6],['DFW','MIA','American',305,3.4,2.1],
+  ['ORD','DEN','United',310,3.5,3.8],['ORD','LAX','United',290,3.2,2.8],
+  ['SFO','LAX','United',330,3.7,1.4],['SFO','SEA','Alaska',305,3.4,3.8],
+  ['JFK','BOS','Delta',460,5.2,2.8],['MSP','ATL','Delta',310,3.5,4.5],
+  ['MIA','ATL','American',315,3.6,1.8],['SEA','LAX','Alaska',295,3.3,3.9],
+  ['CLT','ATL','American',342,3.8,3.8],['MCO','ATL','Delta',330,3.7,3.4],
+  ['DTW','ATL','Delta',302,3.4,4.2],['IAH','ORD','United',290,3.2,1.8],['SLC','DEN','Delta',272,3.0,4.5],
+  // Southwest — transformation year: assigned seats, bag fees, premium product
+  ['LAS','LAX','Southwest',355,4.0,-1.8],['PHX','LAX','Southwest',320,3.6,-0.4],
+  ['BNA','ATL','Southwest',160,1.8,-4.2],['BNA','ORD','Southwest',275,3.1,5.2],
+  ['BNA','DEN','Southwest',205,2.3,6.8],['BNA','LAX','Southwest',178,2.0,8.1],
+  // JetBlue — NE fortress, everything else cut
+  ['JFK','FLL','JetBlue',190,2.1,-2.2],['JFK','BOS','JetBlue',148,1.7,-4.1],
+  ['BOS','MCO','JetBlue',150,1.7,-3.5],
+  // Frontier — first class product, expanded to 10 new cities
+  ['DEN','MCO','Frontier',232,2.6,5.2],['DEN','LAS','Frontier',240,2.7,4.8],
+  ['ATL','MCO','Frontier',265,3.0,6.8],['ATL','LAX','Frontier',218,2.5,7.2],
+  ['JFK','MCO','Frontier',215,2.4,7.5],['JFK','MIA','Frontier',198,2.2,6.8],
+  ['ATL','DEN','Frontier',192,2.2,8.5],['DEN','ORD','Frontier',165,1.9,9.2],
+  ['ATL','DFW','Frontier',148,1.7,10.1],
+  // Breeze — 250+ routes, profitability focus, A220-300 fleet growth
+  ['BNA','BOS','Breeze',182,2.1,8.2],['BNA','LAX','Breeze',168,1.9,7.8],
+  ['CLT','BOS','Breeze',172,1.9,6.5],['BNA','MIA','Breeze',158,1.8,10.2],
+  ['BNA','SFO','Breeze',148,1.7,11.1],['CLT','LAX','Breeze',142,1.6,8.8],
+  ['BNA','DFW','Breeze',132,1.5,9.4],['BNA','DEN','Breeze',118,1.3,12.4],
+  ['CLT','MIA','Breeze',112,1.3,11.8],
+  // Hawaiian/Alaska — fully integrated Atmos, expanded Pacific & mainland
+  ['HNL','LAX','Hawaiian',198,2.2,4.2],['HNL','SFO','Hawaiian',180,2.0,3.8],
+  ['HNL','SEA','Hawaiian',162,1.8,5.5],['HNL','DEN','Hawaiian',140,1.6,5.1],
+  ['HNL','MCO','Hawaiian',115,1.3,4.2],['HNL','ORD','Hawaiian',102,1.1,6.8],
+  ['HNL','DFW','Hawaiian',95,1.1,7.2],['HNL','JFK','Hawaiian',88,1.0,8.5],
+  // Emirates gateways
+  ['JFK','LAX','Emirates',125,1.5,2.4],['JFK','MIA','Emirates',118,1.3,2.2],['ORD','JFK','Emirates',124,1.4,3.0],
+];
+
+const TOP_ROUTES_2026=[
+  {rank:1,route:'LAX–JFK',weekly:818,pax:9.2,carrier:'Multi',color:'#5B5A5A',yoy:1.5},
+  {rank:2,route:'ATL–ORD',weekly:460,pax:5.2,carrier:'Delta',color:'#C8102E',yoy:3.4},
+  {rank:3,route:'JFK–BOS',weekly:608,pax:6.9,carrier:'Delta',color:'#C8102E',yoy:2.8},
+  {rank:4,route:'ATL–LAX',weekly:593,pax:6.7,carrier:'Delta/F9',color:'#C8102E',yoy:3.1},
+  {rank:5,route:'LAS–LAX',weekly:355,pax:4.0,carrier:'Southwest',color:'#E06700',yoy:-1.8},
+  {rank:6,route:'CLT–ATL',weekly:342,pax:3.8,carrier:'American',color:'#0057B7',yoy:3.8},
+  {rank:7,route:'SFO–LAX',weekly:330,pax:3.7,carrier:'United',color:'#1A6BAD',yoy:1.4},
+  {rank:8,route:'ORD–DEN',weekly:475,pax:5.4,carrier:'United/F9',color:'#1A6BAD',yoy:3.8},
+  {rank:9,route:'ATL–MCO',weekly:595,pax:6.7,carrier:'Delta/F9',color:'#C8102E',yoy:5.2},
+  {rank:10,route:'HNL–LAX',weekly:198,pax:2.2,carrier:'Hawaiian',color:'#5B2D8E',yoy:4.2},
+  {rank:11,route:'BNA–ORD',weekly:275,pax:3.1,carrier:'Southwest',color:'#E06700',yoy:5.2},
+  {rank:12,route:'BNA–BOS (MX)',weekly:182,pax:2.1,carrier:'Breeze',color:'#CC3370',yoy:8.2},
+];
+
 const TOP_ROUTES_2025=[
   {rank:1,route:'LAX–JFK',weekly:806,pax:8.9,carrier:'Multi',color:'#5B5A5A',yoy:1.8},
   {rank:2,route:'ATL–ORD',weekly:445,pax:5.0,carrier:'Delta',color:'#C8102E',yoy:3.2},
@@ -1394,21 +1455,42 @@ const TOP_ROUTES_2025=[
 ];
 
 let activeYear=2024;
+const YEAR_LABELS={
+  2024:'OAG Q4 2024 · BTS T-100 FY2024',
+  2025:'OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cut · MX expanded · HA merged',
+  2026:'2026E · Spirit gone · SW transform · Breeze 250+ · Atmos live · F9 first class'
+};
+const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 function setYear(yr,btn){
   activeYear=yr;
   document.querySelectorAll('#yearToggle button').forEach(b=>{
     b.style.background='transparent';b.style.color='var(--muted)';
   });
-  btn.style.background='var(--accent)';btn.style.color='#fff';
+  if(btn){btn.style.background='var(--accent)';btn.style.color='#fff';}
   const lbl=document.getElementById('yearDataLabel');
-  if(yr===2024){
-    lbl.textContent='OAG Q4 2024 · BTS T-100 FY2024';
-    buildRouteTable(TOP_ROUTES);
-  } else {
-    lbl.textContent='OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cut · MX expanded · HA merged';
-    buildRouteTable(TOP_ROUTES_2025);
-  }
+  if(lbl)lbl.textContent=YEAR_LABELS[yr]||'';
+  buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
   initParticles();
+}
+function setGlobalYear(yr,btn){
+  activeYear=yr;
+  // Update global toggle buttons
+  document.querySelectorAll('#globalYearToggle button').forEach(b=>{
+    b.style.background='transparent';b.style.color='var(--muted)';
+  });
+  if(btn){btn.style.background='var(--accent)';btn.style.color='#fff';}
+  // Sync airport tab toggle
+  document.querySelectorAll('#yearToggle button').forEach(b=>{
+    b.style.background='transparent';b.style.color='var(--muted)';
+    if((yr===2024&&b.id==='yr2024btn')||(yr===2025&&b.id==='yr2025btn')||(yr===2026&&b.id==='yr2026btn')){
+      b.style.background='var(--accent)';b.style.color='#fff';
+    }
+  });
+  const lbl=document.getElementById('yearDataLabel');
+  if(lbl)lbl.textContent=YEAR_LABELS[yr]||'';
+  buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
+  initParticles();
+  updateAllChartsForYear(yr);
 }
 const TOP_ROUTES=[
   {rank:1,route:'LAX–JFK',weekly:780,pax:8.7,carrier:'Multi',color:'#5B5A5A',yoy:0.5},
@@ -1508,7 +1590,7 @@ class Dot{constructor(r){const[from,to,carrier]=r;this.from=from;this.to=to;this
 update(){this.t+=this.speed;if(this.t>1)this.t=0;}
 draw(){const p1=apPx(this.from),p2=apPx(this.to);if(!p1||!p2)return;const c=ctrlPt(p1,p2),pos=bezPt(this.t,p1,c,p2);const g=rc.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,this.sz*3.5);g.addColorStop(0,this.color+'DD');g.addColorStop(.5,this.color+'55');g.addColorStop(1,'transparent');rc.beginPath();rc.arc(pos.x,pos.y,this.sz*3,0,Math.PI*2);rc.fillStyle=g;rc.fill();rc.beginPath();rc.arc(pos.x,pos.y,this.sz,0,Math.PI*2);rc.fillStyle=this.color;rc.fill();}}
 
-function getFR(){const src=activeYear===2025?ROUTES_2025:ROUTES;return src.filter(r=>{const ck=activeCar==='all'||r[2].toLowerCase().replace(/\s/g,'')===activeCar;const ak=activeAp==='ALL'||(r[0]===activeAp||r[1]===activeAp);return ck&&ak;});}
+function getFR(){const src=activeYear===2026?ROUTES_2026:activeYear===2025?ROUTES_2025:ROUTES;return src.filter(r=>{const ck=activeCar==='all'||r[2].toLowerCase().replace(/\s/g,'')===activeCar;const ak=activeAp==='ALL'||(r[0]===activeAp||r[1]===activeAp);return ck&&ak;});}
 function initParticles(){particles=[];getFR().forEach(r=>{const n=Math.max(1,Math.floor(r[3]/85));for(let i=0;i<n;i++)particles.push(new Dot(r));});}
 
 function drawRoutes(){getFR().forEach(r=>{const p1=apPx(r[0]),p2=apPx(r[1]);if(!p1||!p2)return;const c=ctrlPt(p1,p2);rc.beginPath();rc.moveTo(p1.x,p1.y);rc.quadraticCurveTo(c.x,c.y,p2.x,p2.y);rc.strokeStyle=(CC[r[2]]||'#888')+'55';rc.lineWidth=0.7;rc.stroke();});}
@@ -1528,7 +1610,8 @@ function setCarrier(c,btn){document.querySelectorAll('.carr-btn').forEach(b=>{b.
 function filterAp(code,btn,fromCanvas=false){activeAp=code;document.querySelectorAll('.ap-chip').forEach(b=>b.classList.toggle('active',b.textContent===code));if(!fromCanvas&&btn){document.querySelectorAll('.ap-chip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}initParticles();}
 
 // ═══ CHART BUILDER ═══
-function mk(id,type,data,opts){const el=document.getElementById(id);if(!el)return;return new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,...opts}});}
+const chartInstances={};
+function mk(id,type,data,opts){const el=document.getElementById(id);if(!el)return;const c=new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,...opts}});chartInstances[id]=c;return c;}
 
 window.addEventListener('load',()=>{
 
@@ -1680,6 +1763,263 @@ mk('redemptionTrendsChart','bar',{
     y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
 
 });
+
+// ═══ MULTI-YEAR DATA FOR ALL TABS ═══
+const YEAR_DATA={
+  // TAB 1: Market Overview KPIs
+  marketKpis:{
+    2024:{pax:'921M',paxChg:'+2.4%',load:'85.6%',loadChg:'+0.8pp',fare:'$391',fareChg:'+1.9%',asm:'1.08T',asmChg:'+3.1%',vs2019:'+5.4%'},
+    2025:{pax:'948M',paxChg:'+2.9%',load:'86.1%',loadChg:'+0.5pp',fare:'$398',fareChg:'+1.8%',asm:'1.11T',asmChg:'+2.8%',vs2019:'+8.2%'},
+    2026:{pax:'972M',paxChg:'+2.5%',load:'86.4%',loadChg:'+0.3pp',fare:'$405',fareChg:'+1.8%',asm:'1.13T',asmChg:'+1.8%',vs2019:'+10.9%'}
+  },
+  // TAB 1: Market share chart
+  mktShare:{
+    2024:{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5]},
+    2025:{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],data:[20.8,18.2,19.2,18.4,6.8,3.8,4.8,1.5,1.8,1.4,3.3]},
+    2026:{labels:['American','Delta','Southwest','United','Alaska+HA','Frontier','JetBlue','Breeze','Other'],data:[20.5,20.0,17.5,19.0,7.4,5.8,3.4,2.2,4.2]}
+  },
+  // TAB 1: Carrier Mix
+  mix:{
+    2024:[57.3,30.4,7.7],
+    2025:[58.4,28.8,7.7],
+    2026:[59.5,28.3,8.0]
+  },
+  // TAB 1: Demand Recovery Index
+  demand:{
+    2024:{labels:['2019','2020','2021','2022','2023','2024','2025E'],data:[100,41.9,72.8,92.1,97.2,105.4,109]},
+    2025:{labels:['2019','2020','2021','2022','2023','2024','2025'],data:[100,41.9,72.8,92.1,97.2,105.4,110.2]},
+    2026:{labels:['2019','2020','2021','2022','2023','2024','2025','2026E'],data:[100,41.9,72.8,92.1,97.2,105.4,110.2,113.8]}
+  },
+  // TAB 1: Fare Trend
+  fare:{
+    2024:{labels:["Q1'22",'Q2','Q3','Q4',"Q1'23",'Q2','Q3','Q4',"Q1'24",'Q2','Q3','Q4'],data:[331,398,411,378,360,407,420,388,371,403,415,391]},
+    2025:{labels:["Q1'23",'Q2','Q3','Q4',"Q1'24",'Q2','Q3','Q4',"Q1'25",'Q2','Q3','Q4'],data:[360,407,420,388,371,403,415,391,382,411,424,398]},
+    2026:{labels:["Q1'24",'Q2','Q3','Q4',"Q1'25",'Q2','Q3','Q4',"Q1'26E",'Q2E','Q3E','Q4E'],data:[371,403,415,391,382,411,424,398,390,418,432,405]}
+  },
+  // TAB 2: Financial KPIs
+  finKpis:{
+    2024:{deltaNI:'$3.46B',deltaNIchg:'↑ 22%',unitedNI:'$3.15B',unitedNIchg:'↑ 20%',aaNI:'$0.8B',aaNIchg:'4.3× below Delta',fuel:'$2.68',fuelChg:'↓ 8.3%',margin:'9.2%',marginChg:'↑ 1.4pp'},
+    2025:{deltaNI:'$4.0B',deltaNIchg:'↑ 16%',unitedNI:'$3.6B',unitedNIchg:'↑ 14%',aaNI:'$1.1B',aaNIchg:'3.6× below Delta',fuel:'$2.52',fuelChg:'↓ 6.0%',margin:'10.1%',marginChg:'↑ 0.9pp'},
+    2026:{deltaNI:'$4.4B',deltaNIchg:'↑ 10%',unitedNI:'$4.0B',unitedNIchg:'↑ 11%',aaNI:'$1.4B',aaNIchg:'3.1× below Delta',fuel:'$2.45',fuelChg:'↓ 2.8%',margin:'10.8%',marginChg:'↑ 0.7pp'}
+  },
+  // TAB 2: Operating Margin Trend
+  margin:{
+    2024:{labels:['FY2022','FY2023','FY2024'],datasets:[[7.8,11.3,14.1],[3.2,8.9,11.3],[1.1,5.2,6.4],[0.5,2.1,3.8],[4.2,6.8,8.3],[-5.2,-4.1,-3.1],[2.1,4.2,5.1],[-3.1,-0.8,-1.8]]},
+    2025:{labels:['FY2023','FY2024','FY2025E'],datasets:[[11.3,14.1,15.2],[8.9,11.3,12.5],[5.2,6.4,7.2],[2.1,3.8,5.0],[6.8,8.3,9.1],[-4.1,-3.1,-1.2],[4.2,5.1,5.8],[-0.8,-1.8,0.4]]},
+    2026:{labels:['FY2024','FY2025','FY2026E'],datasets:[[14.1,15.2,16.0],[11.3,12.5,13.4],[6.4,7.2,8.0],[3.8,5.0,6.2],[8.3,9.1,10.0],[-3.1,-1.2,0.5],[5.1,5.8,6.2],[-1.8,0.4,1.8]]}
+  },
+  // TAB 2: Fuel % of OPEX
+  fuelPct:{
+    2024:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[27,28,26,29,30,31,32],y2023:[24,25,23,26,27,28,29],y2024:[22,23,22,24,25,26,28]},
+    2025:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[24,25,23,26,27,28,29],y2023:[22,23,22,24,25,26,28],y2024:[21,22,21,23,24,25,27]},
+    2026:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[22,23,22,24,25,26,28],y2023:[21,22,21,23,24,25,27],y2024:[20,21,20,22,23,24,26]}
+  },
+  // TAB 2: Fuel Price
+  fuelPrice:{
+    2024:{labels:["J'22",'A','J','O',"J'23",'A','J','O',"J'24",'A','J','O',"J'25"],data:[2.48,3.89,4.12,3.71,3.22,2.98,3.41,3.15,2.88,2.91,2.74,2.68,2.62]},
+    2025:{labels:["J'23",'A','J','O',"J'24",'A','J','O',"J'25",'A','J','O',"J'26E"],data:[3.22,2.98,3.41,3.15,2.88,2.91,2.74,2.68,2.62,2.58,2.51,2.52,2.48]},
+    2026:{labels:["J'24",'A','J','O',"J'25",'A','J','O',"J'26E",'AE','JE','OE',"J'27E"],data:[2.88,2.91,2.74,2.68,2.62,2.58,2.51,2.52,2.48,2.45,2.42,2.45,2.40]}
+  },
+  // TAB 3: Loyalty Revenue
+  loyaltyRev:{
+    2024:{labels:['2020','2021','2022','2023','2024'],dl:[3.4,4.5,6.0,6.5,7.0],ua:[2.8,3.6,4.7,5.1,5.5],aa:[2.5,3.3,4.4,4.9,5.2],wn:[1.4,1.8,2.2,2.5,2.8]},
+    2025:{labels:['2021','2022','2023','2024','2025E'],dl:[4.5,6.0,6.5,7.0,7.6],ua:[3.6,4.7,5.1,5.5,6.1],aa:[3.3,4.4,4.9,5.2,5.6],wn:[1.8,2.2,2.5,2.8,3.1]},
+    2026:{labels:['2022','2023','2024','2025','2026E'],dl:[6.0,6.5,7.0,7.6,8.2],ua:[4.7,5.1,5.5,6.1,6.7],aa:[4.4,4.9,5.2,5.6,6.0],wn:[2.2,2.5,2.8,3.1,3.4]}
+  },
+  // TAB 3: Loyalty KPIs
+  loyaltyKpis:{
+    2024:{total:'$20.5B',totalChg:'↑ 9.8%',dlPct:'15.9%',dlPctChg:'↑ 1.1pp',amex:'~$7B',amexChg:'↑ 40%',spend:'$250B+',spendChg:'↑ 12%'},
+    2025:{total:'$22.4B',totalChg:'↑ 9.3%',dlPct:'16.5%',dlPctChg:'↑ 0.6pp',amex:'~$7.6B',amexChg:'↑ 8.6%',spend:'$275B+',spendChg:'↑ 10%'},
+    2026:{total:'$24.3B',totalChg:'↑ 8.5%',dlPct:'17.0%',dlPctChg:'↑ 0.5pp',amex:'~$8.2B',amexChg:'↑ 7.9%',spend:'$300B+',spendChg:'↑ 9%'}
+  },
+  // TAB 4: Timeline (seat share over time)
+  timeline:{
+    2024:{labels:["Q1'22",'Q2','Q3','Q4',"Q1'23",'Q2','Q3','Q4',"Q1'24",'Q2','Q3','Q4',"Q1'25"],
+      dl:[18.2,18.5,18.8,18.4,18.6,18.9,19.1,18.7,18.9,19.2,19.4,19.0,18.5],
+      ua:[16.8,17.0,17.2,17.0,17.1,17.4,17.6,17.3,17.4,17.7,17.9,17.5,17.8],
+      aa:[21.2,21.0,20.8,21.1,20.9,20.7,20.5,21.0,20.8,20.6,20.4,21.0,21.0],
+      wn:[20.1,19.8,19.5,19.8,19.6,19.4,19.2,19.5,19.3,19.1,18.9,19.2,19.0],
+      nk:[5.8,5.6,5.4,5.2,5.0,4.8,4.4,4.0,3.5,3.2,2.8,2.0,2.0],
+      mx:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.1,1.3,1.5,1.8],
+      ha:[2.4,2.4,2.3,2.3,2.3,2.2,2.3,2.2,2.2,2.1,2.2,2.1,2.1]},
+    2025:{labels:["Q1'23",'Q2','Q3','Q4',"Q1'24",'Q2','Q3','Q4',"Q1'25",'Q2','Q3','Q4',"Q1'26E"],
+      dl:[18.6,18.9,19.1,18.7,18.9,19.2,19.4,19.0,19.2,19.5,19.8,19.4,19.6],
+      ua:[17.1,17.4,17.6,17.3,17.4,17.7,17.9,17.5,17.8,18.0,18.2,17.8,18.2],
+      aa:[20.9,20.7,20.5,21.0,20.8,20.6,20.4,21.0,20.8,20.5,20.3,20.8,20.5],
+      wn:[19.6,19.4,19.2,19.5,19.3,19.1,18.9,19.2,18.8,18.4,18.1,18.0,17.5],
+      nk:[5.0,4.8,4.4,4.0,3.5,3.2,2.8,2.0,1.5,1.0,0.5,0.2,0.0],
+      mx:[0.5,0.6,0.7,0.8,0.9,1.1,1.3,1.5,1.8,2.0,2.2,2.4,2.6],
+      ha:[2.3,2.2,2.3,2.2,2.2,2.1,2.2,2.1,2.1,2.1,2.0,2.0,2.0]},
+    2026:{labels:["Q1'24",'Q2','Q3','Q4',"Q1'25",'Q2','Q3','Q4',"Q1'26E",'Q2E','Q3E','Q4E',"Q1'27E"],
+      dl:[18.9,19.2,19.4,19.0,19.2,19.5,19.8,19.4,19.8,20.1,20.4,20.0,20.2],
+      ua:[17.4,17.7,17.9,17.5,17.8,18.0,18.2,17.8,18.4,18.6,18.8,18.4,18.8],
+      aa:[20.8,20.6,20.4,21.0,20.8,20.5,20.3,20.8,20.5,20.2,20.0,20.5,20.2],
+      wn:[19.3,19.1,18.9,19.2,18.8,18.4,18.1,18.0,17.5,17.2,17.0,17.0,16.8],
+      nk:[3.5,3.2,2.8,2.0,1.5,1.0,0.5,0.2,0.0,0.0,0.0,0.0,0.0],
+      mx:[0.9,1.1,1.3,1.5,1.8,2.0,2.2,2.4,2.8,3.0,3.2,3.4,3.6],
+      ha:[2.2,2.1,2.2,2.1,2.1,2.1,2.0,2.0,2.0,1.9,1.9,1.9,1.9]}
+  },
+  // TAB 5: Net Income
+  netIncome:{
+    2024:{labels:['FY2022','FY2023','FY2024'],dl:[1.9,4.2,3.46],ua:[1.6,3.0,3.15],aa:[0.6,2.1,0.8],wn:[0.8,1.3,0.47],as:[0.5,0.8,0.64],b6:[-1.0,-0.4,-0.55],ha:[0.1,0.2,0.25],f9:[-0.3,-0.1,-0.18]},
+    2025:{labels:['FY2023','FY2024','FY2025E'],dl:[4.2,3.46,4.0],ua:[3.0,3.15,3.6],aa:[2.1,0.8,1.1],wn:[1.3,0.47,0.9],as:[0.8,0.64,0.82],b6:[-0.4,-0.55,-0.2],ha:[0.2,0.25,0.3],f9:[-0.1,-0.18,0.05]},
+    2026:{labels:['FY2024','FY2025','FY2026E'],dl:[3.46,4.0,4.4],ua:[3.15,3.6,4.0],aa:[0.8,1.1,1.4],wn:[0.47,0.9,1.3],as:[0.64,0.82,1.0],b6:[-0.55,-0.2,0.1],ha:[0.25,0.3,0.35],f9:[-0.18,0.05,0.25]}
+  },
+  // TAB 5: Revenue
+  revenue:{
+    2024:[61.6,57.1,54.2,27.5,11.8,8.9,3.6,2.8],
+    2025:[64.2,60.5,55.8,28.8,13.2,8.4,4.1,2.6],
+    2026:[67.0,64.0,57.5,30.2,14.5,8.0,4.8,2.4]
+  },
+  // Card spend vs demand
+  cardDemand:{
+    2024:{labels:["Jan'22",'Apr','Jul','Oct',"Jan'23",'Apr','Jul','Oct',"Jan'24",'Apr','Jul','Oct',"Jan'25"],
+      card:[104,108,115,112,118,122,129,124,132,136,142,138,145],
+      demand:[96,102,110,106,112,116,124,118,126,130,136,132,139]},
+    2025:{labels:["Jan'23",'Apr','Jul','Oct',"Jan'24",'Apr','Jul','Oct',"Jan'25",'Apr','Jul','Oct',"Jan'26E"],
+      card:[118,122,129,124,132,136,142,138,145,150,156,152,160],
+      demand:[112,116,124,118,126,130,136,132,139,144,150,146,154]},
+    2026:{labels:["Jan'24",'Apr','Jul','Oct',"Jan'25",'Apr','Jul','Oct',"Jan'26E",'AprE','JulE','OctE',"Jan'27E"],
+      card:[132,136,142,138,145,150,156,152,160,166,172,168,175],
+      demand:[126,130,136,132,139,144,150,146,154,160,166,162,169]}
+  },
+  // Redemption trends
+  redemption:{
+    2024:{labels:['2019','2022','2024'],d1:[62,52,40],d2:[20,28,38],d3:[10,10,10],d4:[3,4,5],d5:[3,4,5],d6:[2,2,2]},
+    2025:{labels:['2022','2024','2025E'],d1:[52,40,36],d2:[28,38,42],d3:[10,10,10],d4:[4,5,5],d5:[4,5,5],d6:[2,2,2]},
+    2026:{labels:['2024','2025','2026E'],d1:[40,36,32],d2:[38,42,46],d3:[10,10,10],d4:[5,5,5],d5:[5,5,5],d6:[2,2,2]}
+  }
+};
+
+function updateAllChartsForYear(yr){
+  const d=YEAR_DATA;
+  // TAB 1: Market Overview KPIs
+  const mk1=d.marketKpis[yr];
+  if(mk1){
+    const kpis=document.querySelectorAll('#tab-market .kpi-grid .kpi');
+    if(kpis[0]){kpis[0].querySelector('.kpi-value').textContent=mk1.pax;kpis[0].querySelector('.kpi-chg span').textContent='↑ '+mk1.paxChg.replace('+','');}
+    if(kpis[1]){kpis[1].querySelector('.kpi-value').textContent=mk1.load;kpis[1].querySelector('.kpi-chg span').textContent='↑ '+mk1.loadChg;}
+    if(kpis[2]){kpis[2].querySelector('.kpi-value').textContent=mk1.fare;kpis[2].querySelector('.kpi-chg span').textContent='↑ '+mk1.fareChg.replace('+','');}
+    if(kpis[3]){kpis[3].querySelector('.kpi-value').textContent=mk1.asm;kpis[3].querySelector('.kpi-chg span').textContent='↑ '+mk1.asmChg.replace('+','');}
+    if(kpis[4]){kpis[4].querySelector('.kpi-value').textContent=mk1.vs2019;}
+  }
+  // TAB 1: Market Share chart
+  const ms=d.mktShare[yr];
+  if(ms&&chartInstances.mktShareChart){
+    const c=chartInstances.mktShareChart;
+    c.data.labels=ms.labels;
+    c.data.datasets[0].data=ms.data;
+    const colors={'American':'#0057B7','Southwest':'#E06700','Delta':'#C8102E','United':'#1A6BAD','Alaska+HA':'#015DAA','JetBlue':'#0088BB','Frontier':'#2A7A35','Spirit':'#92700A','Hawaiian':'#5B2D8E','Breeze':'#CC3370','Other':'#A8A29E'};
+    c.data.datasets[0].backgroundColor=ms.labels.map(l=>colors[l]||'#A8A29E');
+    c.update();
+  }
+  // TAB 1: Mix chart
+  if(d.mix[yr]&&chartInstances.mixChart){
+    chartInstances.mixChart.data.datasets[0].data=d.mix[yr];chartInstances.mixChart.update();
+  }
+  // TAB 1: Demand chart
+  const dm=d.demand[yr];
+  if(dm&&chartInstances.demandChart){
+    const c=chartInstances.demandChart;
+    c.data.labels=dm.labels;c.data.datasets[0].data=dm.data;
+    c.data.datasets[1].data=dm.labels.map(()=>100);
+    c.update();
+  }
+  // TAB 1: Fare chart
+  const fr=d.fare[yr];
+  if(fr&&chartInstances.fareChart){
+    chartInstances.fareChart.data.labels=fr.labels;chartInstances.fareChart.data.datasets[0].data=fr.data;chartInstances.fareChart.update();
+  }
+  // TAB 2: Financial KPIs
+  const fk=d.finKpis[yr];
+  if(fk){
+    const kpis=document.querySelectorAll('#tab-financial .kpi-grid .kpi');
+    if(kpis[0]){kpis[0].querySelector('.kpi-value').textContent=fk.deltaNI;kpis[0].querySelector('.kpi-chg span').textContent=fk.deltaNIchg;}
+    if(kpis[1]){kpis[1].querySelector('.kpi-value').textContent=fk.unitedNI;kpis[1].querySelector('.kpi-chg span').textContent=fk.unitedNIchg;}
+    if(kpis[2]){kpis[2].querySelector('.kpi-value').textContent=fk.aaNI;kpis[2].querySelector('.kpi-chg span').textContent=fk.aaNIchg;}
+    if(kpis[3]){kpis[3].querySelector('.kpi-value').textContent=fk.fuel;kpis[3].querySelector('.kpi-chg span').textContent=fk.fuelChg;}
+    if(kpis[4]){kpis[4].querySelector('.kpi-value').textContent=fk.margin;kpis[4].querySelector('.kpi-chg span').textContent=fk.marginChg;}
+  }
+  // TAB 2: Operating Margin
+  const mg=d.margin[yr];
+  if(mg&&chartInstances.marginChart){
+    const c=chartInstances.marginChart;
+    c.data.labels=mg.labels;
+    mg.datasets.forEach((ds,i)=>{if(c.data.datasets[i])c.data.datasets[i].data=ds;});
+    c.update();
+  }
+  // TAB 2: Fuel %
+  const fp=d.fuelPct[yr];
+  if(fp&&chartInstances.fuelPctChart){
+    const c=chartInstances.fuelPctChart;
+    c.data.datasets[0].data=fp.y2022;c.data.datasets[1].data=fp.y2023;c.data.datasets[2].data=fp.y2024;
+    c.data.datasets[0].label=yr===2024?'2022':yr===2025?'2023':'2024';
+    c.data.datasets[1].label=yr===2024?'2023':yr===2025?'2024':'2025';
+    c.data.datasets[2].label=yr===2024?'2024':yr===2025?'2025E':'2026E';
+    c.update();
+  }
+  // TAB 2: Fuel Price
+  const fprice=d.fuelPrice[yr];
+  if(fprice&&chartInstances.fuelPriceChart){
+    chartInstances.fuelPriceChart.data.labels=fprice.labels;chartInstances.fuelPriceChart.data.datasets[0].data=fprice.data;chartInstances.fuelPriceChart.update();
+  }
+  // TAB 3: Loyalty KPIs
+  const lk=d.loyaltyKpis[yr];
+  if(lk){
+    const kpis=document.querySelectorAll('#tab-loyalty .kpi-grid .kpi');
+    if(kpis[0]){kpis[0].querySelector('.kpi-value').textContent=lk.total;kpis[0].querySelector('.kpi-chg span').textContent=lk.totalChg;}
+    if(kpis[1]){kpis[1].querySelector('.kpi-value').textContent=lk.dlPct;kpis[1].querySelector('.kpi-chg span').textContent=lk.dlPctChg;}
+    if(kpis[2]){kpis[2].querySelector('.kpi-value').textContent=lk.amex;kpis[2].querySelector('.kpi-chg span').textContent=lk.amexChg;}
+    if(kpis[3]){kpis[3].querySelector('.kpi-value').textContent=lk.spend;kpis[3].querySelector('.kpi-chg span').textContent=lk.spendChg;}
+  }
+  // TAB 3: Loyalty Revenue chart
+  const lr=d.loyaltyRev[yr];
+  if(lr&&chartInstances.loyaltyRevChart){
+    const c=chartInstances.loyaltyRevChart;
+    c.data.labels=lr.labels;
+    c.data.datasets[0].data=lr.dl;c.data.datasets[1].data=lr.ua;c.data.datasets[2].data=lr.aa;c.data.datasets[3].data=lr.wn;
+    c.update();
+  }
+  // TAB 4: Timeline chart
+  const tl=d.timeline[yr];
+  if(tl&&chartInstances.timelineChart){
+    const c=chartInstances.timelineChart;
+    c.data.labels=tl.labels;
+    c.data.datasets[0].data=tl.dl;c.data.datasets[1].data=tl.ua;c.data.datasets[2].data=tl.aa;
+    c.data.datasets[3].data=tl.wn;c.data.datasets[4].data=tl.nk;c.data.datasets[5].data=tl.mx;c.data.datasets[6].data=tl.ha;
+    c.update();
+  }
+  // TAB 5: Net Income
+  const ni=d.netIncome[yr];
+  if(ni&&chartInstances.netIncomeChart){
+    const c=chartInstances.netIncomeChart;
+    c.data.labels=ni.labels;
+    c.data.datasets[0].data=ni.dl;c.data.datasets[1].data=ni.ua;c.data.datasets[2].data=ni.aa;c.data.datasets[3].data=ni.wn;
+    c.data.datasets[4].data=ni.as;c.data.datasets[5].data=ni.b6;c.data.datasets[6].data=ni.ha;c.data.datasets[7].data=ni.f9;
+    c.update();
+  }
+  // TAB 5: Revenue
+  if(d.revenue[yr]&&chartInstances.revenueChart){
+    chartInstances.revenueChart.data.datasets[0].data=d.revenue[yr];chartInstances.revenueChart.update();
+  }
+  // Travel Intelligence: Card vs Demand
+  const cd=d.cardDemand[yr];
+  if(cd&&chartInstances.cardVsDemandChart){
+    chartInstances.cardVsDemandChart.data.labels=cd.labels;
+    chartInstances.cardVsDemandChart.data.datasets[0].data=cd.card;
+    chartInstances.cardVsDemandChart.data.datasets[1].data=cd.demand;
+    chartInstances.cardVsDemandChart.update();
+  }
+  // Travel Intelligence: Redemption Trends (3 datasets = 3 time periods, 6 categories each)
+  const rd=d.redemption[yr];
+  if(rd&&chartInstances.redemptionTrendsChart){
+    const c=chartInstances.redemptionTrendsChart;
+    c.data.datasets[0].label=rd.labels[0];c.data.datasets[0].data=[rd.d1[0],rd.d2[0],rd.d3[0],rd.d4[0],rd.d5[0],rd.d6[0]];
+    c.data.datasets[1].label=rd.labels[1];c.data.datasets[1].data=[rd.d1[1],rd.d2[1],rd.d3[1],rd.d4[1],rd.d5[1],rd.d6[1]];
+    c.data.datasets[2].label=rd.labels[2];c.data.datasets[2].data=[rd.d1[2],rd.d2[2],rd.d3[2],rd.d4[2],rd.d5[2],rd.d6[2]];
+    c.update();
+  }
+}
 </script>
 </body>
 </html>
