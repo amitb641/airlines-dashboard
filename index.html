@@ -165,6 +165,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 .lc-pct{font-size:9px;color:var(--muted);}
 .lc-badge{font-size:8px;font-weight:600;padding:2px 6px;border-radius:3px;align-self:flex-start;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
 
+/* Co-Brand Offer Pulse */
+.pulse-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.pulse-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 14px 12px;position:relative;overflow:hidden;transition:all .25s;}
+.pulse-card:hover{border-color:rgba(249,115,22,.5);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.pulse-card.hot{border-color:rgba(22,163,74,.35);}
+.pulse-card.hot::after{content:'';position:absolute;top:8px;right:10px;width:8px;height:8px;border-radius:50%;background:#16A34A;animation:pulse-dot 2s ease-in-out infinite;}
+.pulse-card.warm{border-color:rgba(249,115,22,.3);}
+.pulse-card.warm::after{content:'';position:absolute;top:8px;right:10px;width:8px;height:8px;border-radius:50%;background:#F97316;animation:pulse-dot 2.5s ease-in-out infinite;}
+.pulse-card.cool{border-color:rgba(120,113,108,.2);}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.6);}}
+.pulse-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.pulse-logo{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
+.pulse-airline{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;}
+.pulse-card-name{font-size:9px;color:var(--muted);margin-bottom:6px;line-height:1.3;}
+.pulse-bonus{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--text);margin-bottom:2px;letter-spacing:-.5px;}
+.pulse-bonus-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:6px;}
+.pulse-details{display:flex;flex-direction:column;gap:3px;}
+.pulse-row{display:flex;justify-content:space-between;align-items:center;font-size:9px;}
+.pulse-row-label{color:var(--muted);}
+.pulse-row-value{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--text);}
+.pulse-tag{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;margin-top:6px;}
+.pulse-tag.elevated{background:rgba(22,163,74,.1);color:#15803D;}
+.pulse-tag.standard{background:rgba(120,113,108,.1);color:var(--muted);}
+.pulse-tag.new{background:rgba(249,115,22,.1);color:#C2410C;}
+.pulse-tag.limited{background:rgba(220,38,38,.1);color:#DC2626;}
+
 /* OPPORTUNITY CARD (credit card) */
 .cc-opp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
 .cc-opp{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;}
@@ -265,8 +291,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 /* FOOTER */
 .footer{text-align:center;padding:12px;font-size:9px;color:var(--muted);border-top:1px solid var(--border);}
 
-@media(max-width:1100px){.kpi-grid,.kpi-grid-6{grid-template-columns:repeat(3,1fr);}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid{grid-template-columns:repeat(2,1fr);}.telem-layout,.c2,.c3,.c32,.c23,.c4{grid-template-columns:1fr;}.opp-grid{grid-template-columns:repeat(2,1fr);}.reg-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:640px){.kpi-grid,.kpi-grid-6{grid-template-columns:1fr 1fr;}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid,.opp-grid,.reg-grid{grid-template-columns:1fr;}.main{padding:12px;}.hdr{padding:9px 12px;}}
+@media(max-width:1100px){.kpi-grid,.kpi-grid-6{grid-template-columns:repeat(3,1fr);}.pulse-grid{grid-template-columns:repeat(2,1fr);}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid{grid-template-columns:repeat(2,1fr);}.telem-layout,.c2,.c3,.c32,.c23,.c4{grid-template-columns:1fr;}.opp-grid{grid-template-columns:repeat(2,1fr);}.reg-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.kpi-grid,.kpi-grid-6{grid-template-columns:1fr 1fr;}.pulse-grid{grid-template-columns:1fr 1fr;}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid,.opp-grid,.reg-grid{grid-template-columns:1fr;}.main{padding:12px;}.hdr{padding:9px 12px;}}
 </style>
 </head>
 <body>
@@ -388,6 +414,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="kpi"><div class="kpi-label">Amex/Delta Annual Value</div><div class="kpi-value">~$7B</div><div class="kpi-chg"><span class="up">↑ 40%</span><span class="kp">vs prior deal</span></div></div>
     <div class="kpi"><div class="kpi-label">US Co-Brand Spend (est.)</div><div class="kpi-value">$250B+</div><div class="kpi-chg"><span class="up">↑ 12%</span><span class="kp">annual card spend</span></div></div>
     <div class="kpi"><div class="kpi-label">Loyalty as Moat Score</div><div class="kpi-value">Delta #1</div><div class="kpi-chg"><span class="fl">Amex deal = competitive barrier</span></div></div>
+  </div>
+
+  <!-- Co-Brand Card Offer Pulse -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Card Offer Pulse</div><div class="ps" id="pulseYearLabel">Current sign-up bonus landscape · Pulsing green = elevated offer · Orange = new/limited · 2024</div></div><span class="ptag">LIVE</span></div>
+    <div class="cw">
+      <div class="pulse-grid" id="pulseGrid"></div>
+      <div style="display:flex;gap:16px;align-items:center;padding:4px 0 0;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#16A34A;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;"></span> Elevated offer (above base)</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#F97316;display:inline-block;animation:pulse-dot 2.5s ease-in-out infinite;"></span> New / limited-time</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;"></span> Standard offer</div>
+      </div>
+    </div>
   </div>
 
   <!-- Loyalty Cards Grid -->
@@ -1459,6 +1498,53 @@ const TOP_ROUTES_2025=[
 ];
 
 let activeYear=2024;
+
+/* ── Co-Brand Card Offer Pulse Data by Year ── */
+const PULSE_DATA={
+  2024:[
+    {code:'DL',airline:'Delta Reserve',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Reserve · $550/yr',bonus:'80K',unit:'SkyMiles sign-up bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$5K / 6mo'],['Companion cert','Domestic Main'],['Sky Club','Unlimited']]},
+    {code:'DL',airline:'Delta Platinum',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Platinum · $350/yr',bonus:'70K',unit:'SkyMiles sign-up bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$4K / 6mo'],['Companion cert','Main Cabin'],['MQD boost','$25K spend = waiver']]},
+    {code:'UA',airline:'United Quest',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Quest · $250/yr',bonus:'70K',unit:'MileagePlus miles bonus',status:'warm',tag:'new',tagText:'⚡ NEW CARD — Quest launched mid-2024',rows:[['Spend req.','$4K / 3mo'],['Anniversary miles','10K/yr'],['TSA Pre / GE','$100 credit']]},
+    {code:'UA',airline:'United Explorer',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Explorer · $95/yr (waived Y1)',bonus:'60K',unit:'MileagePlus miles bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$3K / 3mo'],['Free checked bag','Primary + companion'],['Priority board','Group 2']]},
+    {code:'WN',airline:'SW Priority',color:'var(--southwest)',logoBg:'#E06700',cardName:'Chase Southwest Priority · $149/yr',bonus:'80K',unit:'Rapid Rewards points bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — Companion Pass push',rows:[['Spend req.','$3K / 3mo'],['Anniversary pts','7,500/yr'],['Companion Pass','135K pts to qualify']]},
+    {code:'AA',airline:'AA Citi Platinum',color:'var(--american)',logoBg:'#0078D2',cardName:'Citi AAdvantage Platinum Select · $99/yr',bonus:'60K',unit:'AAdvantage miles bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$3K / 3mo'],['Free checked bag','First bag free'],['Preferred boarding','Group 5']]},
+    {code:'AS',airline:'Alaska Visa Signature',color:'var(--alaska)',logoBg:'#01B7A8',cardName:'BoA Alaska Airlines Visa Signature · $95/yr',bonus:'60K',unit:'Mileage Plan miles bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$3K / 90 days'],['Companion fare','$99 + tax annually'],['Free checked bag','First bag free']]},
+    {code:'MX',airline:'Breeze Mastercard',color:'var(--breeze)',logoBg:'#CC3370',cardName:'Barclays Breeze Airways Mastercard · $89/yr',bonus:'20K',unit:'BreezePoints bonus',status:'warm',tag:'new',tagText:'🆕 NEW CARD — launched mid-2024',rows:[['Spend req.','$1K / 90 days'],['Nice upgrade','1 cert/yr'],['No compete gates','87% uncontested']]}
+  ],
+  2025:[
+    {code:'DL',airline:'Delta Reserve',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Reserve · $650/yr',bonus:'100K',unit:'SkyMiles sign-up bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — up from 80K in 2024',rows:[['Spend req.','$6K / 6mo'],['Companion cert','First Class'],['Sky Club','Unlimited']]},
+    {code:'DL',airline:'Delta Platinum',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Platinum · $350/yr',bonus:'85K',unit:'SkyMiles sign-up bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — up from 70K in 2024',rows:[['Spend req.','$4K / 6mo'],['Companion cert','Main Cabin'],['MQD boost','$25K spend = waiver']]},
+    {code:'UA',airline:'United Club Infinite',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Club Infinite · $525/yr',bonus:'90K',unit:'MileagePlus miles bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — up from 80K base',rows:[['Spend req.','$5K / 3mo'],['Club access','Unlimited'],['TSA Pre / GE','$100 credit']]},
+    {code:'UA',airline:'United Explorer',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Explorer · $95/yr (waived Y1)',bonus:'70K',unit:'MileagePlus miles bonus',status:'warm',tag:'new',tagText:'⚡ LIMITED TIME — Q4 2025 promo',rows:[['Spend req.','$3K / 3mo'],['Free checked bag','Primary + companion'],['Priority board','Group 2']]},
+    {code:'WN',airline:'SW Priority',color:'var(--southwest)',logoBg:'#E06700',cardName:'Chase Southwest Priority · $149/yr',bonus:'75K',unit:'Rapid Rewards points bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — bag fee backlash offset',rows:[['Spend req.','$3K / 3mo'],['Anniversary pts','7,500/yr'],['Companion Pass','135K pts to qualify']]},
+    {code:'AA',airline:'AA Citi Executive',color:'var(--american)',logoBg:'#0078D2',cardName:'Citi AAdvantage Executive · $595/yr',bonus:'75K',unit:'AAdvantage miles bonus',status:'warm',tag:'new',tagText:'⚡ BOOSTED — up from 60K Platinum',rows:[['Spend req.','$7K / 4mo'],['Admirals Club','Cardholder + 2 guests'],['Loyalty pts','10K LP bonus/yr']]},
+    {code:'AS',airline:'Alaska Visa Signature',color:'var(--alaska)',logoBg:'#01B7A8',cardName:'BoA Alaska Airlines Visa Signature · $95/yr',bonus:'65K',unit:'Mileage Plan miles bonus',status:'warm',tag:'new',tagText:'⚡ BOOSTED — Hawaiian merger hype',rows:[['Spend req.','$3K / 90 days'],['Companion fare','$99 + tax annually'],['Free checked bag','First bag free']]},
+    {code:'MX',airline:'Breeze Mastercard',color:'var(--breeze)',logoBg:'#CC3370',cardName:'Barclays Breeze Airways Mastercard · $89/yr',bonus:'25K',unit:'BreezePoints bonus',status:'warm',tag:'new',tagText:'⚡ GROWING — card base 2× since launch',rows:[['Spend req.','$2K / 90 days'],['Nice upgrade','2 certs/yr'],['No compete gates','87% uncontested']]}
+  ],
+  2026:[
+    {code:'DL',airline:'Delta Reserve',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Reserve · $650/yr',bonus:'110K',unit:'SkyMiles sign-up bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — all-time high offer',rows:[['Spend req.','$6K / 6mo'],['Companion cert','First Class'],['Sky Club','Unlimited']]},
+    {code:'DL',airline:'Delta Platinum',color:'var(--delta)',logoBg:'#C8102E',cardName:'Amex Delta SkyMiles Platinum · $350/yr',bonus:'90K',unit:'SkyMiles sign-up bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — up from 70K base',rows:[['Spend req.','$4K / 6mo'],['Companion cert','Main Cabin'],['MQD boost','$25K spend = waiver']]},
+    {code:'UA',airline:'United Club Infinite',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Club Infinite · $525/yr',bonus:'100K',unit:'MileagePlus miles bonus',status:'hot',tag:'elevated',tagText:'↑ ELEVATED — up from 80K base',rows:[['Spend req.','$5K / 3mo'],['Club access','Unlimited'],['TSA Pre / GE','$100 credit']]},
+    {code:'UA',airline:'United Explorer',color:'var(--united)',logoBg:'#0C2340',cardName:'Chase United Explorer · $95/yr (waived Y1)',bonus:'75K',unit:'MileagePlus miles bonus',status:'warm',tag:'limited',tagText:'⚡ LIMITED TIME — Mar/Apr 2026',rows:[['Spend req.','$3K / 3mo'],['Free checked bag','Primary + companion'],['Priority board','Group 2']]},
+    {code:'WN',airline:'SW Priority',color:'var(--southwest)',logoBg:'#E06700',cardName:'Chase Southwest Priority · $149/yr',bonus:'65K',unit:'Rapid Rewards points bonus',status:'cool',tag:'standard',tagText:'— STANDARD OFFER',rows:[['Spend req.','$3K / 3mo'],['Anniversary pts','7,500/yr'],['Companion Pass','135K pts to qualify']]},
+    {code:'AA',airline:'AA Citi Executive',color:'var(--american)',logoBg:'#0078D2',cardName:'Citi AAdvantage Executive · $595/yr',bonus:'85K',unit:'AAdvantage miles bonus',status:'warm',tag:'new',tagText:'⚡ BOOSTED — up from 70K in Feb',rows:[['Spend req.','$7K / 4mo'],['Admirals Club','Cardholder + 2 guests'],['Loyalty pts','10K LP bonus/yr']]},
+    {code:'AS',airline:'Alaska Visa Signature',color:'var(--alaska)',logoBg:'#01B7A8',cardName:'BoA Alaska Airlines Visa Signature · $95/yr',bonus:'70K',unit:'Mileage Plan miles bonus',status:'warm',tag:'new',tagText:'⚡ ELEVATED — Atmos launch promo',rows:[['Spend req.','$3K / 90 days'],['Companion fare','$99 + tax annually'],['Free checked bag','First bag free']]},
+    {code:'MX',airline:'Breeze Mastercard',color:'var(--breeze)',logoBg:'#CC3370',cardName:'Barclays Breeze Airways Mastercard · $89/yr',bonus:'30K',unit:'BreezePoints bonus',status:'warm',tag:'new',tagText:'🆕 SCALING — 3× cardholders since launch',rows:[['Spend req.','$2K / 90 days'],['Nice upgrade','2 certs/yr'],['No compete gates','87% uncontested']]}
+  ]
+};
+const PULSE_YEAR_LABELS={2024:'Sign-up bonus landscape · FY 2024 actual offers · Green = elevated · Orange = new/limited',2025:'Sign-up bonus landscape · 2025 offers · War for premium cardholders intensifies',2026:'Sign-up bonus landscape · 2026E projected · All-time high bonuses at Delta & United'};
+function renderPulseGrid(yr){
+  const grid=document.getElementById('pulseGrid');
+  const lbl=document.getElementById('pulseYearLabel');
+  if(!grid)return;
+  const cards=PULSE_DATA[yr]||PULSE_DATA[2024];
+  if(lbl)lbl.textContent=PULSE_YEAR_LABELS[yr]||PULSE_YEAR_LABELS[2024];
+  grid.innerHTML=cards.map(c=>{
+    const rows=c.rows.map(r=>`<div class="pulse-row"><span class="pulse-row-label">${r[0]}</span><span class="pulse-row-value">${r[1]}</span></div>`).join('');
+    return `<div class="pulse-card ${c.status}"><div class="pulse-hdr"><div class="pulse-logo" style="background:${c.logoBg}">${c.code}</div><div class="pulse-airline" style="color:${c.color}">${c.airline}</div></div><div class="pulse-card-name">${c.cardName}</div><div class="pulse-bonus">${c.bonus}</div><div class="pulse-bonus-label">${c.unit}</div><div class="pulse-details">${rows}</div><span class="pulse-tag ${c.tag}">${c.tagText}</span></div>`;
+  }).join('');
+}
+
 const YEAR_LABELS={
   2024:'OAG Q4 2024 · BTS T-100 FY2024',
   2025:'OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cut · MX expanded · HA merged',
@@ -1474,6 +1560,7 @@ function setYear(yr,btn){
   if(lbl)lbl.textContent=YEAR_LABELS[yr]||'';
   buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
   initParticles();
+  renderPulseGrid(yr);
 }
 function setGlobalYear(yr,btn){
   activeYear=yr;
@@ -1494,6 +1581,7 @@ function setGlobalYear(yr,btn){
   buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
   initParticles();
   updateAllChartsForYear(yr);
+  renderPulseGrid(yr);
 }
 const TOP_ROUTES=[
   {rank:1,route:'LAX–JFK',weekly:780,pax:8.7,carrier:'Multi',color:'#5B5A5A',yoy:0.5},
@@ -1516,6 +1604,38 @@ const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.color='#78716C';
 Chart.defaults.plugins.legend.display=false;
+// Global tooltip: show "Estimated" badge + source when hovering over estimated data points
+Chart.defaults.plugins.tooltip.backgroundColor='rgba(28,25,23,.92)';
+Chart.defaults.plugins.tooltip.titleFont={family:"'JetBrains Mono',monospace",size:10,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont={family:"'Inter',sans-serif",size:11};
+Chart.defaults.plugins.tooltip.footerFont={family:"'JetBrains Mono',monospace",size:9,weight:'400',style:'italic'};
+Chart.defaults.plugins.tooltip.footerColor='rgba(249,115,22,.9)';
+Chart.defaults.plugins.tooltip.padding=10;
+Chart.defaults.plugins.tooltip.cornerRadius=6;
+Chart.defaults.plugins.tooltip.borderColor='rgba(249,115,22,.3)';
+Chart.defaults.plugins.tooltip.borderWidth=0;
+// Estimation source map by chart ID
+const EST_SOURCES={
+  demandChart:'BTS RPM trend extrapolation',
+  fareChart:'DOT seasonal pattern projection',
+  marginChart:'Carrier guidance + analyst consensus',
+  fuelPriceChart:'EIA Short-Term Energy Outlook',
+  fuelPctChart:'10-K actuals + EIA fuel forecast',
+  loyaltyRevChart:'Investor day guidance + deal growth',
+  netIncomeChart:'Carrier guidance + Wall St. consensus',
+  timelineChart:'OAG forward schedule filings',
+  cardVsDemandChart:'Bank earnings + portfolio trends',
+  redemptionTrendsChart:'Industry reports + trend projection'
+};
+Chart.defaults.plugins.tooltip.callbacks.afterBody=function(items){
+  if(!items||!items.length)return '';
+  const chart=items[0].chart;
+  const idx=items[0].dataIndex;
+  const label=chart.data.labels?chart.data.labels[idx]:'';
+  if(!isEstLabel(label||''))return '';
+  const src=EST_SOURCES[chart.canvas.id]||'Analyst estimate';
+  return ['','⚠ ESTIMATED DATA','Source: '+src];
+};
 const GRID={color:'rgba(0,0,0,.06)',borderDash:[4,4]};
 const TICK={font:{size:9},color:'#78716C'};
 
@@ -1551,6 +1671,7 @@ function buildRouteTable(data){if(!data)data=TOP_ROUTES;
   }).join('');
 }
 buildRouteTable();
+renderPulseGrid(activeYear);
 
 // ═══ FLOW BARS ═══
 function buildFlowBars(){
@@ -1621,6 +1742,15 @@ function isEstLabel(lbl){return typeof lbl==='string'&&/E['"]?\s*$|^[A-Z]{2,4}E$
 
 // Segment callback for line charts: dotted line for estimated data points
 const EST_SEGMENT={borderDash:ctx=>{const labels=ctx.chart.data.labels;return isEstLabel(labels[ctx.p1DataIndex]||'')?[6,3]:[];}};
+
+// Chart.js plugin: highlight tooltip border orange for estimated data points
+Chart.register({id:'estTooltipBorder',beforeTooltipDraw(chart,args){
+  const tooltip=args.tooltip;if(!tooltip||!tooltip.dataPoints||!tooltip.dataPoints.length)return;
+  const idx=tooltip.dataPoints[0].dataIndex;
+  const label=chart.data.labels?chart.data.labels[idx]:'';
+  tooltip.options.borderWidth=isEstLabel(label||'')?1.5:0;
+  tooltip.options.borderColor=isEstLabel(label||'')?'rgba(249,115,22,.6)':'transparent';
+}});
 
 // Chart.js plugin: draw hatched pattern on bar segments representing estimates
 Chart.register({id:'estBarHatch',beforeDatasetsDraw(chart){
