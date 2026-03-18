@@ -165,6 +165,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 .lc-pct{font-size:9px;color:var(--muted);}
 .lc-badge{font-size:8px;font-weight:600;padding:2px 6px;border-radius:3px;align-self:flex-start;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
 
+/* Co-Brand Offer Pulse */
+.pulse-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.pulse-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 14px 12px;position:relative;overflow:hidden;transition:all .25s;}
+.pulse-card:hover{border-color:rgba(249,115,22,.5);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.pulse-card.hot{border-color:rgba(22,163,74,.35);}
+.pulse-card.hot::after{content:'';position:absolute;top:8px;right:10px;width:8px;height:8px;border-radius:50%;background:#16A34A;animation:pulse-dot 2s ease-in-out infinite;}
+.pulse-card.warm{border-color:rgba(249,115,22,.3);}
+.pulse-card.warm::after{content:'';position:absolute;top:8px;right:10px;width:8px;height:8px;border-radius:50%;background:#F97316;animation:pulse-dot 2.5s ease-in-out infinite;}
+.pulse-card.cool{border-color:rgba(120,113,108,.2);}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.6);}}
+.pulse-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.pulse-logo{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
+.pulse-airline{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;}
+.pulse-card-name{font-size:9px;color:var(--muted);margin-bottom:6px;line-height:1.3;}
+.pulse-bonus{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--text);margin-bottom:2px;letter-spacing:-.5px;}
+.pulse-bonus-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:6px;}
+.pulse-details{display:flex;flex-direction:column;gap:3px;}
+.pulse-row{display:flex;justify-content:space-between;align-items:center;font-size:9px;}
+.pulse-row-label{color:var(--muted);}
+.pulse-row-value{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--text);}
+.pulse-tag{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;margin-top:6px;}
+.pulse-tag.elevated{background:rgba(22,163,74,.1);color:#15803D;}
+.pulse-tag.standard{background:rgba(120,113,108,.1);color:var(--muted);}
+.pulse-tag.new{background:rgba(249,115,22,.1);color:#C2410C;}
+.pulse-tag.limited{background:rgba(220,38,38,.1);color:#DC2626;}
+
 /* OPPORTUNITY CARD (credit card) */
 .cc-opp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
 .cc-opp{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 14px;}
@@ -265,8 +291,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 /* FOOTER */
 .footer{text-align:center;padding:12px;font-size:9px;color:var(--muted);border-top:1px solid var(--border);}
 
-@media(max-width:1100px){.kpi-grid,.kpi-grid-6{grid-template-columns:repeat(3,1fr);}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid{grid-template-columns:repeat(2,1fr);}.telem-layout,.c2,.c3,.c32,.c23,.c4{grid-template-columns:1fr;}.opp-grid{grid-template-columns:repeat(2,1fr);}.reg-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:640px){.kpi-grid,.kpi-grid-6{grid-template-columns:1fr 1fr;}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid,.opp-grid,.reg-grid{grid-template-columns:1fr;}.main{padding:12px;}.hdr{padding:9px 12px;}}
+@media(max-width:1100px){.kpi-grid,.kpi-grid-6{grid-template-columns:repeat(3,1fr);}.pulse-grid{grid-template-columns:repeat(2,1fr);}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid{grid-template-columns:repeat(2,1fr);}.telem-layout,.c2,.c3,.c32,.c23,.c4{grid-template-columns:1fr;}.opp-grid{grid-template-columns:repeat(2,1fr);}.reg-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.kpi-grid,.kpi-grid-6{grid-template-columns:1fr 1fr;}.pulse-grid{grid-template-columns:1fr 1fr;}.insight-strip,.ap-grid,.story-grid,.mktg-grid,.cc-opp-grid,.opp-grid,.reg-grid{grid-template-columns:1fr;}.main{padding:12px;}.hdr{padding:9px 12px;}}
 </style>
 </head>
 <body>
@@ -388,6 +414,124 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="kpi"><div class="kpi-label">Amex/Delta Annual Value</div><div class="kpi-value">~$7B</div><div class="kpi-chg"><span class="up">↑ 40%</span><span class="kp">vs prior deal</span></div></div>
     <div class="kpi"><div class="kpi-label">US Co-Brand Spend (est.)</div><div class="kpi-value">$250B+</div><div class="kpi-chg"><span class="up">↑ 12%</span><span class="kp">annual card spend</span></div></div>
     <div class="kpi"><div class="kpi-label">Loyalty as Moat Score</div><div class="kpi-value">Delta #1</div><div class="kpi-chg"><span class="fl">Amex deal = competitive barrier</span></div></div>
+  </div>
+
+  <!-- Co-Brand Card Offer Pulse -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Card Offer Pulse</div><div class="ps">Current sign-up bonus landscape · Pulsing green = elevated offer · Orange = new/limited · Updated Mar 2026</div></div><span class="ptag">LIVE</span></div>
+    <div class="cw">
+      <div class="pulse-grid">
+        <!-- Delta / Amex -->
+        <div class="pulse-card hot">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#C8102E">DL</div><div class="pulse-airline" style="color:var(--delta)">Delta Reserve</div></div>
+          <div class="pulse-card-name">Amex Delta SkyMiles Reserve · $650/yr</div>
+          <div class="pulse-bonus">110K</div>
+          <div class="pulse-bonus-label">SkyMiles sign-up bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$6K / 6mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Companion cert</span><span class="pulse-row-value">First Class</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Sky Club</span><span class="pulse-row-value">Unlimited</span></div>
+          </div>
+          <span class="pulse-tag elevated">↑ ELEVATED — up from 90K base</span>
+        </div>
+        <!-- Delta / Amex Platinum -->
+        <div class="pulse-card hot">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#C8102E">DL</div><div class="pulse-airline" style="color:var(--delta)">Delta Platinum</div></div>
+          <div class="pulse-card-name">Amex Delta SkyMiles Platinum · $350/yr</div>
+          <div class="pulse-bonus">90K</div>
+          <div class="pulse-bonus-label">SkyMiles sign-up bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$4K / 6mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Companion cert</span><span class="pulse-row-value">Main Cabin</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">MQD boost</span><span class="pulse-row-value">$25K spend = waiver</span></div>
+          </div>
+          <span class="pulse-tag elevated">↑ ELEVATED — up from 70K base</span>
+        </div>
+        <!-- United / Chase -->
+        <div class="pulse-card hot">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#0C2340">UA</div><div class="pulse-airline" style="color:var(--united)">United Club Infinite</div></div>
+          <div class="pulse-card-name">Chase United Club Infinite · $525/yr</div>
+          <div class="pulse-bonus">100K</div>
+          <div class="pulse-bonus-label">MileagePlus miles bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$5K / 3mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Club access</span><span class="pulse-row-value">Unlimited</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">TSA Pre / GE</span><span class="pulse-row-value">$100 credit</span></div>
+          </div>
+          <span class="pulse-tag elevated">↑ ELEVATED — up from 80K base</span>
+        </div>
+        <!-- United Explorer -->
+        <div class="pulse-card warm">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#0C2340">UA</div><div class="pulse-airline" style="color:var(--united)">United Explorer</div></div>
+          <div class="pulse-card-name">Chase United Explorer · $95/yr (waived Y1)</div>
+          <div class="pulse-bonus">75K</div>
+          <div class="pulse-bonus-label">MileagePlus miles bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$3K / 3mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Free checked bag</span><span class="pulse-row-value">Primary + companion</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Priority board</span><span class="pulse-row-value">Group 2</span></div>
+          </div>
+          <span class="pulse-tag new">⚡ LIMITED TIME — Mar/Apr 2026</span>
+        </div>
+        <!-- Southwest / Chase -->
+        <div class="pulse-card cool">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#E06700">WN</div><div class="pulse-airline" style="color:var(--southwest)">SW Priority</div></div>
+          <div class="pulse-card-name">Chase Southwest Priority · $149/yr</div>
+          <div class="pulse-bonus">65K</div>
+          <div class="pulse-bonus-label">Rapid Rewards points bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$3K / 3mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Anniversary pts</span><span class="pulse-row-value">7,500/yr</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Companion Pass</span><span class="pulse-row-value">135K pts to qualify</span></div>
+          </div>
+          <span class="pulse-tag standard">— STANDARD OFFER</span>
+        </div>
+        <!-- American / Citi -->
+        <div class="pulse-card warm">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#0078D2">AA</div><div class="pulse-airline" style="color:var(--american)">AA Citi Executive</div></div>
+          <div class="pulse-card-name">Citi AAdvantage Executive · $595/yr</div>
+          <div class="pulse-bonus">85K</div>
+          <div class="pulse-bonus-label">AAdvantage miles bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$7K / 4mo</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Admirals Club</span><span class="pulse-row-value">Cardholder + 2 guests</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Loyalty pts</span><span class="pulse-row-value">10K LP bonus/yr</span></div>
+          </div>
+          <span class="pulse-tag new">⚡ BOOSTED — up from 70K in Feb</span>
+        </div>
+        <!-- Alaska / BoA -->
+        <div class="pulse-card warm">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#01B7A8">AS</div><div class="pulse-airline" style="color:var(--alaska)">Alaska Visa Signature</div></div>
+          <div class="pulse-card-name">BoA Alaska Airlines Visa Signature · $95/yr</div>
+          <div class="pulse-bonus">70K</div>
+          <div class="pulse-bonus-label">Mileage Plan miles bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$3K / 90 days</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Companion fare</span><span class="pulse-row-value">$99 + tax annually</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Free checked bag</span><span class="pulse-row-value">First bag free</span></div>
+          </div>
+          <span class="pulse-tag new">⚡ ELEVATED — Atmos launch promo</span>
+        </div>
+        <!-- Breeze / Barclays -->
+        <div class="pulse-card warm">
+          <div class="pulse-hdr"><div class="pulse-logo" style="background:#CC3370">MX</div><div class="pulse-airline" style="color:var(--breeze)">Breeze Mastercard</div></div>
+          <div class="pulse-card-name">Barclays Breeze Airways Mastercard · $89/yr</div>
+          <div class="pulse-bonus">30K</div>
+          <div class="pulse-bonus-label">BreezePoints bonus</div>
+          <div class="pulse-details">
+            <div class="pulse-row"><span class="pulse-row-label">Spend req.</span><span class="pulse-row-value">$2K / 90 days</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">Nice upgrade</span><span class="pulse-row-value">2 certs/yr</span></div>
+            <div class="pulse-row"><span class="pulse-row-label">No compete gates</span><span class="pulse-row-value">87% uncontested</span></div>
+          </div>
+          <span class="pulse-tag new">🆕 NEW CARD — launched 2024, scaling</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;padding:4px 0 0;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#16A34A;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;"></span> Elevated offer (above base)</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#F97316;display:inline-block;animation:pulse-dot 2.5s ease-in-out infinite;"></span> New / limited-time</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;"></span> Standard offer</div>
+      </div>
+    </div>
   </div>
 
   <!-- Loyalty Cards Grid -->
