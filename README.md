@@ -58,7 +58,7 @@ A comprehensive US domestic airline market intelligence dashboard built as a sin
 - [Chart.js 4.4.1](https://www.chartjs.org/) — all charts
 - Canvas API — animated flight particle route map
 - Google Fonts — Syne, JetBrains Mono, Inter
-- Deployed via GitHub Pages from `gh-pages` branch
+- Deployed via GitHub Pages (artifact-based deployment from `main` branch)
 
 ---
 
