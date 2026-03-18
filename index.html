@@ -98,6 +98,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 .cd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .badge{display:inline-flex;align-items:center;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:600;font-family:'JetBrains Mono',monospace;}
 .bg{background:rgba(22,163,74,.1);color:#15803D;border:1px solid rgba(22,163,74,.2);}
+.est-note{display:flex;align-items:center;gap:6px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;padding:4px 0 0;}
+.est-line{width:24px;height:0;border-top:2px dashed var(--accent);flex-shrink:0;}
+.est-bar{width:16px;height:10px;background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 2px,rgba(255,255,255,.5) 2px,rgba(255,255,255,.5) 4px);border-radius:2px;flex-shrink:0;}
 .br{background:rgba(220,38,38,.1);color:#B91C1C;border:1px solid rgba(220,38,38,.2);}
 .ba{background:rgba(202,138,4,.1);color:#92400E;border:1px solid rgba(202,138,4,.2);}
 .bb{background:rgba(249,115,22,.1);color:#C2410C;border:1px solid rgba(249,115,22,.2);}
@@ -324,8 +327,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="panel"><div class="ph"><div><div class="pt">Carrier Mix</div><div class="ps">Legacy vs LCC vs ULCC</div></div></div><div class="cw"><div class="h220"><canvas id="mixChart"></canvas></div></div></div>
   </div>
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">Demand Recovery Index</div><div class="ps" id="demandSub">RPMs indexed · rolling 3-year · 2022–2024</div></div><span class="ptag">BTS/A4A</span></div><div class="cw"><div class="h220"><canvas id="demandChart"></canvas></div></div></div>
-    <div class="panel"><div class="ph"><div><div class="pt">Avg Domestic Fare Trend</div><div class="ps">Per passenger quarterly 2022–2024</div></div><span class="ptag">DOT O&D</span></div><div class="cw"><div class="h220"><canvas id="fareChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Demand Recovery Index</div><div class="ps" id="demandSub">RPMs indexed · rolling 3-year · 2022–2024</div></div><span class="ptag">BTS/A4A</span></div><div class="cw"><div class="h220"><canvas id="demandChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Analyst consensus &amp; trend extrapolation</div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Avg Domestic Fare Trend</div><div class="ps" id="fareSub">Per passenger quarterly · 2022–2024</div></div><span class="ptag">DOT O&D</span></div><div class="cw"><div class="h220"><canvas id="fareChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · DOT historical trend &amp; seasonal projection</div></div></div>
   </div>
 </div>
 
@@ -345,7 +348,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
   <div class="row c2">
     <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
-    <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps" id="marginSub">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Carrier guidance &amp; analyst consensus</div></div></div>
   </div>
   <div class="panel" style="margin-bottom:16px;">
     <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps">All major carriers incl. Hawaiian · FY 2024</div></div><span class="ptag">SEC/Earnings</span></div>
@@ -367,8 +370,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     </div>
   </div>
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost as % of OPEX</div><div class="ps">2022–2024 trend</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div></div></div>
-    <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps" id="fuelPriceSub">Gulf Coast $/gallon · 2022–2024</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost as % of OPEX</div><div class="ps" id="fuelPctSub">2022–2024 trend</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · 10-K actuals &amp; EIA fuel price forecast</div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps" id="fuelPriceSub">Gulf Coast $/gallon · 2022–2024</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · EIA short-term energy outlook</div></div></div>
   </div>
 </div>
 
@@ -395,7 +398,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <div class="lc-card"><div class="lc-icon" style="background:rgba(0,120,210,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partners: Citi + Barclays · Dual-issuer · Through 2031</div><div class="lc-rev">$5.2B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">12.8% of total revenue · Complexity limits growth vs peers</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
       <div class="lc-card"><div class="lc-icon" style="background:rgba(224,103,0,.1)">🟠</div><div style="flex:1"><div class="lc-carrier" style="color:var(--southwest)">Southwest — Rapid Rewards</div><div class="lc-prog">Partner: Chase · Through 2030 · Companion Pass retention lever</div><div class="lc-rev">$2.8B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">11.2% of revenue · Bag fees now apply — brand risk to card spend</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Stable</span></div>
     </div>
-    <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps">Miles sold to bank partners ($B) · 2020–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps" id="loyaltySub">Miles sold to bank partners ($B) · 2022–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · Investor day guidance &amp; deal growth rates</div></div></div>
   </div>
 
   <!-- What's Happening in Airlines Credit Card Space -->
@@ -541,7 +544,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
         </div>
       </div>
       <!-- Route share timeline -->
-      <div class="panel"><div class="ph"><div><div class="pt">Domestic Seat Share Over Time</div><div class="ps">Monthly % · Q1 2022 → Q1 2025 · Spirit collapse, Breeze rise</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h180"><canvas id="timelineChart"></canvas></div></div></div>
+      <div class="panel"><div class="ph"><div><div class="pt">Domestic Seat Share Over Time</div><div class="ps" id="timelineSub">Monthly % · Q1 2022 → Q1 2025 · Spirit collapse, Breeze rise</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h180"><canvas id="timelineChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · OAG forward schedules &amp; trend projection</div></div></div>
       <!-- Busiest routes table -->
       <div class="panel"><div class="ph"><div><div class="pt">Busiest Domestic Routes</div><div class="ps">Avg weekly departures · annual pax · BTS FY 2024</div></div><span class="ptag">BTS 2024</span></div>
         <div style="overflow-x:auto;padding:4px 0 0;"><table class="dt"><thead><tr><th>#</th><th>Route</th><th>Wkly Flt</th><th>Ann. Pax</th><th>Dominant</th><th>YoY</th></tr></thead><tbody id="routeTableBody"></tbody></table></div>
@@ -614,8 +617,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     </div>
     <div class="row c2">
       <div class="panel">
-        <div class="ph"><div><div class="pt">Net Income Divergence · FY 2022–2024</div><div class="ps">Profit gap is structural, not cyclical</div></div><span class="ptag">SEC</span></div>
-        <div class="cw"><div class="h260"><canvas id="netIncomeChart"></canvas></div></div>
+        <div class="ph"><div><div class="pt" id="netIncomePt">Net Income Divergence · FY 2022–2024</div><div class="ps">Profit gap is structural, not cyclical</div></div><span class="ptag">SEC</span></div>
+        <div class="cw"><div class="h260"><canvas id="netIncomeChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · Carrier guidance &amp; Wall St. consensus</div></div>
       </div>
       <div class="panel">
         <div class="ph"><div><div class="pt">Seat Share · All Carriers</div><div class="ps">Mar 2025 OAG forward schedule</div></div><span class="ptag">OAG</span></div>
@@ -1062,7 +1065,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   <div class="row c2">
     <div class="panel">
       <div class="ph"><div><div class="pt">Co-Brand Card Spend Growth vs Route Demand</div><div class="ps">Indexed 2019=100 · card spend leads demand by ~6 weeks</div></div><span class="ptag">Chase / Amex est.</span></div>
-      <div class="cw"><div class="h260"><canvas id="cardVsDemandChart"></canvas></div></div>
+      <div class="cw"><div class="h260"><canvas id="cardVsDemandChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Earnings calls &amp; card portfolio growth trends</div></div>
     </div>
     <div class="panel">
       <div class="ph"><div><div class="pt">Miles Redemption Trends</div><div class="ps">Redemption type share % · 2019 vs 2022 vs 2024</div></div><span class="ptag">Airline investor days</span></div>
@@ -1294,6 +1297,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <strong style="color:var(--text)">For analytical purposes only.</strong> This dashboard is an independent analytical tool and is not affiliated with, endorsed by, or representing any airline, bank, or government agency.<br><br>
       <strong style="color:var(--text)">Data currency:</strong> All data reflects the most recent available as of March 2025. BTS and DOT data carry 3–6 month publication lags; OAG forward schedule data reflects March 2025 filings. Financial figures are as reported in FY2024 annual results unless otherwise noted.<br><br>
       <strong style="color:var(--text)">Estimates vs reported figures:</strong> Co-brand economics (¢/mile paid, card spend volumes, earn mix percentages) are estimates derived from public disclosures and third-party analysis. Airlines do not uniformly disclose co-brand economics. Treat these figures as directionally accurate approximations, not audited data.<br><br>
+      <strong style="color:var(--text)">Estimation methodology (dashed lines / hatched bars):</strong> Data points marked with "E" and shown as dashed lines (line charts) or hatched bars (bar charts) are estimates. Estimation sources by chart: <em>Demand Recovery</em> — BTS RPM trend extrapolation with seasonal adjustment. <em>Fare Trend</em> — DOT historical seasonal patterns applied to latest actuals. <em>Operating Margin &amp; Net Income</em> — carrier forward guidance combined with Wall Street analyst consensus (median). <em>Jet Fuel Price</em> — EIA Short-Term Energy Outlook projections. <em>Fuel % OPEX</em> — 10-K actuals extrapolated using EIA fuel forecast. <em>Loyalty Revenue</em> — investor day guidance and co-brand deal growth rates. <em>Seat Share</em> — OAG forward schedule filings. <em>Card Spend vs Demand</em> — bank earnings calls and card portfolio growth trends. 2026 data reflects monthly actuals through March 2026 where available.<br><br>
       <strong style="color:var(--text)">Forward-looking statements:</strong> Opportunity scores, market projections, and carrier outlooks represent analytical assessments based on available data and are not investment recommendations. Airline economics are highly sensitive to fuel prices, macroeconomic conditions, regulatory changes, and weather events not modeled here.<br><br>
       <strong style="color:var(--text)">Completeness:</strong> Not all carriers are represented equally. Ultra-low-cost carriers (Allegiant, Sun Country, Avelo) and regional carriers (SkyWest, Republic) have limited financial disclosure and are covered at a summary level only. Hawaiian Airlines figures are presented as standalone pre-merger where available, or as combined Alaska+Hawaiian post-September 2024 close.
     </div>
@@ -1612,7 +1616,39 @@ function filterAp(code,btn,fromCanvas=false){activeAp=code;document.querySelecto
 
 // ═══ CHART BUILDER ═══
 const chartInstances={};
-function mk(id,type,data,opts){const el=document.getElementById(id);if(!el)return;const c=new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,...opts}});chartInstances[id]=c;return c;}
+// Helper: detect estimated labels (contain 'E' suffix like '2026E', 'Q3E', 'FY2025E')
+function isEstLabel(lbl){return typeof lbl==='string'&&/E['"]?\s*$|^[A-Z]{2,4}E$/.test(lbl.trim());}
+
+// Segment callback for line charts: dotted line for estimated data points
+const EST_SEGMENT={borderDash:ctx=>{const labels=ctx.chart.data.labels;return isEstLabel(labels[ctx.p1DataIndex]||'')?[6,3]:[];}};
+
+// Chart.js plugin: draw hatched pattern on bar segments representing estimates
+Chart.register({id:'estBarHatch',beforeDatasetsDraw(chart){
+  if(chart.config.type!=='bar')return;
+  const labels=chart.data.labels;if(!labels||!labels.some(isEstLabel))return;
+  const ctx=chart.ctx;
+  chart.data.datasets.forEach((ds,di)=>{
+    const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+    meta.data.forEach((bar,i)=>{
+      if(!isEstLabel(labels[i]||''))return;
+      const{x,y,width,height,base}=bar.getProps(['x','y','width','height','base'],true);
+      const bw=width||bar.width||14;const top=Math.min(y,base);const h=Math.abs(y-base);
+      ctx.save();ctx.beginPath();ctx.rect(x-bw/2,top,bw,h);ctx.clip();
+      ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineWidth=1.5;
+      for(let yy=top-bw;yy<top+h+bw;yy+=6){ctx.beginPath();ctx.moveTo(x-bw/2,yy);ctx.lineTo(x+bw/2,yy+bw);ctx.stroke();}
+      ctx.restore();
+    });
+  });
+}});
+
+function mk(id,type,data,opts){
+  const el=document.getElementById(id);if(!el)return;
+  // Auto-add dotted segment styling for line datasets with estimated labels
+  if(type==='line'&&data.datasets){
+    data.datasets.forEach(ds=>{if(!ds.segment)ds.segment=EST_SEGMENT;});
+  }
+  const c=new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,...opts}});chartInstances[id]=c;return c;
+}
 
 window.addEventListener('load',()=>{
 
@@ -2133,6 +2169,23 @@ function updateAllChartsForYear(yr){
     c.data.datasets[2].label=rd.labels[2];c.data.datasets[2].data=[rd.d1[2],rd.d2[2],rd.d3[2],rd.d4[2],rd.d5[2],rd.d6[2]];
     c.update();
   }
+
+  // ═══ ESTIMATED DATA INDICATORS ═══
+  // Show/hide estimation notes based on whether selected year has estimate labels
+  const hasEst=yr>=2025;
+  document.querySelectorAll('.est-toggle').forEach(el=>{el.style.display=hasEst?'flex':'none';});
+
+  // Update dynamic subtitles
+  const marginSub=document.getElementById('marginSub');
+  if(marginSub){marginSub.textContent=yr===2024?'FY 2022 → 2023 → 2024 by carrier':yr===2025?'FY 2023 → 2024 → 2025E by carrier':'FY 2024 → 2025 → 2026E by carrier';}
+  const netIncomePt=document.getElementById('netIncomePt');
+  if(netIncomePt){netIncomePt.textContent='Net Income Divergence · '+(yr===2024?'FY 2022–2024':yr===2025?'FY 2023–2025E':'FY 2024–2026E');}
+  const fareSub=document.getElementById('fareSub');
+  if(fareSub){fareSub.textContent='Per passenger quarterly · '+(yr===2024?'2022–2024':yr===2025?'2023–2025':'2024–2026E');}
+  const loyaltySub=document.getElementById('loyaltySub');
+  if(loyaltySub){loyaltySub.textContent='Miles sold to bank partners ($B) · '+(yr===2024?'2022–2024':yr===2025?'2023–2025E':'2024–2026E');}
+  const fuelPctSub=document.getElementById('fuelPctSub');
+  if(fuelPctSub){fuelPctSub.textContent=yr===2024?'2022–2024 trend':yr===2025?'2023–2025E trend':'2024–2026E trend';}
 
   // ═══ TEXT CONTENT UPDATES ═══
 
