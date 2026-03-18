@@ -11,9 +11,9 @@
   --bg:#FAFAF9;--panel:#FFFFFF;--panel2:#F5F5F4;--panel3:#E7E5E4;
   --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.04);
   --accent:#F97316;--accent2:#EA580C;--warn:#CA8A04;--danger:#DC2626;--success:#16A34A;
-  --delta:#C8102E;--united:#1A6BAD;--american:#0057B7;--southwest:#E06700;
-  --alaska:#015DAA;--jetblue:#0088BB;--spirit:#92700A;--frontier:#2A7A35;
-  --breeze:#CC3370;--allegiant:#C04E1A;--hawaiian:#5B2D8E;
+  --delta:#C8102E;--united:#0C2340;--american:#0078D2;--southwest:#E06700;
+  --alaska:#01B7A8;--jetblue:#003DA5;--spirit:#BFAE00;--frontier:#2A7A35;
+  --breeze:#CC3370;--allegiant:#7B3F00;--hawaiian:#5B2D8E;
   --text:#1C1917;--muted:#78716C;--dim:#D6D3D1;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -391,8 +391,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   <div class="row c2" style="margin-bottom:16px;">
     <div style="display:flex;flex-direction:column;gap:10px;">
       <div class="lc-card"><div class="lc-icon" style="background:rgba(200,16,46,.1)">🔴</div><div style="flex:1"><div class="lc-carrier" style="color:var(--delta)">Delta Air Lines — SkyMiles</div><div class="lc-prog">Partner: Amex · Contract through 2035 · Renewed 2023 at +40%</div><div class="lc-rev">$7.0B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">15.9% of total revenue · 4 premium cards · 50M+ members</div></div><span class="lc-badge" style="background:rgba(22,163,74,.1);color:#15803D">Best-in-Class</span></div>
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(26,107,173,.1)">🔵</div><div style="flex:1"><div class="lc-carrier" style="color:var(--united)">United Airlines — MileagePlus</div><div class="lc-prog">Partner: Chase · Contract through 2030 · Securitized at $6.8B</div><div class="lc-rev">$5.5B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">13.1% of total revenue · Chase ecosystem integration</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Strong</span></div>
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(0,87,183,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partners: Citi + Barclays · Dual-issuer · Through 2031</div><div class="lc-rev">$5.2B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">12.8% of total revenue · Complexity limits growth vs peers</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(12,35,64,.1)">🔵</div><div style="flex:1"><div class="lc-carrier" style="color:var(--united)">United Airlines — MileagePlus</div><div class="lc-prog">Partner: Chase · Contract through 2030 · Securitized at $6.8B</div><div class="lc-rev">$5.5B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">13.1% of total revenue · Chase ecosystem integration</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Strong</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(0,120,210,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partners: Citi + Barclays · Dual-issuer · Through 2031</div><div class="lc-rev">$5.2B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">12.8% of total revenue · Complexity limits growth vs peers</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
       <div class="lc-card"><div class="lc-icon" style="background:rgba(224,103,0,.1)">🟠</div><div style="flex:1"><div class="lc-carrier" style="color:var(--southwest)">Southwest — Rapid Rewards</div><div class="lc-prog">Partner: Chase · Through 2030 · Companion Pass retention lever</div><div class="lc-rev">$2.8B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">11.2% of revenue · Bag fees now apply — brand risk to card spend</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Stable</span></div>
     </div>
     <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps">Miles sold to bank partners ($B) · 2020–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div></div></div>
@@ -513,7 +513,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
             <button class="carr-btn" onclick="setCarrier('breeze',this)" style="color:var(--breeze)">MX</button>
             <button class="carr-btn" onclick="setCarrier('alaska',this)" style="color:var(--alaska)">AS</button>
             <button class="carr-btn" onclick="setCarrier('hawaiian',this)" style="color:var(--hawaiian)">HA</button>
-            <button class="carr-btn" onclick="setCarrier('emirates',this)" style="color:#9A7B0A">EK</button>
+            <button class="carr-btn" onclick="setCarrier('emirates',this)" style="color:#C6A962">EK</button>
           </div>
         </div>
         <canvas id="routeMap" height="360"></canvas>
@@ -1317,8 +1317,8 @@ function downloadDashboard(){
 }
 
 // ═══ DATA ═══
-const CC={Delta:'#C8102E',United:'#1A6BAD',American:'#0057B7',Southwest:'#E06700',Alaska:'#015DAA',JetBlue:'#0088BB',Spirit:'#92700A',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#C04E1A',Hawaiian:'#5B2D8E',Emirates:'#9A7B0A',Lufthansa:'#8B6914'};
-const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0057B7'},DEN:{x:.28,y:.50,pax:82,color:'#1A6BAD'},ORD:{x:.56,y:.42,pax:80,color:'#1A6BAD'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0057B7'},MIA:{x:.70,y:.88,pax:51,color:'#0057B7'},SFO:{x:.07,y:.44,pax:52,color:'#1A6BAD'},SEA:{x:.08,y:.20,pax:54,color:'#015DAA'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#1A6BAD'},IAH:{x:.44,y:.76,pax:48,color:'#1A6BAD'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
+const CC={Delta:'#C8102E',United:'#0C2340',American:'#0078D2',Southwest:'#E06700',Alaska:'#01B7A8',JetBlue:'#003DA5',Spirit:'#BFAE00',Frontier:'#2A7A35',Breeze:'#CC3370',Allegiant:'#7B3F00',Hawaiian:'#5B2D8E',Emirates:'#C6A962',Lufthansa:'#05164D'};
+const AP={ATL:{x:.60,y:.70,pax:108,color:'#C8102E'},DFW:{x:.40,y:.65,pax:87.8,color:'#0078D2'},DEN:{x:.28,y:.50,pax:82,color:'#0C2340'},ORD:{x:.56,y:.42,pax:80,color:'#0C2340'},LAX:{x:.08,y:.62,pax:88,color:'#5B5A5A'},JFK:{x:.86,y:.43,pax:31.5,color:'#C8102E'},CLT:{x:.69,y:.60,pax:58.8,color:'#0078D2'},MIA:{x:.70,y:.88,pax:51,color:'#0078D2'},SFO:{x:.07,y:.44,pax:52,color:'#0C2340'},SEA:{x:.08,y:.20,pax:54,color:'#01B7A8'},MSP:{x:.50,y:.32,pax:42.5,color:'#C8102E'},BOS:{x:.89,y:.32,pax:41,color:'#C8102E'},LAS:{x:.15,y:.57,pax:52,color:'#E06700'},PHX:{x:.18,y:.65,pax:50,color:'#5B5A5A'},MCO:{x:.69,y:.82,pax:59,color:'#E06700'},BNA:{x:.58,y:.58,pax:24.7,color:'#E06700'},EWR:{x:.84,y:.41,pax:46,color:'#0C2340'},IAH:{x:.44,y:.76,pax:48,color:'#0C2340'},DTW:{x:.63,y:.38,pax:35,color:'#C8102E'},SLC:{x:.20,y:.43,pax:26,color:'#C8102E'},HNL:{x:.00,y:.78,pax:21.4,color:'#5B2D8E'}};
 const ROUTES=[ // OAG Q4 2024 · BTS T-100 FY2024
   ['LAX','JFK','American',280,3.1,1.2],['LAX','JFK','Delta',260,2.9,-0.4],['LAX','JFK','United',240,2.7,0.8],
   ['ATL','ORD','Delta',420,4.8,2.1],['ATL','DFW','American',380,4.2,-1.1],['ATL','LAX','Delta',340,3.9,0.6],
@@ -1430,9 +1430,9 @@ const TOP_ROUTES_2026=[
   {rank:3,route:'JFK–BOS',weekly:608,pax:6.9,carrier:'Delta',color:'#C8102E',yoy:2.8},
   {rank:4,route:'ATL–LAX',weekly:593,pax:6.7,carrier:'Delta/F9',color:'#C8102E',yoy:3.1},
   {rank:5,route:'LAS–LAX',weekly:355,pax:4.0,carrier:'Southwest',color:'#E06700',yoy:-1.8},
-  {rank:6,route:'CLT–ATL',weekly:342,pax:3.8,carrier:'American',color:'#0057B7',yoy:3.8},
-  {rank:7,route:'SFO–LAX',weekly:330,pax:3.7,carrier:'United',color:'#1A6BAD',yoy:1.4},
-  {rank:8,route:'ORD–DEN',weekly:475,pax:5.4,carrier:'United/F9',color:'#1A6BAD',yoy:3.8},
+  {rank:6,route:'CLT–ATL',weekly:342,pax:3.8,carrier:'American',color:'#0078D2',yoy:3.8},
+  {rank:7,route:'SFO–LAX',weekly:330,pax:3.7,carrier:'United',color:'#0C2340',yoy:1.4},
+  {rank:8,route:'ORD–DEN',weekly:475,pax:5.4,carrier:'United/F9',color:'#0C2340',yoy:3.8},
   {rank:9,route:'ATL–MCO',weekly:595,pax:6.7,carrier:'Delta/F9',color:'#C8102E',yoy:5.2},
   {rank:10,route:'HNL–LAX',weekly:198,pax:2.2,carrier:'Hawaiian',color:'#5B2D8E',yoy:4.2},
   {rank:11,route:'BNA–ORD',weekly:275,pax:3.1,carrier:'Southwest',color:'#E06700',yoy:5.2},
@@ -1442,12 +1442,12 @@ const TOP_ROUTES_2026=[
 const TOP_ROUTES_2025=[
   {rank:1,route:'LAX–JFK',weekly:806,pax:8.9,carrier:'Multi',color:'#5B5A5A',yoy:1.8},
   {rank:2,route:'ATL–ORD',weekly:445,pax:5.0,carrier:'Delta',color:'#C8102E',yoy:3.2},
-  {rank:3,route:'ATL–DFW',weekly:368,pax:4.0,carrier:'American',color:'#0057B7',yoy:-1.9},
+  {rank:3,route:'ATL–DFW',weekly:368,pax:4.0,carrier:'American',color:'#0078D2',yoy:-1.9},
   {rank:4,route:'JFK–BOS',weekly:603,pax:6.8,carrier:'Delta',color:'#C8102E',yoy:2.2},
   {rank:5,route:'LAS–LAX',weekly:368,pax:4.1,carrier:'Southwest',color:'#E06700',yoy:-1.2},
-  {rank:6,route:'CLT–ATL',weekly:334,pax:3.7,carrier:'American',color:'#0057B7',yoy:3.3},
+  {rank:6,route:'CLT–ATL',weekly:334,pax:3.7,carrier:'American',color:'#0078D2',yoy:3.3},
   {rank:7,route:'PHX–LAX',weekly:328,pax:3.7,carrier:'Southwest',color:'#E06700',yoy:0.8},
-  {rank:8,route:'SFO–LAX',weekly:322,pax:3.6,carrier:'United',color:'#1A6BAD',yoy:1.1},
+  {rank:8,route:'SFO–LAX',weekly:322,pax:3.6,carrier:'United',color:'#0C2340',yoy:1.1},
   {rank:9,route:'HNL–LAX',weekly:188,pax:2.1,carrier:'Hawaiian',color:'#5B2D8E',yoy:3.8},
   {rank:10,route:'ATL–MCO (F9)',weekly:248,pax:2.8,carrier:'Frontier',color:'#2A7A35',yoy:8.2},
   {rank:11,route:'BNA–ATL (SW)',weekly:175,pax:2.0,carrier:'Southwest',color:'#E06700',yoy:-5.7},
@@ -1460,7 +1460,6 @@ const YEAR_LABELS={
   2025:'OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cut · MX expanded · HA merged',
   2026:'2026E · Spirit gone · SW transform · Breeze 250+ · Atmos live · F9 first class'
 };
-const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 function setYear(yr,btn){
   activeYear=yr;
   document.querySelectorAll('#yearToggle button').forEach(b=>{
@@ -1495,17 +1494,19 @@ function setGlobalYear(yr,btn){
 const TOP_ROUTES=[
   {rank:1,route:'LAX–JFK',weekly:780,pax:8.7,carrier:'Multi',color:'#5B5A5A',yoy:0.5},
   {rank:2,route:'ATL–ORD',weekly:420,pax:4.8,carrier:'Delta',color:'#C8102E',yoy:2.1},
-  {rank:3,route:'ATL–DFW',weekly:380,pax:4.2,carrier:'American',color:'#0057B7',yoy:-1.1},
+  {rank:3,route:'ATL–DFW',weekly:380,pax:4.2,carrier:'American',color:'#0078D2',yoy:-1.1},
   {rank:4,route:'JFK–BOS',weekly:420,pax:4.7,carrier:'Delta/B6',color:'#C8102E',yoy:0.3},
   {rank:5,route:'LAS–LAX',weekly:380,pax:4.3,carrier:'Southwest',color:'#E06700',yoy:-0.2},
-  {rank:6,route:'CLT–ATL',weekly:320,pax:3.6,carrier:'American',color:'#0057B7',yoy:2.4},
+  {rank:6,route:'CLT–ATL',weekly:320,pax:3.6,carrier:'American',color:'#0078D2',yoy:2.4},
   {rank:7,route:'PHX–LAX',weekly:340,pax:3.8,carrier:'Southwest',color:'#E06700',yoy:1.2},
-  {rank:8,route:'SFO–LAX',weekly:310,pax:3.5,carrier:'United',color:'#1A6BAD',yoy:-0.6},
+  {rank:8,route:'SFO–LAX',weekly:310,pax:3.5,carrier:'United',color:'#0C2340',yoy:-0.6},
   {rank:9,route:'HNL–LAX',weekly:180,pax:2.0,carrier:'Hawaiian',color:'#5B2D8E',yoy:2.8},
   {rank:10,route:'BNA–ATL',weekly:310,pax:3.5,carrier:'Southwest',color:'#E06700',yoy:-5.7},
   {rank:11,route:'SLC–DEN',weekly:250,pax:2.8,carrier:'Delta',color:'#C8102E',yoy:3.2},
   {rank:12,route:'HNL–SFO',weekly:160,pax:1.8,carrier:'Hawaiian',color:'#5B2D8E',yoy:2.4},
 ];
+
+const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 
 // ═══ CHART DEFAULTS ═══
 Chart.defaults.font.family="'Inter',sans-serif";
@@ -1532,7 +1533,7 @@ function switchCarrier(name,btn){
   });
   document.getElementById('cp-'+name).classList.add('active');
   btn.classList.add('active');
-  const cMap={delta:'#C8102E',united:'#1A6BAD',american:'#0057B7',southwest:'#E06700',jetblue:'#0088BB',hawaiian:'#5B2D8E',newentrants:'#CC3370',overview:'#F97316'};
+  const cMap={delta:'#C8102E',united:'#0C2340',american:'#0078D2',southwest:'#E06700',jetblue:'#003DA5',hawaiian:'#5B2D8E',newentrants:'#CC3370',overview:'#F97316'};
   const c=cMap[name]||'#F97316';
   btn.style.background=c; btn.style.borderColor=c; btn.style.color='#fff';
 }
@@ -1549,7 +1550,7 @@ buildRouteTable();
 
 // ═══ FLOW BARS ═══
 function buildFlowBars(){
-  const data=[{n:'Allegiant',v:124,c:'#C04E1A'},{n:'Frontier',v:104,c:'#2A7A35'},{n:'American',v:95,c:'#0057B7'},{n:'Southwest',v:89,c:'#E06700'},{n:'Delta',v:78,c:'#C8102E'},{n:'Breeze',v:78,c:'#CC3370'},{n:'United',v:70,c:'#1A6BAD'},{n:'Alaska+HA',v:52,c:'#015DAA'}];
+  const data=[{n:'Allegiant',v:124,c:'#7B3F00'},{n:'Frontier',v:104,c:'#2A7A35'},{n:'American',v:95,c:'#0078D2'},{n:'Southwest',v:89,c:'#E06700'},{n:'Delta',v:78,c:'#C8102E'},{n:'Breeze',v:78,c:'#CC3370'},{n:'United',v:70,c:'#0C2340'},{n:'Alaska+HA',v:52,c:'#01B7A8'}];
   const max=Math.max(...data.map(d=>d.v));
   const el=document.getElementById('flowBars');if(!el)return;
   el.innerHTML=data.map(d=>`<div class="flow-row"><span class="flow-label">${d.n}</span><div class="flow-bar"><div class="flow-fill" id="fb-${d.n.replace(/\W/g,'')}" style="width:0%;background:${d.c}"></div></div><span class="flow-val">${d.v}</span></div>`).join('');
@@ -1559,7 +1560,7 @@ buildFlowBars();
 
 // ═══ HEATMAP ═══
 function buildHeatmap(){
-  const C=[['Delta','#C8102E'],['United','#1A6BAD'],['American','#0057B7'],['Southwest','#E06700'],['Alaska','#015DAA'],['JetBlue','#0088BB'],['Frontier','#2A7A35'],['Hawaiian','#5B2D8E']];
+  const C=[['Delta','#C8102E'],['United','#0C2340'],['American','#0078D2'],['Southwest','#E06700'],['Alaska','#01B7A8'],['JetBlue','#003DA5'],['Frontier','#2A7A35'],['Hawaiian','#5B2D8E']];
   const D=[[80,70,72,75,95,90,85],[75,68,70,72,88,85,78],[78,72,74,76,92,88,82],[82,75,70,72,90,95,88],[60,55,58,60,75,82,70],[55,50,52,55,70,80,65],[62,58,60,62,78,75,68],[55,60,58,62,75,88,80]];
   const el=document.getElementById('heatmapGrid');if(!el)return;
   el.innerHTML=C.map(([c,col],ci)=>`<div class="hm-row"><div class="hm-carrier-lbl" style="color:${col}">${c.slice(0,5)}</div>${D[ci].map(v=>{const op=((v/100)*.6+.12).toFixed(2);return `<div class="hm-cell" style="background:${col};opacity:${op}" title="${c}: ${v}%" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='${op}'"></div>`;}).join('')}</div>`).join('');
@@ -1568,7 +1569,7 @@ buildHeatmap();
 
 // ═══ MOVERS ═══
 function buildMovers(){
-  const m=[{c:'Breeze',r:'Secondary markets',v:'+78%',u:true,col:'#CC3370'},{c:'Delta',r:'MSP hub expansion',v:'+3.2pp',u:true,col:'#C8102E'},{c:'Hawaiian',r:'Pacific routes post-merger',v:'+4.1%',u:true,col:'#5B2D8E'},{c:'Spirit',r:'West Coast exit',v:'-39%',u:false,col:'#92700A'},{c:'JetBlue',r:'NE Alliance dissolved',v:'-24 routes',u:false,col:'#0088BB'},{c:'Southwest',r:'ATL retreat',v:'-57%',u:false,col:'#E06700'}];
+  const m=[{c:'Breeze',r:'Secondary markets',v:'+78%',u:true,col:'#CC3370'},{c:'Delta',r:'MSP hub expansion',v:'+3.2pp',u:true,col:'#C8102E'},{c:'Hawaiian',r:'Pacific routes post-merger',v:'+4.1%',u:true,col:'#5B2D8E'},{c:'Spirit',r:'West Coast exit',v:'-39%',u:false,col:'#BFAE00'},{c:'JetBlue',r:'NE Alliance dissolved',v:'-24 routes',u:false,col:'#003DA5'},{c:'Southwest',r:'ATL retreat',v:'-57%',u:false,col:'#E06700'}];
   const el=document.getElementById('moversContainer');if(!el)return;
   el.innerHTML=m.map(x=>`<div class="mover-row"><span class="mover-carrier" style="color:${x.col}">${x.u?'↑':'↓'} ${x.c}</span><span class="mover-detail">${x.r}</span><span class="mover-val" style="color:${x.u?'#16A34A':'#DC2626'}">${x.v}</span></div>`).join('');
 }
@@ -1616,9 +1617,9 @@ function mk(id,type,data,opts){const el=document.getElementById(id);if(!el)retur
 window.addEventListener('load',()=>{
 
 // TAB 1 CHARTS
-mk('mktShareChart','bar',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#A8A29E'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% domestic ASMs`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
+mk('mktShareChart','bar',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0078D2','#E06700','#C8102E','#0C2340','#01B7A8','#003DA5','#2A7A35','#BFAE00','#5B2D8E','#CC3370','#A8A29E'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% domestic ASMs`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
 
-mk('mixChart','doughnut',{labels:['Legacy (AA/DL/UA)','LCC (WN/AS+HA/B6)','ULCC (NK/F9/BRZ)'],datasets:[{data:[57.3,30.4,7.7],backgroundColor:['#1A6BAD','#E06700','#CA8A04'],borderWidth:0,hoverOffset:8}]},{cutout:'68%',plugins:{legend:{display:true,position:'bottom',labels:{color:'#78716C',font:{size:9},boxWidth:8,padding:6}}}});
+mk('mixChart','doughnut',{labels:['Legacy (AA/DL/UA)','LCC (WN/AS+HA/B6)','ULCC (NK/F9/BRZ)'],datasets:[{data:[57.3,30.4,7.7],backgroundColor:['#0C2340','#E06700','#CA8A04'],borderWidth:0,hoverOffset:8}]},{cutout:'68%',plugins:{legend:{display:true,position:'bottom',labels:{color:'#78716C',font:{size:9},boxWidth:8,padding:6}}}});
 
 mk('demandChart','line',{labels:['2019','2020','2021','2022','2023','2024','2025E'],datasets:[{label:'RPM Index',data:[100,41.9,72.8,92.1,97.2,105.4,109],borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#F97316',pointBorderColor:'#fff',pointBorderWidth:2},{label:'2019 Baseline',data:[100,100,100,100,100,100,100],borderColor:'rgba(0,0,0,.2)',borderDash:[5,4],borderWidth:1.5,fill:false,pointRadius:0}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:10}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:TICK,border:{display:false},min:30,max:120}}});
 
@@ -1627,7 +1628,7 @@ mk('fareChart','line',{labels:['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','
 // TAB 2 CHARTS
 mk('trasmCasmChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],datasets:[{label:'TRASM ¢',data:[20.8,19.4,19.1,18.6,17.9,17.2,14.8],backgroundColor:'rgba(249,115,22,.85)',borderRadius:4,borderSkipped:false},{label:'CASM-ex ¢',data:[13.2,13.5,13.7,14.1,14.4,15.8,15.4],backgroundColor:'rgba(220,38,38,.75)',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}¢`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'¢'},border:{display:false},min:10}}});
 
-const mC=[['Delta',[7.8,11.3,14.1],'#C8102E'],['United',[3.2,8.9,11.3],'#1A6BAD'],['American',[1.1,5.2,6.4],'#0057B7'],['Southwest',[0.5,2.1,3.8],'#E06700'],['Alaska',[4.2,6.8,8.3],'#015DAA'],['JetBlue',[-5.2,-4.1,-3.1],'#0088BB'],['Hawaiian',[2.1,4.2,5.1],'#5B2D8E'],['Frontier',[-3.1,-0.8,-1.8],'#2A7A35']];
+const mC=[['Delta',[7.8,11.3,14.1],'#C8102E'],['United',[3.2,8.9,11.3],'#0C2340'],['American',[1.1,5.2,6.4],'#0078D2'],['Southwest',[0.5,2.1,3.8],'#E06700'],['Alaska',[4.2,6.8,8.3],'#01B7A8'],['JetBlue',[-5.2,-4.1,-3.1],'#003DA5'],['Hawaiian',[2.1,4.2,5.1],'#5B2D8E'],['Frontier',[-3.1,-0.8,-1.8],'#2A7A35']];
 mk('marginChart','line',{labels:['FY2022','FY2023','FY2024'],datasets:mC.map(([l,d,c])=>({label:l,data:d,borderColor:c,borderWidth:2,pointRadius:4,tension:.3,fill:false,pointBackgroundColor:c,pointBorderColor:'#fff',pointBorderWidth:1.5}))},{plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:5}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
 
 mk('fuelPctChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],datasets:[{label:'2022',data:[27,28,26,29,30,31,32],backgroundColor:'rgba(0,0,0,.12)',borderRadius:3,borderSkipped:false},{label:'2023',data:[24,25,23,26,27,28,29],backgroundColor:'rgba(249,115,22,.5)',borderRadius:3,borderSkipped:false},{label:'2024',data:[22,23,22,24,25,26,28],backgroundColor:'rgba(249,115,22,.85)',borderRadius:3,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false},min:15}}});
@@ -1635,16 +1636,16 @@ mk('fuelPctChart','bar',{labels:['Delta','United','Alaska','American','Southwest
 mk('fuelPriceChart','line',{labels:['J\'22','A','J','O','J\'23','A','J','O','J\'24','A','J','O','J\'25'],datasets:[{data:[2.48,3.89,4.12,3.71,3.22,2.98,3.41,3.15,2.88,2.91,2.74,2.68,2.62],borderColor:'#EA580C',backgroundColor:'rgba(234,88,12,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#EA580C'}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}/gal`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:45},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v},border:{display:false},min:2.0}}});
 
 // TAB 3 CHARTS
-mk('loyaltyRevChart','bar',{labels:['2020','2021','2022','2023','2024'],datasets:[{label:'Delta',data:[3.4,4.5,6.0,6.5,7.0],backgroundColor:'#C8102E',borderRadius:4,borderSkipped:false},{label:'United',data:[2.8,3.6,4.7,5.1,5.5],backgroundColor:'#1A6BAD',borderRadius:4,borderSkipped:false},{label:'American',data:[2.5,3.3,4.4,4.9,5.2],backgroundColor:'#0057B7',borderRadius:4,borderSkipped:false},{label:'Southwest',data:[1.4,1.8,2.2,2.5,2.8],backgroundColor:'#E06700',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
+mk('loyaltyRevChart','bar',{labels:['2020','2021','2022','2023','2024'],datasets:[{label:'Delta',data:[3.4,4.5,6.0,6.5,7.0],backgroundColor:'#C8102E',borderRadius:4,borderSkipped:false},{label:'United',data:[2.8,3.6,4.7,5.1,5.5],backgroundColor:'#0C2340',borderRadius:4,borderSkipped:false},{label:'American',data:[2.5,3.3,4.4,4.9,5.2],backgroundColor:'#0078D2',borderRadius:4,borderSkipped:false},{label:'Southwest',data:[1.4,1.8,2.2,2.5,2.8],backgroundColor:'#E06700',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
 
-mk('loyaltyPctChart','bar',{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],datasets:[{data:[15.9,13.1,12.8,11.2,7.4,5.8,4.5,1.8],backgroundColor:['#C8102E','#1A6BAD','#0057B7','#E06700','#015DAA','#5B2D8E','#0088BB','#2A7A35'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% of total revenue`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
+mk('loyaltyPctChart','bar',{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],datasets:[{data:[15.9,13.1,12.8,11.2,7.4,5.8,4.5,1.8],backgroundColor:['#C8102E','#0C2340','#0078D2','#E06700','#01B7A8','#5B2D8E','#003DA5','#2A7A35'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% of total revenue`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
 
 // TAB 4 CHARTS
 const tlLabels=['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','Q1\'24','Q2','Q3','Q4','Q1\'25'];
-const tlD=[{l:'Delta',d:[18.2,18.5,18.8,18.4,18.6,18.9,19.1,18.7,18.9,19.2,19.4,19.0,18.5],c:'#C8102E'},{l:'United',d:[16.8,17.0,17.2,17.0,17.1,17.4,17.6,17.3,17.4,17.7,17.9,17.5,17.8],c:'#1A6BAD'},{l:'American',d:[21.2,21.0,20.8,21.1,20.9,20.7,20.5,21.0,20.8,20.6,20.4,21.0,21.0],c:'#0057B7'},{l:'Southwest',d:[20.1,19.8,19.5,19.8,19.6,19.4,19.2,19.5,19.3,19.1,18.9,19.2,19.0],c:'#E06700'},{l:'Spirit',d:[5.8,5.6,5.4,5.2,5.0,4.8,4.4,4.0,3.5,3.2,2.8,2.0,2.0],c:'#92700A'},{l:'Breeze',d:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.1,1.3,1.5,1.8],c:'#CC3370'},{l:'Hawaiian',d:[2.4,2.4,2.3,2.3,2.3,2.2,2.3,2.2,2.2,2.1,2.2,2.1,2.1],c:'#5B2D8E'}];
+const tlD=[{l:'Delta',d:[18.2,18.5,18.8,18.4,18.6,18.9,19.1,18.7,18.9,19.2,19.4,19.0,18.5],c:'#C8102E'},{l:'United',d:[16.8,17.0,17.2,17.0,17.1,17.4,17.6,17.3,17.4,17.7,17.9,17.5,17.8],c:'#0C2340'},{l:'American',d:[21.2,21.0,20.8,21.1,20.9,20.7,20.5,21.0,20.8,20.6,20.4,21.0,21.0],c:'#0078D2'},{l:'Southwest',d:[20.1,19.8,19.5,19.8,19.6,19.4,19.2,19.5,19.3,19.1,18.9,19.2,19.0],c:'#E06700'},{l:'Spirit',d:[5.8,5.6,5.4,5.2,5.0,4.8,4.4,4.0,3.5,3.2,2.8,2.0,2.0],c:'#BFAE00'},{l:'Breeze',d:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.1,1.3,1.5,1.8],c:'#CC3370'},{l:'Hawaiian',d:[2.4,2.4,2.3,2.3,2.3,2.2,2.3,2.2,2.2,2.1,2.2,2.1,2.1],c:'#5B2D8E'}];
 mk('timelineChart','line',{labels:tlLabels,datasets:tlD.map(x=>({label:x.l,data:x.d,borderColor:x.c,backgroundColor:x.c+'12',borderWidth:1.8,fill:false,tension:.4,pointRadius:0}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:8},boxWidth:8,padding:6}},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{grid:GRID,ticks:{...TICK,font:{size:8}},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false},min:0,max:25}},animation:{duration:1600,easing:'easeInOutQuart'}});
 
-mk('shareDonut','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#A8A29E'],borderWidth:0,hoverOffset:6}]},{cutout:'62%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
+mk('shareDonut','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,3.5],backgroundColor:['#0078D2','#E06700','#C8102E','#0C2340','#01B7A8','#003DA5','#2A7A35','#BFAE00','#5B2D8E','#CC3370','#A8A29E'],borderWidth:0,hoverOffset:6}]},{cutout:'62%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
 
 const hhiAp=['DAL','MDW','DFW','CLT','ATL','HNL','MSP','DTW','IAH','EWR','ORD','BNA','PHX','DEN','LAX'];
 const hhiV=[9200,8200,7300,7300,5800,5200,5000,5000,4500,4200,3200,2200,1900,1600,1200];
@@ -1653,12 +1654,12 @@ mk('hhiChart','bar',{labels:hhiAp,datasets:[{data:hhiV,backgroundColor:hhiV.map(
 mk('airportGrowthChart','bar',{labels:['TYS','CLT','ORD','DFW','MSP','BNA','HNL','DEN','AUS','ATL','SFO'],datasets:[{data:[18.6,10.0,8.3,7.4,6.9,7.4,4.1,5.7,5.2,3.3,-2.1],backgroundColor:d=>d.parsed.y>=0?'rgba(22,163,74,.75)':'rgba(220,38,38,.75)',borderRadius:5,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed.y>0?'+':''}${c.parsed.y}% YoY`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
 
 // TAB 5 CHARTS
-const ncA=[['Delta',[1.9,4.2,3.46],'#C8102E'],['United',[1.6,3.0,3.15],'#1A6BAD'],['American',[0.6,2.1,0.8],'#0057B7'],['Southwest',[0.8,1.3,0.47],'#E06700'],['Alaska+HA',[0.5,0.8,0.64],'#015DAA'],['JetBlue',[-1.0,-0.4,-0.55],'#0088BB'],['Hawaiian',[0.1,0.2,0.25],'#5B2D8E'],['Frontier',[-0.3,-0.1,-0.18],'#2A7A35']];
+const ncA=[['Delta',[1.9,4.2,3.46],'#C8102E'],['United',[1.6,3.0,3.15],'#0C2340'],['American',[0.6,2.1,0.8],'#0078D2'],['Southwest',[0.8,1.3,0.47],'#E06700'],['Alaska+HA',[0.5,0.8,0.64],'#01B7A8'],['JetBlue',[-1.0,-0.4,-0.55],'#003DA5'],['Hawaiian',[0.1,0.2,0.25],'#5B2D8E'],['Frontier',[-0.3,-0.1,-0.18],'#2A7A35']];
 mk('netIncomeChart','bar',{labels:['FY2022','FY2023','FY2024'],datasets:ncA.map(([l,d,c])=>({label:l,data:d,backgroundColor:c+'CC',borderRadius:4,borderSkipped:false}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:7}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
 
-mk('fullShareChart','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Allegiant','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,1.8,1.7],backgroundColor:['#0057B7','#E06700','#C8102E','#1A6BAD','#015DAA','#0088BB','#2A7A35','#92700A','#5B2D8E','#CC3370','#C04E1A','#A8A29E'],borderWidth:1,borderColor:'#fff',hoverOffset:5}]},{cutout:'55%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
+mk('fullShareChart','doughnut',{labels:['American','Southwest','Delta','United','Alaska+HA','JetBlue','Frontier','Spirit','Hawaiian','Breeze','Allegiant','Other'],datasets:[{data:[21,19,18.5,17.8,6.2,4.2,4.0,2.8,2.1,0.9,1.8,1.7],backgroundColor:['#0078D2','#E06700','#C8102E','#0C2340','#01B7A8','#003DA5','#2A7A35','#BFAE00','#5B2D8E','#CC3370','#7B3F00','#A8A29E'],borderWidth:1,borderColor:'#fff',hoverOffset:5}]},{cutout:'55%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:8},boxWidth:7,padding:4}}}});
 
-mk('revenueChart','bar',{labels:['Delta','United','American','Southwest','Alaska+HA','JetBlue','Frontier','Hawaiian'],datasets:[{data:[61.6,57.1,54.2,27.5,11.8,8.9,3.6,2.8],backgroundColor:['#C8102E','#1A6BAD','#0057B7','#E06700','#015DAA','#0088BB','#2A7A35','#5B2D8E'],borderRadius:6,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}B total revenue`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
+mk('revenueChart','bar',{labels:['Delta','United','American','Southwest','Alaska+HA','JetBlue','Frontier','Hawaiian'],datasets:[{data:[61.6,57.1,54.2,27.5,11.8,8.9,3.6,2.8],backgroundColor:['#C8102E','#0C2340','#0078D2','#E06700','#01B7A8','#003DA5','#2A7A35','#5B2D8E'],borderRadius:6,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}B total revenue`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
 
 // NEW ENTRANTS + OPP CHARTS (shared)
 function buildSpiritChart(id){mk(id,'bar',{labels:['FLL–BHM','CLT–LAX','ATL–JFK','LAX–SLC','ORL–STL','BWI–TPA','FLL–SAN','MIA–OAK'],datasets:[{data:[52,44,38,41,35,48,39,44],backgroundColor:'rgba(220,38,38,.75)',borderRadius:5,borderSkipped:false}]},{plugins:{tooltip:{callbacks:{label:c=>` +${c.parsed.y}% fare increase after Spirit exit`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:40,font:{size:8}},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'+'+v+'%'},border:{display:false},min:0}}});}
@@ -1673,7 +1674,7 @@ mk('breezeGrowthChart','line',{labels:['2021','2022','2023','2024','2025E'],data
 mk('hotSpotsChart','bar',{
   labels:['LAS','MCO','MIA','LAX','ATL','HNL','DFW','DEN','ORD','BNA','AUS','PHX','SFO','BOS','CLT'],
   datasets:[{data:[52,50,51,88,108,21,87,82,80,24,22,50,57,43,58],
-    backgroundColor:['#E06700','#E06700','#0057B7','#78716C','#C8102E','#5B2D8E','#0057B7','#1A6BAD','#1A6BAD','#E06700','#CC3370','#78716C','#1A6BAD','#C8102E','#0057B7'],
+    backgroundColor:['#E06700','#E06700','#0078D2','#78716C','#C8102E','#5B2D8E','#0078D2','#0C2340','#0C2340','#E06700','#CC3370','#78716C','#0C2340','#C8102E','#0078D2'],
     borderRadius:5,borderSkipped:false}]},
   {indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}M annual pax`}}},
   scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'M'},border:{display:false}},y:{grid:{display:false},ticks:{...TICK,font:{size:9}},border:{display:false}}}});
@@ -1691,7 +1692,7 @@ mk('seasonalityChart','line',{
   labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
   datasets:[
     {label:'Leisure',data:[72,74,88,92,96,118,124,122,88,82,78,110],borderColor:'#F97316',borderWidth:2.5,fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#F97316'},
-    {label:'Business',data:[88,90,95,96,92,82,78,80,94,96,90,68],borderColor:'#1A6BAD',borderWidth:2.5,fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#1A6BAD'},
+    {label:'Business',data:[88,90,95,96,92,82,78,80,94,96,90,68],borderColor:'#0C2340',borderWidth:2.5,fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#0C2340'},
     {label:'VFR',data:[82,82,88,88,92,96,98,100,86,84,102,118],borderColor:'#2A7A35',borderWidth:2.5,fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#2A7A35'},
     {label:'Hawaii',data:[88,90,96,98,102,112,118,115,94,92,88,108],borderColor:'#5B2D8E',borderWidth:2.5,fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#5B2D8E'}
   ]},
@@ -1702,7 +1703,7 @@ mk('seasonalityChart','line',{
 mk('routeCategoryChart','doughnut',{
   labels:['Pure Leisure','Business','VFR (Visit Friends/Rel.)','Bleisure','Hawaii/Destination','Premium Leisure'],
   datasets:[{data:[34,22,18,12,8,6],
-    backgroundColor:['#F97316','#1A6BAD','#2A7A35','#EA580C','#5B2D8E','#C8102E'],
+    backgroundColor:['#F97316','#0C2340','#2A7A35','#EA580C','#5B2D8E','#C8102E'],
     borderWidth:0,hoverOffset:8}]},
   {cutout:'60%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:9},boxWidth:8,padding:5}}}});
 
@@ -1710,7 +1711,7 @@ mk('routeCategoryChart','doughnut',{
 mk('earnMixChart','doughnut',{
   labels:['Credit Card Spend','Delta Flights','Shopping Portal','Dining Partners','Hotel/Car Partners','Other'],
   datasets:[{data:[62,21,7,4,4,2],
-    backgroundColor:['#C8102E','#F97316','#EA580C','#1A6BAD','#2A7A35','#A8A29E'],
+    backgroundColor:['#C8102E','#F97316','#EA580C','#0C2340','#2A7A35','#A8A29E'],
     borderWidth:0,hoverOffset:6}]},
   {cutout:'60%',plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:9},boxWidth:7,padding:4}}}});
 
@@ -1730,7 +1731,7 @@ mk('redemptionCabinChart','bar',{
 mk('cpmChart','bar',{
   labels:['United','Alaska','Delta','American','Southwest','JetBlue','Frontier','Hawaiian'],
   datasets:[{data:[1.35,1.28,1.22,1.12,1.10,1.05,0.95,1.18],
-    backgroundColor:['#1A6BAD','#015DAA','#C8102E','#0057B7','#E06700','#0088BB','#2A7A35','#5B2D8E'],
+    backgroundColor:['#0C2340','#01B7A8','#C8102E','#0078D2','#E06700','#003DA5','#2A7A35','#5B2D8E'],
     borderRadius:6,borderSkipped:false}]},
   {plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.y}¢ avg redemption value`}}},
   scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},
@@ -1743,7 +1744,7 @@ mk('cardVsDemandChart','line',{
     {label:'Co-Brand Card Spend Index',data:[104,108,115,112,118,122,129,124,132,136,142,138,145],
       borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#F97316'},
     {label:'Air Travel Demand Index',data:[96,102,110,106,112,116,124,118,126,130,136,132,139],
-      borderColor:'#1A6BAD',backgroundColor:'rgba(26,107,173,.05)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#1A6BAD'}
+      borderColor:'#0C2340',backgroundColor:'rgba(12,35,64,.05)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#0C2340'}
   ]},
   {plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}}},
   scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:40,font:{size:8}},border:{display:false}},
@@ -1909,7 +1910,7 @@ function updateAllChartsForYear(yr){
     const c=chartInstances.mktShareChart;
     c.data.labels=ms.labels;
     c.data.datasets[0].data=ms.data;
-    const colors={'American':'#0057B7','Southwest':'#E06700','Delta':'#C8102E','United':'#1A6BAD','Alaska+HA':'#015DAA','JetBlue':'#0088BB','Frontier':'#2A7A35','Spirit':'#92700A','Hawaiian':'#5B2D8E','Breeze':'#CC3370','Other':'#A8A29E'};
+    const colors={'American':'#0078D2','Southwest':'#E06700','Delta':'#C8102E','United':'#0C2340','Alaska+HA':'#01B7A8','JetBlue':'#003DA5','Frontier':'#2A7A35','Spirit':'#BFAE00','Hawaiian':'#5B2D8E','Breeze':'#CC3370','Other':'#A8A29E'};
     c.data.datasets[0].backgroundColor=ms.labels.map(l=>colors[l]||'#A8A29E');
     c.update();
   }
