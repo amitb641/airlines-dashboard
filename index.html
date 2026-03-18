@@ -1460,7 +1460,6 @@ const YEAR_LABELS={
   2025:'OAG Q1 2025 fwd · WN ATL -57% · F9 ATL +40% · B6 cut · MX expanded · HA merged',
   2026:'2026E · Spirit gone · SW transform · Breeze 250+ · Atmos live · F9 first class'
 };
-const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 function setYear(yr,btn){
   activeYear=yr;
   document.querySelectorAll('#yearToggle button').forEach(b=>{
@@ -1506,6 +1505,8 @@ const TOP_ROUTES=[
   {rank:11,route:'SLC–DEN',weekly:250,pax:2.8,carrier:'Delta',color:'#C8102E',yoy:3.2},
   {rank:12,route:'HNL–SFO',weekly:160,pax:1.8,carrier:'Hawaiian',color:'#5B2D8E',yoy:2.4},
 ];
+
+const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 
 // ═══ CHART DEFAULTS ═══
 Chart.defaults.font.family="'Inter',sans-serif";
