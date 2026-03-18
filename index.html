@@ -1516,6 +1516,38 @@ const YEAR_ROUTES={2024:TOP_ROUTES,2025:TOP_ROUTES_2025,2026:TOP_ROUTES_2026};
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.color='#78716C';
 Chart.defaults.plugins.legend.display=false;
+// Global tooltip: show "Estimated" badge + source when hovering over estimated data points
+Chart.defaults.plugins.tooltip.backgroundColor='rgba(28,25,23,.92)';
+Chart.defaults.plugins.tooltip.titleFont={family:"'JetBrains Mono',monospace",size:10,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont={family:"'Inter',sans-serif",size:11};
+Chart.defaults.plugins.tooltip.footerFont={family:"'JetBrains Mono',monospace",size:9,weight:'400',style:'italic'};
+Chart.defaults.plugins.tooltip.footerColor='rgba(249,115,22,.9)';
+Chart.defaults.plugins.tooltip.padding=10;
+Chart.defaults.plugins.tooltip.cornerRadius=6;
+Chart.defaults.plugins.tooltip.borderColor='rgba(249,115,22,.3)';
+Chart.defaults.plugins.tooltip.borderWidth=0;
+// Estimation source map by chart ID
+const EST_SOURCES={
+  demandChart:'BTS RPM trend extrapolation',
+  fareChart:'DOT seasonal pattern projection',
+  marginChart:'Carrier guidance + analyst consensus',
+  fuelPriceChart:'EIA Short-Term Energy Outlook',
+  fuelPctChart:'10-K actuals + EIA fuel forecast',
+  loyaltyRevChart:'Investor day guidance + deal growth',
+  netIncomeChart:'Carrier guidance + Wall St. consensus',
+  timelineChart:'OAG forward schedule filings',
+  cardVsDemandChart:'Bank earnings + portfolio trends',
+  redemptionTrendsChart:'Industry reports + trend projection'
+};
+Chart.defaults.plugins.tooltip.callbacks.afterBody=function(items){
+  if(!items||!items.length)return '';
+  const chart=items[0].chart;
+  const idx=items[0].dataIndex;
+  const label=chart.data.labels?chart.data.labels[idx]:'';
+  if(!isEstLabel(label||''))return '';
+  const src=EST_SOURCES[chart.canvas.id]||'Analyst estimate';
+  return ['','⚠ ESTIMATED DATA','Source: '+src];
+};
 const GRID={color:'rgba(0,0,0,.06)',borderDash:[4,4]};
 const TICK={font:{size:9},color:'#78716C'};
 
@@ -1621,6 +1653,15 @@ function isEstLabel(lbl){return typeof lbl==='string'&&/E['"]?\s*$|^[A-Z]{2,4}E$
 
 // Segment callback for line charts: dotted line for estimated data points
 const EST_SEGMENT={borderDash:ctx=>{const labels=ctx.chart.data.labels;return isEstLabel(labels[ctx.p1DataIndex]||'')?[6,3]:[];}};
+
+// Chart.js plugin: highlight tooltip border orange for estimated data points
+Chart.register({id:'estTooltipBorder',beforeTooltipDraw(chart,args){
+  const tooltip=args.tooltip;if(!tooltip||!tooltip.dataPoints||!tooltip.dataPoints.length)return;
+  const idx=tooltip.dataPoints[0].dataIndex;
+  const label=chart.data.labels?chart.data.labels[idx]:'';
+  tooltip.options.borderWidth=isEstLabel(label||'')?1.5:0;
+  tooltip.options.borderColor=isEstLabel(label||'')?'rgba(249,115,22,.6)':'transparent';
+}});
 
 // Chart.js plugin: draw hatched pattern on bar segments representing estimates
 Chart.register({id:'estBarHatch',beforeDatasetsDraw(chart){
