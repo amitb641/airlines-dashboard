@@ -1,0 +1,275 @@
+{
+  "source": "BTS T-100 Domestic Segment",
+  "period": "2026-01",
+  "collected_at": "2026-03-19",
+  "market_totals": {
+    "passengers_ttm": null,
+    "asm_total": null,
+    "rpm_total": null,
+    "load_factor": null,
+    "departures": null,
+    "vs_2019_rpm_pct": null
+  },
+  "carrier_totals": {
+    "DAL": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "UAL": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "AAL": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "LUV": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "ALK": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "JBLU": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "ULCC": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    },
+    "MX": {
+      "passengers": null,
+      "asm": null,
+      "rpm": null,
+      "load_factor": null,
+      "departures": null,
+      "domestic_share_pct": null
+    }
+  },
+  "airport_totals": {
+    "ATL": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "DFW": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "DEN": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "ORD": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "LAX": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "CLT": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "MCO": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "LAS": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "PHX": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "IAH": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "MIA": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "SEA": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "SFO": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "EWR": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "BOS": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "MSP": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "DTW": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "JFK": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "SLC": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "DCA": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "BNA": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "AUS": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "HNL": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    },
+    "SAN": {
+      "passengers": null,
+      "departures": null,
+      "yoy_pct": null,
+      "dominant_carrier": null,
+      "dominant_share_pct": null,
+      "hhi": null
+    }
+  },
+  "top_routes": [],
+  "_instructions": "To populate: Download T-100 Domestic Segment from https://www.transtats.bts.gov/DL_SelectFields.aspx?Table_ID=311 for period 2026-01. Select fields: PASSENGERS, DEPARTURES_PERFORMED, SEATS, AVAILABLE_SEAT_MILES, REV_PAX_MILES_140, UNIQUE_CARRIER, ORIGIN, DEST, YEAR, MONTH. Parse CSV and aggregate by carrier, airport, and O&D pair."
+}

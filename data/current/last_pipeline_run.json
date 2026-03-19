@@ -1,0 +1,407 @@
+{
+  "collect": {
+    "bts": {
+      "period": "2026-01",
+      "status": "collected"
+    },
+    "financials": {
+      "carriers": 8,
+      "status": "collected"
+    },
+    "cards": {
+      "total": 20,
+      "status": "collected"
+    },
+    "airports": {
+      "total": 24,
+      "status": "collected"
+    }
+  },
+  "transform": {
+    "year": 2026,
+    "built_at": "2026-03-19",
+    "market_kpis": {
+      "pax": null,
+      "paxChg": null,
+      "load": null,
+      "loadChg": null,
+      "fare": null,
+      "fareChg": null,
+      "asm": null,
+      "asmChg": null,
+      "vs2019": null
+    },
+    "carrier_shares": {
+      "labels": [],
+      "data": []
+    },
+    "financial_charts": {
+      "margins": {},
+      "revenue": {},
+      "net_income": {},
+      "trasm_casm": {},
+      "fuel_price": {}
+    },
+    "pulse_data": [],
+    "otl_month": [],
+    "airports": {
+      "source": "BTS T-100 / FAA ATADS / ACI-NA",
+      "collected_at": "2026-03-19",
+      "airports": {
+        "ATL": {
+          "code": "ATL",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "DFW": {
+          "code": "DFW",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "DEN": {
+          "code": "DEN",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "ORD": {
+          "code": "ORD",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "LAX": {
+          "code": "LAX",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "CLT": {
+          "code": "CLT",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "MCO": {
+          "code": "MCO",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "LAS": {
+          "code": "LAS",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "PHX": {
+          "code": "PHX",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "IAH": {
+          "code": "IAH",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "MIA": {
+          "code": "MIA",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "SEA": {
+          "code": "SEA",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "SFO": {
+          "code": "SFO",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "EWR": {
+          "code": "EWR",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "BOS": {
+          "code": "BOS",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "MSP": {
+          "code": "MSP",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "DTW": {
+          "code": "DTW",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "JFK": {
+          "code": "JFK",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "SLC": {
+          "code": "SLC",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "DCA": {
+          "code": "DCA",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "BNA": {
+          "code": "BNA",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "AUS": {
+          "code": "AUS",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "HNL": {
+          "code": "HNL",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        },
+        "SAN": {
+          "code": "SAN",
+          "annual_passengers_M": null,
+          "yoy_growth_pct": null,
+          "dominant_carrier": null,
+          "dominant_share_pct": null,
+          "hhi": null,
+          "carrier_shares": {},
+          "daily_departures": null,
+          "gates": null,
+          "is_fortress_hub": null,
+          "capacity_constrained": null
+        }
+      },
+      "_instructions": "Airport data is derived from BTS T-100 (run bts_collector first). HHI = sum of squared carrier seat shares at each airport. HHI > 2500 = concentrated (fortress hub), 1500-2500 = moderate, < 1500 = competitive. Supplement with FAA ATADS for operations data and ACI-NA for annual totals."
+    }
+  },
+  "validate": {
+    "status": "pass",
+    "issues": [],
+    "warnings": [
+      "Market KPI 'pax' is None \u2014 needs data",
+      "Market KPI 'paxChg' is None \u2014 needs data",
+      "Market KPI 'load' is None \u2014 needs data",
+      "Market KPI 'loadChg' is None \u2014 needs data",
+      "Market KPI 'fare' is None \u2014 needs data",
+      "Market KPI 'fareChg' is None \u2014 needs data",
+      "Market KPI 'asm' is None \u2014 needs data",
+      "Market KPI 'asmChg' is None \u2014 needs data",
+      "Market KPI 'vs2019' is None \u2014 needs data",
+      "No pulse data cards \u2014 card offers may not be collected yet"
+    ],
+    "checks_run": 3
+  },
+  "inject": {
+    "status": "dry_run",
+    "changes": [
+      "Updated header to 'Last data: Mar 2026'",
+      "Market KPIs: {\"pax\": null, \"paxChg\": null, \"load\": null, \"loadChg\": null, \"fare\": null, \"fareChg\": null, \"asm\": n...",
+      "Carrier shares: 0 carriers",
+      "Pulse data: 0 cards",
+      "OTL month: 0 offers"
+    ],
+    "date": "2026-03-19"
+  },
+  "snapshot": {
+    "path": "/home/user/airlines-dashboard/data/snapshots/2026-03.json",
+    "files": [
+      "bts_traffic",
+      "financials",
+      "dashboard_transformed",
+      "card_offers",
+      "airports"
+    ],
+    "size_kb": 46.4
+  },
+  "elapsed_seconds": 0.1
+}

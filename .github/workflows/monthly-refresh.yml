@@ -1,0 +1,127 @@
+name: Monthly Data Refresh
+
+# ═══════════════════════════════════════════════════════════════
+# Runs on the 18th of every month at 6 AM UTC
+#
+# Why the 18th?
+#   - BTS T-100 data: ~60-day lag → Jan data available mid-March
+#   - DOT O&D survey: ~90-day quarterly lag → catches latest quarter
+#   - SEC 10-Q: due 40 days after quarter-end → available by the 18th
+#   - OAG schedules: updated continuously → stable by mid-month
+#   - Card offers: cycle on 1st/15th → 18th catches latest round
+#   - Avoids month-end close periods at airlines
+#   - Falls on a weekday in most months
+# ═══════════════════════════════════════════════════════════════
+
+on:
+  schedule:
+    - cron: '0 6 18 * *'   # 6 AM UTC on the 18th of every month
+
+  workflow_dispatch:          # Manual trigger for ad-hoc runs
+    inputs:
+      dry_run:
+        description: 'Dry run (no HTML changes)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      collect_only:
+        description: 'Only run data collection'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run data pipeline
+        env:
+          # Add API keys as repository secrets
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: |
+          if [ "${{ inputs.collect_only }}" = "true" ]; then
+            python -m backend.pipeline --collect-only --verbose
+          elif [ "${{ inputs.dry_run }}" = "true" ]; then
+            python -m backend.pipeline --dry-run --verbose
+          else
+            python -m backend.pipeline --verbose
+          fi
+
+      - name: Archive data snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-snapshot-${{ github.run_id }}
+          path: data/snapshots/
+          retention-days: 90
+
+      - name: Commit and push changes
+        if: inputs.dry_run != 'true' && inputs.collect_only != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage data files and updated index.html
+          git add data/current/*.json
+          git add data/snapshots/*.json
+          git add index.html
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            MONTH=$(date +"%B %Y")
+            git commit -m "data: monthly refresh for ${MONTH}
+
+          Pipeline run: $(date -u +"%Y-%m-%d %H:%M UTC")
+          Triggered by: ${{ github.event_name }}"
+
+            git push
+          fi
+
+      - name: Pipeline summary
+        run: |
+          echo "## Monthly Refresh Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f data/current/last_pipeline_run.json ]; then
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat data/current/last_pipeline_run.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Trigger GitHub Pages deployment after data update
+  deploy:
+    needs: refresh
+    if: inputs.dry_run != 'true' && inputs.collect_only != 'true'
+    uses: ./.github/workflows/deploy.yml

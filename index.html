@@ -1619,20 +1619,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <div class="arch-title"><span>📁</span> File Architecture</div>
       <div class="file-tree">
         <span class="dir">airlines-dashboard/</span><br>
-        ├── <span class="file">index.html</span> <span class="size">~180KB</span> <span class="comment">← entire application</span><br>
-        │&nbsp;&nbsp; ├── <span class="comment">&lt;style&gt;</span> <span class="size">~300 rules</span> <span class="comment">← all CSS inline</span><br>
-        │&nbsp;&nbsp; ├── <span class="comment">&lt;nav&gt;</span> <span class="size">9 tabs</span> <span class="comment">← tab navigation</span><br>
-        │&nbsp;&nbsp; ├── <span class="comment">&lt;main&gt;</span> <span class="size">9 tab-content divs</span> <span class="comment">← all tab HTML</span><br>
-        │&nbsp;&nbsp; ├── <span class="comment">&lt;script&gt;</span> <span class="size">~1200 lines</span> <span class="comment">← all JS inline</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">YEAR_DATA{}</span> <span class="comment">← 2024/2025/2026 datasets</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">PULSE_DATA{}</span> <span class="comment">← card offer snapshots</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">OTL_BY_YEAR{}</span> <span class="comment">← offer timeline matrix</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">mk()</span> <span class="comment">← Chart.js factory</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">showTab()</span> <span class="comment">← tab routing</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">setGlobalYear()</span> <span class="comment">← year toggle handler</span><br>
-        │&nbsp;&nbsp; │&nbsp;&nbsp; └── <span class="comment">updateAllChartsForYear()</span> <span class="comment">← dynamic data swap</span><br>
-        │&nbsp;&nbsp; └── <span class="comment">CDN deps</span> <span class="comment">← Chart.js + Leaflet</span><br>
-        └── <span class="file">README.md</span> <span class="size">optional</span>
+        ├── <span class="file">index.html</span> <span class="size">~400KB</span> <span class="comment">← entire frontend application</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;style&gt;</span> <span class="comment">← all CSS inline (~300 rules)</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;main&gt;</span> <span class="comment">← 9 tab-content divs</span><br>
+        │&nbsp;&nbsp; └── <span class="comment">&lt;script&gt;</span> <span class="comment">← YEAR_DATA, PULSE_DATA, OTL_BY_YEAR, charts</span><br>
+        ├── <span class="dir">backend/</span> <span class="comment">← Python data pipeline</span><br>
+        │&nbsp;&nbsp; ├── <span class="file">config.py</span> <span class="comment">← sources, schedule, carriers, airports</span><br>
+        │&nbsp;&nbsp; ├── <span class="file">pipeline.py</span> <span class="comment">← orchestrator: collect→transform→inject→validate</span><br>
+        │&nbsp;&nbsp; ├── <span class="dir">collectors/</span> <span class="comment">← raw data fetchers</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="file">bts_collector.py</span> <span class="comment">← BTS T-100 (pax, ASM, RPM)</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="file">financial_collector.py</span> <span class="comment">← SEC EDGAR + EIA fuel</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="file">card_offer_collector.py</span> <span class="comment">← TPG/DoC card offers</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; └── <span class="file">airport_collector.py</span> <span class="comment">← FAA/ACI-NA airport data</span><br>
+        │&nbsp;&nbsp; └── <span class="dir">transformers/</span> <span class="comment">← raw → dashboard JSON</span><br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └── <span class="file">dashboard_transformer.py</span> <span class="comment">← builds YEAR_DATA, PULSE_DATA shapes</span><br>
+        ├── <span class="dir">data/</span> <span class="comment">← collected + transformed data</span><br>
+        │&nbsp;&nbsp; ├── <span class="dir">current/</span> <span class="comment">← latest collection (bts_traffic.json, etc.)</span><br>
+        │&nbsp;&nbsp; └── <span class="dir">snapshots/</span> <span class="comment">← monthly archives (2025-03.json, etc.)</span><br>
+        ├── <span class="dir">.github/workflows/</span><br>
+        │&nbsp;&nbsp; ├── <span class="file">deploy.yml</span> <span class="comment">← GitHub Pages deployment</span><br>
+        │&nbsp;&nbsp; └── <span class="file">monthly-refresh.yml</span> <span class="comment">← cron: 18th @ 6AM UTC</span><br>
+        └── <span class="file">requirements.txt</span> <span class="comment">← requests</span>
       </div>
     </div>
     <div class="arch-panel">
@@ -1690,6 +1697,73 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
           <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#7C3AED;margin-bottom:6px;">REVIEW + SHIP</div>
           <div style="font-size:8px;color:var(--muted);line-height:1.6;">QA audit<br>Source verify<br>Mobile test<br>Git push</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY REFRESH PIPELINE -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Monthly Refresh Pipeline — Runs 18th of Every Month</div><div class="ps">Automated GitHub Actions · Collect → Transform → Inject → Snapshot → Validate · python -m backend.pipeline</div></div><span class="ptag" style="background:rgba(22,163,74,.1);color:#16A34A;">CRON</span></div>
+    <div class="cw">
+      <!-- Why the 18th -->
+      <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px;">Why the 18th of each month?</div>
+        <div style="font-size:9px;color:var(--muted);line-height:1.8;">
+          <strong style="color:var(--text);">BTS T-100:</strong> ~60-day lag — Jan data lands mid-March, so by the 18th you get the freshest month<br>
+          <strong style="color:var(--text);">DOT O&D Survey:</strong> quarterly, ~90-day lag — the 18th catches the latest quarterly release<br>
+          <strong style="color:var(--text);">SEC 10-Q:</strong> due 40 days after quarter-end — April 18th catches Q4 filings, July 18th catches Q1<br>
+          <strong style="color:var(--text);">OAG Schedules:</strong> continuously updated — stable by mid-month as airlines finalize adjustments<br>
+          <strong style="color:var(--text);">Card Offers:</strong> typically cycle on 1st/15th — the 18th captures the latest promotional round<br>
+          <strong style="color:var(--text);">Weekday bias:</strong> the 18th falls on a weekday in most months, avoiding weekend data gaps<br>
+          <strong style="color:var(--text);">Avoids month-end:</strong> airlines are in close periods at month/quarter-end — the 18th is clean
+        </div>
+      </div>
+      <!-- Pipeline steps -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;">
+        <div style="background:rgba(12,35,64,.06);border:1px solid rgba(12,35,64,.15);border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:4px;">1</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#0C2340;">COLLECT</div>
+          <div style="font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5;">bts_collector<br>financial_collector<br>card_offer_collector<br>airport_collector</div>
+        </div>
+        <div style="background:rgba(233,150,14,.06);border:1px solid rgba(233,150,14,.15);border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:4px;">2</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:var(--accent2);">TRANSFORM</div>
+          <div style="font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5;">dashboard_transformer<br>→ YEAR_DATA shape<br>→ PULSE_DATA shape<br>→ OTL_BY_YEAR shape</div>
+        </div>
+        <div style="background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:4px;">3</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:var(--accent);">INJECT</div>
+          <div style="font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5;">Update index.html<br>Swap JS data objects<br>Update "Last data"<br>header timestamp</div>
+        </div>
+        <div style="background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.15);border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:4px;">4</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#7C3AED;">SNAPSHOT</div>
+          <div style="font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5;">Archive month data<br>data/snapshots/<br>2025-03.json<br>90-day retention</div>
+        </div>
+        <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:4px;">5</div>
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#16A34A;">VALIDATE</div>
+          <div style="font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5;">Cross-tab consistency<br>Share sums ≈ 100%<br>No null KPIs<br>Revenue matches</div>
+        </div>
+      </div>
+      <!-- Source release calendar -->
+      <div style="overflow-x:auto;">
+        <table class="dt" style="font-size:9px;">
+          <thead><tr><th>Source</th><th>Data</th><th>Release Lag</th><th>Frequency</th><th>Best Captured By</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:600;">BTS T-100</td><td>Passengers, ASM, RPM, load factor</td><td>~60 days</td><td>Monthly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">DOT O&D Survey</td><td>Fares, itineraries, route demand</td><td>~90 days (quarterly)</td><td>Quarterly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">SEC EDGAR</td><td>Revenue, margins, CASM, 10-K/10-Q</td><td>40–60 days</td><td>Quarterly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">OAG Schedules</td><td>Flight frequency, capacity, routes</td><td>Real-time</td><td>Continuous</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">EIA Fuel</td><td>Jet fuel spot price ($/gal)</td><td>~7 days</td><td>Weekly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">TPG / DoC / USCG</td><td>Card offers, bonuses, AF changes</td><td>Real-time</td><td>Daily</td><td style="color:#16A34A;font-weight:600;">18th ✓ (post-15th cycle)</td></tr>
+            <tr><td style="font-weight:600;">FAA / ACI-NA</td><td>Airport traffic, operations</td><td>~90 days</td><td>Quarterly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+            <tr><td style="font-weight:600;">A4A Reports</td><td>Industry analysis, forecasts</td><td>~30 days</td><td>Monthly</td><td style="color:#16A34A;font-weight:600;">18th ✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">
+        GitHub Actions: <span style="color:var(--accent);">cron: '0 6 18 * *'</span> · Manual trigger available via workflow_dispatch · Dry-run mode supported · Snapshots retained 90 days
       </div>
     </div>
   </div>
