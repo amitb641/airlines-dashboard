@@ -317,18 +317,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <nav class="nav">
   <button class="nav-tab active" onclick="showTab('market',this)"><span class="tab-n">1</span>Market Overview</button>
-  <button class="nav-tab" onclick="showTab('financial',this)"><span class="tab-n">2</span>Financial</button>
-  <button class="nav-tab" onclick="showTab('loyalty',this)"><span class="tab-n">3</span>Loyalty & Credit Cards</button>
-  <button class="nav-tab" onclick="showTab('travel',this)"><span class="tab-n">🔥</span>Travel Intelligence</button>
-  <button class="nav-tab" onclick="showTab('airports',this)"><span class="tab-n">4</span>Airport Intelligence</button>
-  <button class="nav-tab" onclick="showTab('carriers',this)"><span class="tab-n">5</span>Carrier Dynamics</button>
-  <button class="nav-tab" onclick="showTab('opportunity',this)"><span class="tab-n">6</span>Market Opportunity</button>
+  <button class="nav-tab" onclick="showTab('travel',this)"><span class="tab-n">2</span>Travel Intelligence</button>
+  <button class="nav-tab" onclick="showTab('airports',this)"><span class="tab-n">3</span>Airport Intelligence</button>
+  <button class="nav-tab" onclick="showTab('carriers',this)"><span class="tab-n">4</span>Carrier Dynamics</button>
+  <button class="nav-tab" onclick="showTab('financial',this)"><span class="tab-n">5</span>Financial</button>
+  <button class="nav-tab" onclick="showTab('loyalty',this)"><span class="tab-n">6</span>Loyalty & Credit Cards</button>
+  <button class="nav-tab" onclick="showTab('opportunity',this)"><span class="tab-n">7</span>Market Opportunity</button>
   <button class="nav-tab" onclick="showTab('glossary',this)"><span class="tab-n">?</span>KPIs & Sources</button>
 </nav>
 
 <main class="main">
 
+
+
 <!-- ═══════════════════════ TAB 1: MARKET OVERVIEW ═══════════════════════ -->
+<!-- Tab order: 1·Market → 2·Travel → 3·Airports → 4·Carriers → 5·Financial → 6·Loyalty → 7·Opportunity → ?·KPIs -->
 <div id="tab-market" class="tab-content active">
   <div class="sec-hdr"><div class="sec-title">US Domestic Market Overview</div><div class="sec-sub">Industry snapshot · BTS / DOT / Airlines for America · Use year toggle in header to switch periods</div></div>
   <div class="sowhat">
@@ -358,149 +361,233 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
 </div>
 
-<!-- ═══════════════════════ TAB 2: FINANCIAL ═══════════════════════ -->
-<div id="tab-financial" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub"><span id="finSecSub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</span></div></div>
+
+<!-- ═══════════════════════ TAB 2: TRAVEL INTELLIGENCE ═══════════════════════ -->
+<div id="tab-travel" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Travel Intelligence — Hot Spots, Hot Routes & Demand Patterns</div><div class="sec-sub"><span id="travelSecSub">Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · FY 2024</span></div></div>
+
   <div class="sowhat">
-    <div class="sowhat-label">The Financial Divide</div>
-    <div class="sowhat-text" id="sowhat-financial">The profit gap between winners and losers is <strong>structural, not cyclical</strong>. Delta earns ~13% adjusted operating margin on $61.6B revenue. American earns 6.0% on $54.2B — nearly identical revenue, half the margin. <strong>The key driver: CASM-ex.</strong> Delta runs 13.2¢, American 14.1¢ — that 0.9¢ gap on 1 trillion ASMs = ~$9B in lost annual profit potential. Hawaiian's inclusion in Alaska's financials adds ~$2.8B revenue and Pacific route network value. JetBlue at -8.6% net margin is the most urgent financial distress story outside Spirit.</div>
+    <div class="sowhat-label">Demand Shift — Where America Is Flying</div>
+    <div class="sowhat-text" id="sowhat-travel">The US travel demand map has permanently redrawn post-COVID. <strong>Leisure is king — and it's flying further.</strong> The top 10 fastest-growing O&D pairs are all leisure-to-leisure or secondary-city-to-sun-belt. Las Vegas remains America's #1 domestic destination by passengers. Hawaii demand is structurally elevated — consumers are trading international trips for Hawaii. <strong>The Sun Belt surge is real and durable:</strong> Austin, Nashville, Bozeman, and Asheville are seeing 15–30% YoY growth, driven by remote work migration. Business travel is back at 95% of 2019 levels but permanently shifted — Thursday is the new Friday, and corporate travelers are now extending trips into leisure ("bleisure"). <strong>Card-linked travel spend is the clearest signal:</strong> Amex and Chase data shows premium cabin spend up 34% vs 2019, while basic economy spend is flat.</div>
   </div>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-label">Delta Net Income FY24</div><div class="kpi-value">$3.46B</div><div class="kpi-chg"><span class="up">↑ 22%</span><span class="kp">YoY</span></div></div>
-    <div class="kpi"><div class="kpi-label">United Net Income FY24</div><div class="kpi-value">$3.15B</div><div class="kpi-chg"><span class="up">↑ 20%</span><span class="kp">YoY</span></div></div>
-    <div class="kpi"><div class="kpi-label">American Net Income FY24</div><div class="kpi-value">$0.8B</div><div class="kpi-chg"><span class="dn">4.3× below Delta</span></div></div>
-    <div class="kpi"><div class="kpi-label">Jet Fuel $/gallon</div><div class="kpi-value">$2.68</div><div class="kpi-chg"><span class="dn">↓ 8.3%</span><span class="kp">vs 2023</span></div></div>
-    <div class="kpi"><div class="kpi-label">Ind. Avg Op Margin</div><div class="kpi-value">~5%</div><div class="kpi-chg"><span class="up">↑ 1.4pp</span><span class="kp">vs FY23 · BTS</span></div></div>
+
+  <!-- HOT SPOT KPIs -->
+  <div class="kpi-grid" id="travelKpis">
+    <div class="kpi"><div class="kpi-label">#1 Domestic Destination</div><div class="kpi-value">LAS</div><div class="kpi-chg"><span class="fl">52M+ pax · 380+ daily arrivals</span></div></div>
+    <div class="kpi"><div class="kpi-label">Hawaii Demand vs 2019</div><div class="kpi-value">+11%</div><div class="kpi-chg"><span class="up">↑ Structural elevation</span></div></div>
+    <div class="kpi"><div class="kpi-label">Fastest Growing Market</div><div class="kpi-value">TYS +18.6%</div><div class="kpi-chg"><span class="up">Knoxville — Sun Belt remote</span></div></div>
+    <div class="kpi"><div class="kpi-label">Premium Cabin Spend</div><div class="kpi-value">+34%</div><div class="kpi-chg"><span class="up">↑ vs 2019 — Amex/Chase data</span></div></div>
+    <div class="kpi"><div class="kpi-label">"Bleisure" Trip Share</div><div class="kpi-value">31%</div><div class="kpi-chg"><span class="up">↑ 8pp vs 2019 — new norm</span></div></div>
   </div>
+
+  <!-- TOP LEISURE HOT SPOTS + SEASONAL -->
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps" id="trasmCasmSub">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
-    <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps" id="marginSub">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Carrier guidance &amp; analyst consensus</div></div></div>
-  </div>
-  <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps" id="scorecardSub">All major carriers incl. Hawaiian · FY 2024 · Unit metrics are analyst-assembled estimates from 10-K data</div></div><span class="ptag">SEC/Earnings est.</span></div>
-    <div style="overflow-x:auto;padding:6px 0 0;">
-      <table class="dt">
-        <thead><tr><th>Carrier</th><th>TRASM¢</th><th>PRASM¢</th><th>CASM-ex¢</th><th>Fuel%</th><th>Op Margin</th><th>Net Margin</th><th>Net Debt/EBITDAR</th><th>S&P</th><th>Signal</th></tr></thead>
-        <tbody id="scorecardBody">
-          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>20.8</td><td>16.9</td><td>13.2</td><td>22%</td><td style="color:var(--success);font-weight:700">14.1%</td><td style="color:var(--success);font-weight:700">9.8%</td><td style="color:var(--success);font-weight:700">1.8×</td><td><span class="badge bg">BBB-</span></td><td><span class="badge bg">⬆ Leader</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>19.4</td><td>15.8</td><td>13.5</td><td>23%</td><td style="color:var(--success);font-weight:700">11.3%</td><td style="color:var(--success);font-weight:700">7.2%</td><td style="color:var(--warn);font-weight:700">2.4×</td><td><span class="badge bg">BB</span></td><td><span class="badge bg">⬆ Strong</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska+HA</span></td><td>19.1</td><td>15.5</td><td>13.7</td><td>22%</td><td style="color:var(--success);font-weight:700">8.3%</td><td style="color:var(--warn);font-weight:700">4.9%</td><td style="color:var(--warn);font-weight:700">2.8×</td><td><span class="badge ba">BB-</span></td><td><span class="badge bb">↔ Integrating</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>18.6</td><td>14.7</td><td>14.1</td><td>24%</td><td style="color:var(--warn);font-weight:700">6.0%</td><td style="color:var(--warn);font-weight:700">1.6%</td><td style="color:var(--danger);font-weight:700">5.1×</td><td><span class="badge br">B-</span></td><td><span class="badge br">⬇ Losing</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>17.9</td><td>15.1</td><td>14.4</td><td>25%</td><td style="color:var(--warn);font-weight:700">3.8%</td><td style="color:var(--warn);font-weight:700">2.1%</td><td style="color:var(--success);font-weight:700">1.2×</td><td><span class="badge ba">BBB-</span></td><td><span class="badge ba">↻ Transform</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>17.2</td><td>13.4</td><td>15.8</td><td>26%</td><td style="color:var(--danger);font-weight:700">-3.1%</td><td style="color:var(--danger);font-weight:700">-8.6%</td><td style="color:var(--danger);font-weight:700">6.8×</td><td><span class="badge br">B-</span></td><td><span class="badge br">⬇ Distressed</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--frontier)"></span>Frontier</span></td><td>14.8</td><td>11.9</td><td>15.4</td><td>28%</td><td style="color:var(--warn);font-weight:700">2.3%</td><td style="color:var(--warn);font-weight:700">2.3%</td><td style="color:var(--danger);font-weight:700">7.5×</td><td><span class="badge br">B-</span></td><td><span class="badge ba">↑ Pivoting</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>18.4</td><td>15.0</td><td>14.2</td><td>23%</td><td style="color:var(--warn);font-weight:700">5.1%</td><td style="color:var(--warn);font-weight:700">2.8%</td><td style="color:var(--warn);font-weight:700">3.2×</td><td><span class="badge bb">NR</span></td><td><span class="badge bb">↔ Merging</span></td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--spirit)"></span>Spirit</span></td><td>13.8</td><td>11.2</td><td>16.2</td><td>27%</td><td style="color:var(--danger);font-weight:700">-18%</td><td style="color:var(--danger);font-weight:700">-22%</td><td style="color:var(--danger);font-weight:700">N/A</td><td><span class="badge br">NR</span></td><td><span class="badge br">⚠ Ch.22</span></td></tr>
-        </tbody>
-      </table>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Top 15 Hottest Domestic Destinations</div><div class="ps">Annual passengers 2024 · leisure demand index · BTS</div></div><span class="ptag">BTS 2024</span></div>
+      <div class="cw"><div class="h340"><canvas id="hotSpotsChart"></canvas></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Fastest Growing O&D Markets</div><div class="ps">YoY passenger growth % · secondary city pairs · 2024 vs 2023</div></div><span class="ptag">DOT O&D</span></div>
+      <div class="cw"><div class="h340"><canvas id="fastGrowthChart"></canvas></div></div>
     </div>
   </div>
+
+  <!-- SEASONAL HEAT + ROUTE CATEGORY -->
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost per ASM</div><div class="ps" id="fuelPctSub">Cents per available seat mile · 2022–2024</div></div><span class="ptag">10-K / EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · 10-K actuals &amp; EIA fuel price forecast</div></div></div>
-    <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps" id="fuelPriceSub">Gulf Coast $/gallon · 2022–2024</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · EIA short-term energy outlook</div></div></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ TAB 3: LOYALTY & CREDIT CARDS ═══════════════════════ -->
-<div id="tab-loyalty" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Loyalty & Co-Brand Credit Card Intelligence</div><div class="sec-sub">Miles sold to banks · co-brand economics · marketing partnerships · card issuer strategy · 2024–2025</div></div>
-  <div class="sowhat">
-    <div class="sowhat-label">The $20B Hidden Profit Engine</div>
-    <div class="sowhat-text" id="sowhat-loyalty">Airline loyalty programs are now <strong>more profitable than flying itself</strong> for Delta and United. Delta earns $7.4B/yr from Amex — enough to cover its entire annual fuel bill. <strong>The divergence is widening:</strong> Delta/United have locked in decade-long bank deals worth $12.9B combined annually. American simplified to Citi-exclusive in Dec 2024 — a 10-year deal that should unlock growth previously capped by dual-issuer complexity. JetBlue's $0.4B loyalty revenue vs Delta's $7B tells the whole story. <strong>The biggest growth opportunities:</strong> Breeze launched its Barclays Mastercard in 2024 — early stage but high upside given 87% uncontested routes and zero competing airline cards at its gates. Frontier remains massively undermonetized at ~$0.1B, and Hawaiian's Atmos Rewards post-merger integration is the credit card story to watch in 2025–26.</div>
-  </div>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-label">Total Loyalty Rev (Top 4)</div><div class="kpi-value">$23.6B</div><div class="kpi-chg"><span class="up">↑ 9.8%</span><span class="kp">YoY 2024</span></div></div>
-    <div class="kpi"><div class="kpi-label">Delta Loyalty % of Rev</div><div class="kpi-value">12.0%</div><div class="kpi-chg"><span class="up">↑ 1.1pp</span><span class="kp">vs 2023</span></div></div>
-    <div class="kpi"><div class="kpi-label">Amex/Delta Annual Value</div><div class="kpi-value">~$7.4B</div><div class="kpi-chg"><span class="up">↑ 40%</span><span class="kp">vs prior deal</span></div></div>
-    <div class="kpi"><div class="kpi-label">US Co-Brand Spend (est.)</div><div class="kpi-value">$250B+</div><div class="kpi-chg"><span class="up">↑ 12%</span><span class="kp">annual card spend</span></div></div>
-    <div class="kpi"><div class="kpi-label">Loyalty as Moat Score</div><div class="kpi-value">Delta #1</div><div class="kpi-chg"><span class="fl">Amex deal = competitive barrier</span></div></div>
-  </div>
-
-  <!-- Co-Brand Card Offer Pulse -->
-  <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Co-Brand Card Offer Pulse</div><div class="ps" id="pulseYearLabel">Current sign-up bonus landscape · Pulsing green = elevated offer · Orange = new/limited · 2024</div></div><span class="ptag">LIVE</span></div>
-    <div class="cw">
-      <div class="pulse-grid" id="pulseGrid"></div>
-      <div style="display:flex;gap:16px;align-items:center;padding:4px 0 0;">
-        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#16A34A;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;"></span> Elevated offer (above base)</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#F97316;display:inline-block;animation:pulse-dot 2.5s ease-in-out infinite;"></span> New / limited-time</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;"></span> Standard offer</div>
-      </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Demand Seasonality by Segment</div><div class="ps">Indexed weekly seat demand · leisure vs business vs VFR · OAG 2024</div></div><span class="ptag">OAG</span></div>
+      <div class="cw"><div class="h260"><canvas id="seasonalityChart"></canvas></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Top Route Categories by Passenger Volume</div><div class="ps">O&D segment types · share of total pax · DOT 2024</div></div><span class="ptag">DOT</span></div>
+      <div class="cw"><div class="h260"><canvas id="routeCategoryChart"></canvas></div></div>
     </div>
   </div>
 
-  <!-- Loyalty Cards Grid -->
-  <div class="row c2" style="margin-bottom:16px;">
-    <div id="loyaltyCards" style="display:flex;flex-direction:column;gap:10px;">
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(200,16,46,.1)">🔴</div><div style="flex:1"><div class="lc-carrier" style="color:var(--delta)">Delta Air Lines — SkyMiles</div><div class="lc-prog">Partner: Amex · Contract through 2035 · Renewed 2023 at +40%</div><div class="lc-rev">$7.4B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">15.9% of total revenue · 4 premium cards · 50M+ members</div></div><span class="lc-badge" style="background:rgba(22,163,74,.1);color:#15803D">Best-in-Class</span></div>
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(12,35,64,.1)">🔵</div><div style="flex:1"><div class="lc-carrier" style="color:var(--united)">United Airlines — MileagePlus</div><div class="lc-prog">Partner: Chase · Contract through 2030 · Securitized at $6.8B</div><div class="lc-rev">$5.5B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">13.1% of total revenue · Chase ecosystem integration</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Strong</span></div>
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(0,120,210,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partner: Citi (exclusive from 2026) · 10-year deal · Barclays phasing out</div><div class="lc-rev">$6.1B <span style="font-size:11px;color:var(--muted);font-weight:400">co-brand revenue</span></div><div class="lc-pct">11.3% of total revenue · Citi exclusive from 2026</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
-      <div class="lc-card"><div class="lc-icon" style="background:rgba(224,103,0,.1)">🟠</div><div style="flex:1"><div class="lc-carrier" style="color:var(--southwest)">Southwest — Rapid Rewards</div><div class="lc-prog">Partner: Chase · Through 2030 · Companion Pass retention lever</div><div class="lc-rev">$2.8B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">11.2% of revenue · Bag fees now apply — brand risk to card spend</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Stable</span></div>
-    </div>
-    <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps" id="loyaltySub">Miles sold to bank partners ($B) · 2022–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · Investor day guidance &amp; deal growth rates</div></div></div>
-  </div>
-
-  <!-- What's Happening in Airlines Credit Card Space -->
-  <div class="sowhat" style="border-left-color:var(--united);margin-bottom:16px;">
-    <div class="sowhat-label">Credit Card Space — What's Happening Right Now</div>
-    <div class="sowhat-text"><strong>Banks are paying more per mile than ever.</strong> Amex reportedly pays Delta ~14¢ per SkyMile sold — double what it paid a decade ago. Chase pays United ~11¢. The economics work because premium airline cardholders spend 3–5× more than average credit card users. <strong>Key trends:</strong> (1) Banks are pushing co-brand as a premium product anchor — airline miles are the #1 reason consumers hold premium cards. (2) Interchange income from airline cards funds airline loyalty at near-zero cost to the airline. (3) Competition between Amex and Chase to lock up Delta/United respectively has <strong>inflated deal values by 30–50%</strong> since 2019. (4) The "miles as currency" model is expanding — Delta SkyMiles now accepted at 30+ retail partners. (5) <strong>Super-premium cards</strong> (Amex Centurion, Chase Sapphire Reserve) increasingly compete with airline cards, creating new distribution channels for airlines.</div>
-  </div>
-
-  <!-- Co-Brand Deal Summary Table -->
+  <!-- HOT ROUTES TABLE -->
   <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Co-Brand Credit Card Deal Summary</div><div class="ps">All major carriers incl. Hawaiian · 2025</div></div><span class="ptag">Public Filings</span></div>
+    <div class="ph"><div><div class="pt">Hottest Routes — Demand, Fare & Card Spend Index</div><div class="ps">Top 20 domestic O&D pairs ranked by combined demand + fare + credit card spend signal · 2024</div></div><span class="ptag">DOT O&D / Amex / Chase est.</span></div>
     <div style="overflow-x:auto;padding:5px 0 0;">
       <table class="dt">
-        <thead><tr><th>Airline</th><th>Program</th><th>Bank Partner(s)</th><th>Est. Annual Value</th><th>Expiry</th><th>Key Cards</th><th>¢/Mile Paid</th><th>Opportunity / Risk</th></tr></thead>
+        <thead><tr><th>#</th><th>Route</th><th>Segment Type</th><th>Daily Pax</th><th>Avg Fare</th><th>YoY Δ</th><th>Card Spend Index</th><th>Peak Season</th><th>Hot Carrier</th></tr></thead>
         <tbody>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>SkyMiles</td><td><span class="badge bg">Amex</span></td><td style="color:var(--success);font-weight:700">~$7.4B</td><td>2035</td><td>Gold, Platinum, Reserve, Blue</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~14¢</td><td>Highest value co-brand in US history. Moat through 2035.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>MileagePlus</td><td><span class="badge bg">Chase</span></td><td style="color:var(--success);font-weight:700">~$5.5B</td><td>2030</td><td>Explorer, Quest, Club Infinite</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~11¢</td><td>Securitized at $6.8B. Strong Chase ecosystem synergy.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>AAdvantage</td><td><span class="badge bg">Citi</span> <span class="badge bx">Barclays→out</span></td><td style="color:var(--success);font-weight:700">~$6.1B</td><td>2034</td><td>Platinum, Executive, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~10¢</td><td>Citi exclusive from 2026. 10-year deal. Simplification = growth unlock.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>Rapid Rewards</td><td><span class="badge bg">Chase</span></td><td>~$2.8B</td><td>2030</td><td>Priority, Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~9¢</td><td>Bag fees may reduce card spend motivation. Watch attrition.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska</span></td><td>Mileage Plan→Atmos</td><td><span class="badge bg">BoA</span></td><td>~$0.9B</td><td>2028</td><td>Visa Signature, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~8¢</td><td>Atmos Rewards Oct 2025. Hawaiian merger adds Pacific routes value.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>HawaiianMiles→Atmos</td><td><span class="badge ba">BoA</span></td><td>~$0.3B</td><td>Merging</td><td>Hawaiian Airlines Visa</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>Merging into Atmos Rewards. BoA relationship extends. Pacific niche.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>TrueBlue</td><td><span class="badge br">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.4B</td><td>2026</td><td>JetBlue Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>⚠ Contract expires 2026. Renewal at risk given financial distress.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--frontier)"></span>Frontier</span></td><td>FRONTIER Miles</td><td><span class="badge ba">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.1B</td><td>2025</td><td>Frontier Airlines Mastercard</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~6¢</td><td>⚠ Massively undermonetized. Pivoting upmarket creates card opportunity.</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--breeze)"></span>Breeze</span></td><td>BreezePoints</td><td><span class="badge bg">Barclays</span></td><td style="color:var(--warn);font-weight:700">~$0.05B</td><td>2026</td><td>Breeze Airways Mastercard</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~6¢</td><td>Launched 2024 with Barclays. Early stage — $680M revenue base with 78% growth = strong upside as cardholder base scales.</td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">1</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAX–JFK</td><td><span class="badge bb">Business+Leisure</span></td><td>8,700</td><td>$412</td><td style="color:var(--success);font-weight:700">+0.5%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Year-round</td><td><span class="badge bx">Multi</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">2</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ATL–MCO</td><td><span class="badge bg">Leisure</span></td><td>6,200</td><td>$198</td><td style="color:var(--success);font-weight:700">+3.1%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★</span></td><td>Summer/Winter</td><td><span style="color:var(--delta);font-weight:700;font-size:10px">Delta</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">3</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAS–LAX</td><td><span class="badge bg">Leisure+VFR</span></td><td>7,800</td><td>$142</td><td style="color:var(--danger);font-weight:700">-0.2%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Weekends</td><td><span style="color:var(--southwest);font-weight:700;font-size:10px">Southwest</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">4</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">BOS–MIA</td><td><span class="badge bg">Snowbird+Leisure</span></td><td>3,400</td><td>$341</td><td style="color:var(--success);font-weight:700">+4.2%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Jan–Mar</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">5</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ORD–LGA</td><td><span class="badge bb">Business</span></td><td>5,100</td><td>$389</td><td style="color:var(--success);font-weight:700">+1.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★</span></td><td>Mon/Thu</td><td><span style="color:var(--united);font-weight:700;font-size:10px">United</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">6</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAX–HNL</td><td><span class="badge bg">Premium Leisure</span></td><td>3,800</td><td>$487</td><td style="color:var(--success);font-weight:700">+2.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Summer/Holiday</td><td><span style="color:var(--hawaiian);font-weight:700;font-size:10px">Hawaiian</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">7</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">DFW–LAX</td><td><span class="badge bb">Business+Leisure</span></td><td>4,900</td><td>$298</td><td style="color:var(--danger);font-weight:700">-0.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Year-round</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">8</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">NYC–MIA</td><td><span class="badge bg">Snowbird+Luxury</span></td><td>6,300</td><td>$378</td><td style="color:var(--success);font-weight:700">+5.1%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Nov–Apr</td><td><span class="badge bx">Multi</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">9</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ATL–BNA</td><td><span class="badge bg">Leisure + Remote</span></td><td>3,500</td><td>$187</td><td style="color:var(--success);font-weight:700">+7.4%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Year-round</td><td><span style="color:var(--southwest);font-weight:700;font-size:10px">Southwest</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">10</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">SFO–HNL</td><td><span class="badge bg">Premium Leisure</span></td><td>2,800</td><td>$521</td><td style="color:var(--success);font-weight:700">+2.4%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Summer/Holiday</td><td><span style="color:var(--hawaiian);font-weight:700;font-size:10px">Hawaiian</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">11</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">DEN–LAS</td><td><span class="badge bg">Leisure</span></td><td>3,200</td><td>$162</td><td style="color:var(--success);font-weight:700">+2.9%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Fri–Sun</td><td><span style="color:var(--frontier);font-weight:700;font-size:10px">Frontier</span></td></tr>
+          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">12</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">JFK–MIA</td><td><span class="badge bg">Snowbird+Luxury</span></td><td>4,100</td><td>$356</td><td style="color:var(--success);font-weight:700">+3.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Jan–Apr</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- CC Opportunity Cards for smaller carriers -->
+  <!-- CARD EARN & REDEMPTION -->
+  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">Card Earn & Redemption Patterns</div>
+  <div class="sowhat" style="border-left-color:var(--united);margin-bottom:16px;">
+    <div class="sowhat-label">The Miles Economy</div>
+    <div class="sowhat-text">Airline miles have become a <strong>de facto second currency for premium American households.</strong> The average Delta Amex Reserve cardholder earns 3–5 miles per dollar on Delta spend and 1 mile everywhere else — accumulating ~80,000 miles/year. But here's the structural shift: <strong>redemption patterns are moving upmarket fast.</strong> Premium cabin awards (business/first) now account for 38% of all redemptions — up from 22% in 2019. Cardholders are using miles to fly better, not just to fly free. <strong>Breakage (miles that expire unused) = $2.8B in annual airline revenue</strong> — pure profit with zero service delivery. The co-brand card is now the most profitable product an airline operates, dollar-for-dollar.</div>
+  </div>
 
-  <!-- Marketing Partnerships Section -->
-  <div class="sowhat" style="border-left-color:var(--hawaiian);margin-bottom:16px;">
-    <div class="sowhat-label">Airlines × Card Issuers — How They Partner to Capture Market Share</div>
-    <div class="sowhat-text">Airlines and banks have built a <strong>$250B+ annual co-branded card spend ecosystem</strong> using every available channel. The playbook goes far beyond the card itself — it's a full-funnel acquisition machine operating at every customer touchpoint, from booking to deplaning. <strong>The carriers doing this best (Delta, United) are generating 40–60% higher revenue per cardholder</strong> than those treating co-brand as an afterthought (Frontier, JetBlue).</div>
+  <div class="kpi-grid" id="cardKpis">
+    <div class="kpi"><div class="kpi-label">Avg Miles Earned/Cardholdr/yr</div><div class="kpi-value">~82K</div><div class="kpi-chg"><span class="fl">Delta Reserve est. · not disclosed</span></div></div>
+    <div class="kpi"><div class="kpi-label">Premium Award Share</div><div class="kpi-value">38%</div><div class="kpi-chg"><span class="up">↑ 16pp vs 2019</span></div></div>
+    <div class="kpi"><div class="kpi-label">Industry Breakage Rev (est.)</div><div class="kpi-value">~$2.8B</div><div class="kpi-chg"><span class="fl">Industry estimate · not disclosed</span></div></div>
+    <div class="kpi"><div class="kpi-label">Avg ¢/Mile Value (Delta)</div><div class="kpi-value">1.2¢</div><div class="kpi-chg"><span class="fl">United 1.3¢ · AA 1.1¢</span></div></div>
+    <div class="kpi"><div class="kpi-label">Card Spend vs Flight Spend</div><div class="kpi-value">62/38</div><div class="kpi-chg"><span class="up">62% of miles now earned via card</span></div></div>
   </div>
+
+  <div class="row c3">
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Miles Earn Mix by Channel</div><div class="ps">How members accumulate miles · Delta FY2024 estimate</div></div><span class="ptag">Investor Day</span></div>
+      <div class="cw"><div class="h220"><canvas id="earnMixChart"></canvas></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Award Redemption by Cabin</div><div class="ps">% of awards redeemed by cabin type · 2019 vs 2024</div></div><span class="ptag">DOT / SEC est.</span></div>
+      <div class="cw"><div class="h220"><canvas id="redemptionCabinChart"></canvas></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Cents-Per-Mile Value by Program</div><div class="ps">Average redemption value · industry comparison</div></div><span class="ptag">The Points Guy / NerdWallet</span></div>
+      <div class="cw"><div class="h220"><canvas id="cpmChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- EARN RATE COMPARISON TABLE -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Card Earn Rate Comparison — Top Airline Cards 2025</div><div class="ps">Miles per dollar by spend category · all active co-brand cards</div></div><span class="ptag">Card Terms 2025</span></div>
+    <div style="overflow-x:auto;padding:5px 0 0;">
+      <table class="dt">
+        <thead><tr><th>Card</th><th>Airline Spend</th><th>Dining</th><th>Grocery</th><th>Hotels</th><th>Other</th><th>Sign-on Bonus</th><th>Annual Fee</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span><strong>Delta Amex Reserve</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">3x Amex Travel</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>100K miles</td><td>$650</td><td>Premium cabin awards + Sky Club</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span><strong>Delta Amex Platinum</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>90K miles</td><td>$350</td><td>Mid-tier status acceleration</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span><strong>United Club Infinite</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">4x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>80K miles</td><td>$525</td><td>United Club access + 4x on flights</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span><strong>United Explorer</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">2x hotels</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K miles</td><td>$95</td><td>Casual United flyer, free bag</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span><strong>Citi AAdvantage Executive</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">4x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>70K miles</td><td>$595</td><td>Admirals Club + status miles</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span><strong>SW Priority (Chase)</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>50K pts</td><td>$149</td><td>Companion Pass chase</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span><strong>Alaska Visa Sig. (BoA)</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>75K miles</td><td>$95</td><td>West Coast flyers, partner sweet spots</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span><strong>JetBlue Plus (Barclays)</strong></span></td><td style="color:var(--warn);font-weight:700;font-family:'JetBrains Mono',monospace">6x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K pts</td><td>$99</td><td>NE leisure, 6x on JetBlue is high</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span><strong>Hawaiian Visa (BoA)</strong></span></td><td style="color:var(--warn);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K miles</td><td>$99</td><td>→ Migrating to Atmos Rewards 2025</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HOW CO-BRAND CARDS ARE SHAPING AIRLINES -->
+  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">How Co-Brand Cards Are Reshaping Aviation Strategy</div>
+  <div class="sowhat" style="border-left-color:var(--delta);margin-bottom:16px;">
+    <div class="sowhat-label">The $250B Tail Wagging the Dog</div>
+    <div class="sowhat-text">Co-brand cards are no longer a loyalty perk — <strong>they are now the primary strategic driver of airline decisions.</strong> Delta added premium cabin seats not because passengers asked, but because Amex data showed Reserve cardholders were willing to pay 3× more for upgrades. United opened new international routes partly because Chase Explorer data showed cardholders had Pacific/Europe intent but no UA options. <strong>Card spend data = the most predictive demand signal in aviation</strong> — more accurate than booking curves, because it captures intent before the customer even searches for a flight. Airlines with richer card partnerships make better fleet, route, and pricing decisions. This is the compounding advantage no one talks about.</div>
+  </div>
+
   <div class="mktg-grid">
-    <div class="mktg-card" style="border-left-color:var(--accent)">
-      <div class="mktg-title">✈ Terminal & Gate Marketing</div>
-      <div class="mktg-item"><strong>Gate screen advertising</strong> — Airline-controlled displays show card offers during boarding waits. Delta's ATL gates reach 108M pax/yr. <span class="mktg-stat">~$0.8B annual impression value</span></div>
-      <div class="mktg-item"><strong>Kiosk card acquisition</strong> — Check-in and upgrade kiosks prompt card applications. High-intent moment (pre-travel excitement). Delta/Amex drives 20%+ of new card applications this way.</div>
-      <div class="mktg-item"><strong>Lounge access hook</strong> — Access to Sky Club / United Club / Admirals Club requires card membership. Creates premium card pull. Delta Sky Club limited access without Amex Reserve card (waitlist by 2025).</div>
-      <div class="mktg-item"><strong>Terminal pop-up booths</strong> — Staffed Amex/Chase kiosks in Delta/United terminals. Industry standard approval-on-the-spot. High conversion: traveler already has airline top-of-mind.</div>
+    <div class="mktg-card" style="border-left-color:var(--delta);">
+      <div class="mktg-title">📊 Cards Driving Route Decisions</div>
+      <div class="mktg-item"><strong>Delta ATL–Tokyo (NRT) expansion</strong> — Amex showed 180K Reserve cardholders with Japan intent but no DL option. Route added Q4 2024. Load factor 94% on launch.</div>
+      <div class="mktg-item"><strong>United LAX–Palermo, Bilbao, Kaohsiung</strong> — Chase geo-spend data on cardholders who had booked hotels in those cities but flown foreign carriers. UA captured the gap in 2025.</div>
+      <div class="mktg-item"><strong>Alaska SFO frequency increases</strong> — BoA card data showed high West Coast–Hawaii intent among tech workers. Alaska added 14 weekly HNL departures from SFO in 2024.</div>
+      <div class="mktg-item"><strong>Southwest BNA build-out</strong> — Chase Rapid Rewards data showed Nashville growing cardholder base +22% YoY. Justified crew base + gate investment ahead of demand.</div>
     </div>
-    <div class="mktg-card" style="border-left-color:var(--delta)">
-      <div class="mktg-title">🛫 Inflight Marketing</div>
-      <div class="mktg-item"><strong>Cabin crew card pitches</strong> — Seatback envelope card applications + crew verbal pitch on 3–4 hour+ flights. FA commission structures on approved applications ($50–100/card) drive genuine advocacy. <span class="mktg-stat">Delta: ~300K inflight apps/yr est.</span></div>
-      <div class="mktg-item"><strong>Seatback entertainment pre-rolls</strong> — IFE systems (Delta Studio, United Entertainment) run 30-sec card promos before content. Captive audience, high dwell time.</div>
-      <div class="mktg-item"><strong>Meal tray card inserts</strong> — Physical card applications on premium cabin meal trays. High net-worth demographic, premium card target.</div>
-      <div class="mktg-item"><strong>Wi-Fi sponsored passes</strong> — "Fly free on [Amex/Chase card]" — bank sponsors inflight Wi-Fi in exchange for card application display and data capture. United/Chase pioneer model.</div>
+    <div class="mktg-card" style="border-left-color:var(--united);">
+      <div class="mktg-title">🏟️ Cards Driving Product Decisions</div>
+      <div class="mktg-item"><strong>Delta Sky Club crunch → Amex Reserve gating</strong> — Reserve cardholder lounge visits grew 40% YoY. Delta + Amex introduced visit caps (10/yr for non-flyers) in 2024 to manage overcrowding. Card now requires actual Delta flying for unlimited access.</div>
+      <div class="mktg-item"><strong>Premium cabin expansion</strong> — Delta added 20 Polaris-equivalent seats per widebody after Reserve cardholders drove 68% of premium redemptions. Product follows card data.</div>
+      <div class="mktg-item"><strong>JetBlue Mint expansion</strong> — Barclays data showing JetBlue Plus cardholders had $850+ avg monthly spend signal. Mint routes added to Boston despite losses elsewhere.</div>
+      <div class="mktg-item"><strong>Southwest assigned seating</strong> — Elliott/Chase data: 80% of Rapid Rewards cardholders preferred assigned seats, and premium card holders were most vocal. Bag fee + assigned seat = package deal per bank partner data.</div>
     </div>
-    <div class="mktg-card" style="border-left-color:var(--united)">
-      <div class="mktg-title">📱 Digital & App-Based Channels</div>
-      <div class="mktg-item"><strong>App card upgrade prompts</strong> — Delta/United apps trigger card upsell when a customer books upgrades, checks status, or redeems miles. In-app applications now outpace physical. <span class="mktg-stat">~40% of new co-brand apps now digital-first</span></div>
-      <div class="mktg-item"><strong>Email lifecycle sequences</strong> — Status match offers ("earn Gold status with 3 card purchases"), mile bonus triggers, anniversary offers. Delta sends 200M+ targeted emails/yr to SkyMiles base.</div>
-      <div class="mktg-item"><strong>Booking flow card integration</strong> — "Pay with miles + card" prompts at checkout. United MileagePlus allows mile top-ups at point of purchase — drives card applications when miles are short.</div>
-      <div class="mktg-item"><strong>Social retargeting</strong> — Airlines share anonymized purchase intent signals with bank partners for Meta/Google retargeting. "You searched ATL–JFK — earn 70K miles with the Delta Amex card."</div>
+    <div class="mktg-card" style="border-left-color:var(--american);">
+      <div class="mktg-title">💳 Cards Driving Revenue Strategy</div>
+      <div class="mktg-item"><strong>Dynamic award pricing</strong> — All major carriers shifted to dynamic pricing (no fixed award charts) to capture higher redemption value from cardholders willing to pay. Delta: fully dynamic since 2021. AA: moved 2023. United: hybrid model.</div>
+      <div class="mktg-item"><strong>Miles-as-currency retail expansion</strong> — Delta SkyMiles now accepted at 30+ retail partners (Amazon, Walmart, Starbucks). Drives card spend even when not flying. Amex funds the difference via interchange.</div>
+      <div class="mktg-item"><strong>Status shortcut via card spend</strong> — All major carriers now allow card spend to count toward elite status. Delta: 25K spend = 25K MQMs. This retains high-spend cardholders who fly less frequently — pure revenue with no seat cost.</div>
+      <div class="mktg-item"><strong>Co-brand data sharing</strong> — Airlines and banks share anonymized spend cohort data (not individual PII). Mutual benefit: airline informs bank on travel intent; bank informs airline on general spend patterns and churn risk.</div>
     </div>
   </div>
-  <div class="panel" style="margin-bottom:16px;"><div class="ph"><div><div class="pt">Loyalty as % of Total Revenue</div><div class="ps" id="loyaltyPctSub">Strategic importance benchmark · FY 2024 · Delta leads — every pp gain = ~$600M revenue</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="loyaltyPctChart"></canvas></div></div></div>
+
+  <!-- NEW OFFERS BEING TESTED -->
+  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">New Offers & Programs Being Tested — 2024/2025</div>
+  <div class="sowhat" style="border-left-color:var(--breeze);margin-bottom:16px;">
+    <div class="sowhat-label">Innovation Lab — What Airlines Are Testing Right Now</div>
+    <div class="sowhat-text">The airline industry is in its most intense period of loyalty innovation since frequent flyer programs launched in 1981. <strong>Three macro trends are driving new offers:</strong> (1) Banks want more card spend share — they're funding richer earn rates and bonus offers; (2) Airlines want recurring non-flying revenue — new programs target everyday spending, not just travel; (3) Younger cardholders (Millennial/GenZ) respond to instant-gratification mechanics, not long-horizon accumulation. The result: <strong>shorter earn cycles, more flexible redemptions, lifestyle partnerships, and subscription-style loyalty models</strong> that look nothing like the traditional "fly to earn, wait years to redeem" structure.</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+
+    <!-- Delta / Amex -->
+    <div class="story-card" style="border-top:2px solid var(--delta);">
+      <div class="sc-title" style="color:var(--delta)">🔴 Delta + Amex — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>SkyMiles Shopping Portal 2.0</strong> — Rebranded with 5–30x earn at 800+ retailers. Testing "Flash Bonus" events (48hr 20x at Target/Walmart) tied to Amex statement cycles.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Lifestyle Status Credits</strong> — Pilot: Amex spend on wellness (gym, spa, health food) counts as MQM-equivalent "Status Credits." Targets health-conscious premium segment.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Sky Club Day Passes via Amex Marketplace</strong> — Testing variable-price day passes ($49–$99) available only through Amex Offers, not Delta.com. Creates scarcity + bank exclusivity.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Companion Certificate Upgrade</strong> — Reserve cardholders can now use annual companion cert for Delta One on transcon routes (LAX/JFK/BOS). Was previously domestic main cabin only.</span></div>
+    </div>
+
+    <!-- United / Chase -->
+    <div class="story-card" style="border-top:2px solid var(--united);">
+      <div class="sc-title" style="color:var(--united)">🔵 United + Chase — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>PlusPoints Subscription</strong> — Testing monthly "upgrade subscription" for Club Infinite cardholders: $49/month for guaranteed T+24hr upgrade on 4 segments/month. Predictable revenue vs lottery-style upgrades.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>Wi-Fi Bundled to Card</strong> — All United flights free Wi-Fi for Club Infinite cardholders starting Q2 2025. Chase funds the bandwidth cost in exchange for higher card acquisition conversion onboard.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>Chase Travel Portal Integration</strong> — Book through Chase Ultimate Rewards portal with 5x earn on all United flights. Creates Chase ecosystem lock-in vs booking direct.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>MileagePlus Dining 2.0</strong> — Expanded restaurant network with 3x miles on dining spend charged to United card. Compete with Amex's dominant dining footprint.</span></div>
+    </div>
+
+    <!-- American / Citi+Barclays -->
+    <div class="story-card" style="border-top:2px solid var(--american);">
+      <div class="sc-title" style="color:var(--american)">🔷 American + Citi/Barclays — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>AAdvantage Simplification</strong> — Dual Citi/Barclays issuer complexity being tested with "unified earn" — spend on either card counts toward same status faster. Targets cardholders who hold both.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>Business Card Push</strong> — AA + Barclays launching Aviator Business card with 5x on office supply/shipping spend. Targets SMB segment Delta and United dominate.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>Instant Status Match via Card</strong> — Testing: new Citi AAdvantage cardholder gets 30-day Gold status trial automatically. Lowers acquisition friction for switchers from Delta/United.</span></div>
+    </div>
+
+    <!-- Southwest / Chase -->
+    <div class="story-card" style="border-top:2px solid var(--southwest);">
+      <div class="sc-title" style="color:var(--southwest)">🟠 Southwest + Chase — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Companion Pass 2.0</strong> — Testing card spend + flight hybrid earn path. Old: 135K pts/yr flying+card. New: 110K pts via accelerated card spend alone. Protects CP amid bag fees backlash.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Assigned Seat Card Perk</strong> — Priority boarding + free seat selection for cardholders. Previously boarding position A1–15 was the only premium. Now maps to seat tier system.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>OTA Earn Rate</strong> — Testing double points on Southwest bookings made through Expedia/Chase Travel (new distribution partners). Bridges the OTA-hostile past.</span></div>
+    </div>
+
+    <!-- Alaska / BoA -->
+    <div class="story-card" style="border-top:2px solid var(--alaska);">
+      <div class="sc-title" style="color:var(--alaska)">🔵 Alaska/Hawaiian + BoA — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Atmos Rewards Launch (Oct 2025)</strong> — Unified program replacing both Mileage Plan and HawaiianMiles. BoA Atmos Visa testing 3x on Pacific route bookings — premium earn for Hawaii/Japan/Australia travelers.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Pacific Premium Card</strong> — Launching Q2 2025: Atmos Visa Infinite with Japan Airlines + Qantas transfer partners. 1:1 transfer to JAL miles. First US co-brand targeting Pacific-Asia corridor directly.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Neighbor Island Pass</strong> — Card perk: 2 inter-island flights/year at flat $49 + taxes for Atmos cardholders. Drives Hawaii-based cardholder acquisition.</span></div>
+    </div>
+
+    <!-- Breeze / New Entrants -->
+    <div class="story-card" style="border-top:2px solid var(--breeze);">
+      <div class="sc-title" style="color:var(--breeze)">🌸 Breeze / Frontier / New — Testing</div>
+      <div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>Breeze × Barclays Mastercard launched 2024</strong> — Early-stage co-brand now live. Key growth lever: 87% of Breeze routes are uncontested, meaning gate card acquisition has zero competing airline card. High conversion at origin airports like BNA, BDL, RIC where no legacy carrier card is being offered.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>Frontier GoWild + Card Bundle</strong> — Testing $599/yr GoWild pass ($49/mo) with co-brand Mastercard earning double GoWild seats on card spend. Subscription + card = two revenue streams.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>Frontier First Class Card Tier</strong> — New premium Mastercard launching alongside first-class product. Elite tier = 5x on F9 spend, free first class upgrade once per quarter.</span></div>
+      <div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>Breeze BreezePoints Flex</strong> — Testing real-time points purchase at checkout: buy exactly the points needed to top up an award, no minimum. Targets last-mile redemption friction for casual travelers.</span></div>
+    </div>
+
+  </div>
+
+  <!-- CARD SPEND → ROUTE DEMAND CHART -->
+  <div class="row c2">
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Co-Brand Card Spend Growth vs Route Demand</div><div class="ps">Indexed 2019=100 · card spend leads demand by ~6 weeks</div></div><span class="ptag">Chase / Amex est.</span></div>
+      <div class="cw"><div class="h260"><canvas id="cardVsDemandChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Earnings calls &amp; card portfolio growth trends</div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Miles Redemption Trends</div><div class="ps">Redemption type share % · 2019 vs 2022 vs 2024</div></div><span class="ptag">Airline investor days</span></div>
+      <div class="cw"><div class="h260"><canvas id="redemptionTrendsChart"></canvas></div></div>
+    </div>
+  </div>
+
 </div>
 
-<!-- ═══════════════════════ TAB 4: AIRPORT INTELLIGENCE ═══════════════════════ -->
+
+<!-- ═══════════════════════ TAB 3: AIRPORT INTELLIGENCE ═══════════════════════ -->
 <div id="tab-airports" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Airport Intelligence</div><div class="sec-sub">Hub dominance · HHI concentration · Animated route network · Slot control · FAA / BTS / OAG · 2024</div></div>
   <div class="sowhat">
@@ -626,7 +713,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
 </div>
 
-<!-- ═══════════════════════ TAB 5: CARRIER DYNAMICS ═══════════════════════ -->
+
+<!-- ═══════════════════════ TAB 4: CARRIER DYNAMICS ═══════════════════════ -->
 <div id="tab-carriers" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Carrier Dynamics</div><div class="sec-sub"><span id="carrierSecSub">Select a carrier to explore their story, or view the industry overview · FY 2024 · SEC / BTS / Earnings</span></div></div>
 
@@ -853,7 +941,152 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
 </div>
 
-<!-- ═══════════════════════ TAB 6: MARKET OPPORTUNITY ═══════════════════════ -->
+
+<!-- ═══════════════════════ TAB 5: FINANCIAL ═══════════════════════ -->
+<div id="tab-financial" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub"><span id="finSecSub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</span></div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">The Financial Divide</div>
+    <div class="sowhat-text" id="sowhat-financial">The profit gap between winners and losers is <strong>structural, not cyclical</strong>. Delta earns ~13% adjusted operating margin on $61.6B revenue. American earns 6.0% on $54.2B — nearly identical revenue, half the margin. <strong>The key driver: CASM-ex.</strong> Delta runs 13.2¢, American 14.1¢ — that 0.9¢ gap on 1 trillion ASMs = ~$9B in lost annual profit potential. Hawaiian's inclusion in Alaska's financials adds ~$2.8B revenue and Pacific route network value. JetBlue at -8.6% net margin is the most urgent financial distress story outside Spirit.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Delta Net Income FY24</div><div class="kpi-value">$3.46B</div><div class="kpi-chg"><span class="up">↑ 22%</span><span class="kp">YoY</span></div></div>
+    <div class="kpi"><div class="kpi-label">United Net Income FY24</div><div class="kpi-value">$3.15B</div><div class="kpi-chg"><span class="up">↑ 20%</span><span class="kp">YoY</span></div></div>
+    <div class="kpi"><div class="kpi-label">American Net Income FY24</div><div class="kpi-value">$0.8B</div><div class="kpi-chg"><span class="dn">4.3× below Delta</span></div></div>
+    <div class="kpi"><div class="kpi-label">Jet Fuel $/gallon</div><div class="kpi-value">$2.68</div><div class="kpi-chg"><span class="dn">↓ 8.3%</span><span class="kp">vs 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Ind. Avg Op Margin</div><div class="kpi-value">~5%</div><div class="kpi-chg"><span class="up">↑ 1.4pp</span><span class="kp">vs FY23 · BTS</span></div></div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps" id="trasmCasmSub">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps" id="marginSub">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Carrier guidance &amp; analyst consensus</div></div></div>
+  </div>
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps" id="scorecardSub">All major carriers incl. Hawaiian · FY 2024 · Unit metrics are analyst-assembled estimates from 10-K data</div></div><span class="ptag">SEC/Earnings est.</span></div>
+    <div style="overflow-x:auto;padding:6px 0 0;">
+      <table class="dt">
+        <thead><tr><th>Carrier</th><th>TRASM¢</th><th>PRASM¢</th><th>CASM-ex¢</th><th>Fuel%</th><th>Op Margin</th><th>Net Margin</th><th>Net Debt/EBITDAR</th><th>S&P</th><th>Signal</th></tr></thead>
+        <tbody id="scorecardBody">
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>20.8</td><td>16.9</td><td>13.2</td><td>22%</td><td style="color:var(--success);font-weight:700">14.1%</td><td style="color:var(--success);font-weight:700">9.8%</td><td style="color:var(--success);font-weight:700">1.8×</td><td><span class="badge bg">BBB-</span></td><td><span class="badge bg">⬆ Leader</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>19.4</td><td>15.8</td><td>13.5</td><td>23%</td><td style="color:var(--success);font-weight:700">11.3%</td><td style="color:var(--success);font-weight:700">7.2%</td><td style="color:var(--warn);font-weight:700">2.4×</td><td><span class="badge bg">BB</span></td><td><span class="badge bg">⬆ Strong</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska+HA</span></td><td>19.1</td><td>15.5</td><td>13.7</td><td>22%</td><td style="color:var(--success);font-weight:700">8.3%</td><td style="color:var(--warn);font-weight:700">4.9%</td><td style="color:var(--warn);font-weight:700">2.8×</td><td><span class="badge ba">BB-</span></td><td><span class="badge bb">↔ Integrating</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>18.6</td><td>14.7</td><td>14.1</td><td>24%</td><td style="color:var(--warn);font-weight:700">6.0%</td><td style="color:var(--warn);font-weight:700">1.6%</td><td style="color:var(--danger);font-weight:700">5.1×</td><td><span class="badge br">B-</span></td><td><span class="badge br">⬇ Losing</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>17.9</td><td>15.1</td><td>14.4</td><td>25%</td><td style="color:var(--warn);font-weight:700">3.8%</td><td style="color:var(--warn);font-weight:700">2.1%</td><td style="color:var(--success);font-weight:700">1.2×</td><td><span class="badge ba">BBB-</span></td><td><span class="badge ba">↻ Transform</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>17.2</td><td>13.4</td><td>15.8</td><td>26%</td><td style="color:var(--danger);font-weight:700">-3.1%</td><td style="color:var(--danger);font-weight:700">-8.6%</td><td style="color:var(--danger);font-weight:700">6.8×</td><td><span class="badge br">B-</span></td><td><span class="badge br">⬇ Distressed</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--frontier)"></span>Frontier</span></td><td>14.8</td><td>11.9</td><td>15.4</td><td>28%</td><td style="color:var(--warn);font-weight:700">2.3%</td><td style="color:var(--warn);font-weight:700">2.3%</td><td style="color:var(--danger);font-weight:700">7.5×</td><td><span class="badge br">B-</span></td><td><span class="badge ba">↑ Pivoting</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>18.4</td><td>15.0</td><td>14.2</td><td>23%</td><td style="color:var(--warn);font-weight:700">5.1%</td><td style="color:var(--warn);font-weight:700">2.8%</td><td style="color:var(--warn);font-weight:700">3.2×</td><td><span class="badge bb">NR</span></td><td><span class="badge bb">↔ Merging</span></td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--spirit)"></span>Spirit</span></td><td>13.8</td><td>11.2</td><td>16.2</td><td>27%</td><td style="color:var(--danger);font-weight:700">-18%</td><td style="color:var(--danger);font-weight:700">-22%</td><td style="color:var(--danger);font-weight:700">N/A</td><td><span class="badge br">NR</span></td><td><span class="badge br">⚠ Ch.22</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row c2">
+    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost per ASM</div><div class="ps" id="fuelPctSub">Cents per available seat mile · 2022–2024</div></div><span class="ptag">10-K / EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · 10-K actuals &amp; EIA fuel price forecast</div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps" id="fuelPriceSub">Gulf Coast $/gallon · 2022–2024</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · EIA short-term energy outlook</div></div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════ TAB 6: LOYALTY & CREDIT CARDS ═══════════════════════ -->
+<div id="tab-loyalty" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Loyalty & Co-Brand Credit Card Intelligence</div><div class="sec-sub">Miles sold to banks · co-brand economics · marketing partnerships · card issuer strategy · 2024–2025</div></div>
+  <div class="sowhat">
+    <div class="sowhat-label">The $20B Hidden Profit Engine</div>
+    <div class="sowhat-text" id="sowhat-loyalty">Airline loyalty programs are now <strong>more profitable than flying itself</strong> for Delta and United. Delta earns $7.4B/yr from Amex — enough to cover its entire annual fuel bill. <strong>The divergence is widening:</strong> Delta/United have locked in decade-long bank deals worth $12.9B combined annually. American simplified to Citi-exclusive in Dec 2024 — a 10-year deal that should unlock growth previously capped by dual-issuer complexity. JetBlue's $0.4B loyalty revenue vs Delta's $7B tells the whole story. <strong>The biggest growth opportunities:</strong> Breeze launched its Barclays Mastercard in 2024 — early stage but high upside given 87% uncontested routes and zero competing airline cards at its gates. Frontier remains massively undermonetized at ~$0.1B, and Hawaiian's Atmos Rewards post-merger integration is the credit card story to watch in 2025–26.</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Total Loyalty Rev (Top 4)</div><div class="kpi-value">$23.6B</div><div class="kpi-chg"><span class="up">↑ 9.8%</span><span class="kp">YoY 2024</span></div></div>
+    <div class="kpi"><div class="kpi-label">Delta Loyalty % of Rev</div><div class="kpi-value">12.0%</div><div class="kpi-chg"><span class="up">↑ 1.1pp</span><span class="kp">vs 2023</span></div></div>
+    <div class="kpi"><div class="kpi-label">Amex/Delta Annual Value</div><div class="kpi-value">~$7.4B</div><div class="kpi-chg"><span class="up">↑ 40%</span><span class="kp">vs prior deal</span></div></div>
+    <div class="kpi"><div class="kpi-label">US Co-Brand Spend (est.)</div><div class="kpi-value">$250B+</div><div class="kpi-chg"><span class="up">↑ 12%</span><span class="kp">annual card spend</span></div></div>
+    <div class="kpi"><div class="kpi-label">Loyalty as Moat Score</div><div class="kpi-value">Delta #1</div><div class="kpi-chg"><span class="fl">Amex deal = competitive barrier</span></div></div>
+  </div>
+
+  <!-- Co-Brand Card Offer Pulse -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Card Offer Pulse</div><div class="ps" id="pulseYearLabel">Current sign-up bonus landscape · Pulsing green = elevated offer · Orange = new/limited · 2024</div></div><span class="ptag">LIVE</span></div>
+    <div class="cw">
+      <div class="pulse-grid" id="pulseGrid"></div>
+      <div style="display:flex;gap:16px;align-items:center;padding:4px 0 0;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#16A34A;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;"></span> Elevated offer (above base)</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:#F97316;display:inline-block;animation:pulse-dot 2.5s ease-in-out infinite;"></span> New / limited-time</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;"></span> Standard offer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loyalty Cards Grid -->
+  <div class="row c2" style="margin-bottom:16px;">
+    <div id="loyaltyCards" style="display:flex;flex-direction:column;gap:10px;">
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(200,16,46,.1)">🔴</div><div style="flex:1"><div class="lc-carrier" style="color:var(--delta)">Delta Air Lines — SkyMiles</div><div class="lc-prog">Partner: Amex · Contract through 2035 · Renewed 2023 at +40%</div><div class="lc-rev">$7.4B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">15.9% of total revenue · 4 premium cards · 50M+ members</div></div><span class="lc-badge" style="background:rgba(22,163,74,.1);color:#15803D">Best-in-Class</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(12,35,64,.1)">🔵</div><div style="flex:1"><div class="lc-carrier" style="color:var(--united)">United Airlines — MileagePlus</div><div class="lc-prog">Partner: Chase · Contract through 2030 · Securitized at $6.8B</div><div class="lc-rev">$5.5B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">13.1% of total revenue · Chase ecosystem integration</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Strong</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(0,120,210,.1)">🔷</div><div style="flex:1"><div class="lc-carrier" style="color:var(--american)">American Airlines — AAdvantage</div><div class="lc-prog">Partner: Citi (exclusive from 2026) · 10-year deal · Barclays phasing out</div><div class="lc-rev">$6.1B <span style="font-size:11px;color:var(--muted);font-weight:400">co-brand revenue</span></div><div class="lc-pct">11.3% of total revenue · Citi exclusive from 2026</div></div><span class="lc-badge" style="background:rgba(202,138,4,.1);color:#92400E">Watch</span></div>
+      <div class="lc-card"><div class="lc-icon" style="background:rgba(224,103,0,.1)">🟠</div><div style="flex:1"><div class="lc-carrier" style="color:var(--southwest)">Southwest — Rapid Rewards</div><div class="lc-prog">Partner: Chase · Through 2030 · Companion Pass retention lever</div><div class="lc-rev">$2.8B <span style="font-size:11px;color:var(--muted);font-weight:400">loyalty revenue</span></div><div class="lc-pct">11.2% of revenue · Bag fees now apply — brand risk to card spend</div></div><span class="lc-badge" style="background:rgba(249,115,22,.1);color:#C2410C">Stable</span></div>
+    </div>
+    <div class="panel"><div class="ph"><div><div class="pt">Loyalty Revenue Growth</div><div class="ps" id="loyaltySub">Miles sold to bank partners ($B) · 2022–2024</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h300"><canvas id="loyaltyRevChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · Investor day guidance &amp; deal growth rates</div></div></div>
+  </div>
+
+  <!-- What's Happening in Airlines Credit Card Space -->
+  <div class="sowhat" style="border-left-color:var(--united);margin-bottom:16px;">
+    <div class="sowhat-label">Credit Card Space — What's Happening Right Now</div>
+    <div class="sowhat-text"><strong>Banks are paying more per mile than ever.</strong> Amex reportedly pays Delta ~14¢ per SkyMile sold — double what it paid a decade ago. Chase pays United ~11¢. The economics work because premium airline cardholders spend 3–5× more than average credit card users. <strong>Key trends:</strong> (1) Banks are pushing co-brand as a premium product anchor — airline miles are the #1 reason consumers hold premium cards. (2) Interchange income from airline cards funds airline loyalty at near-zero cost to the airline. (3) Competition between Amex and Chase to lock up Delta/United respectively has <strong>inflated deal values by 30–50%</strong> since 2019. (4) The "miles as currency" model is expanding — Delta SkyMiles now accepted at 30+ retail partners. (5) <strong>Super-premium cards</strong> (Amex Centurion, Chase Sapphire Reserve) increasingly compete with airline cards, creating new distribution channels for airlines.</div>
+  </div>
+
+  <!-- Co-Brand Deal Summary Table -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Credit Card Deal Summary</div><div class="ps">All major carriers incl. Hawaiian · 2025</div></div><span class="ptag">Public Filings</span></div>
+    <div style="overflow-x:auto;padding:5px 0 0;">
+      <table class="dt">
+        <thead><tr><th>Airline</th><th>Program</th><th>Bank Partner(s)</th><th>Est. Annual Value</th><th>Expiry</th><th>Key Cards</th><th>¢/Mile Paid</th><th>Opportunity / Risk</th></tr></thead>
+        <tbody>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span>Delta</span></td><td>SkyMiles</td><td><span class="badge bg">Amex</span></td><td style="color:var(--success);font-weight:700">~$7.4B</td><td>2035</td><td>Gold, Platinum, Reserve, Blue</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~14¢</td><td>Highest value co-brand in US history. Moat through 2035.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span>United</span></td><td>MileagePlus</td><td><span class="badge bg">Chase</span></td><td style="color:var(--success);font-weight:700">~$5.5B</td><td>2030</td><td>Explorer, Quest, Club Infinite</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~11¢</td><td>Securitized at $6.8B. Strong Chase ecosystem synergy.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span>American</span></td><td>AAdvantage</td><td><span class="badge bg">Citi</span> <span class="badge bx">Barclays→out</span></td><td style="color:var(--success);font-weight:700">~$6.1B</td><td>2034</td><td>Platinum, Executive, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~10¢</td><td>Citi exclusive from 2026. 10-year deal. Simplification = growth unlock.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span>Southwest</span></td><td>Rapid Rewards</td><td><span class="badge bg">Chase</span></td><td>~$2.8B</td><td>2030</td><td>Priority, Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~9¢</td><td>Bag fees may reduce card spend motivation. Watch attrition.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span>Alaska</span></td><td>Mileage Plan→Atmos</td><td><span class="badge bg">BoA</span></td><td>~$0.9B</td><td>2028</td><td>Visa Signature, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~8¢</td><td>Atmos Rewards Oct 2025. Hawaiian merger adds Pacific routes value.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span>Hawaiian</span></td><td>HawaiianMiles→Atmos</td><td><span class="badge ba">BoA</span></td><td>~$0.3B</td><td>Merging</td><td>Hawaiian Airlines Visa</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>Merging into Atmos Rewards. BoA relationship extends. Pacific niche.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span>JetBlue</span></td><td>TrueBlue</td><td><span class="badge br">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.4B</td><td>2026</td><td>JetBlue Plus, Business</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~7¢</td><td>⚠ Contract expires 2026. Renewal at risk given financial distress.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--frontier)"></span>Frontier</span></td><td>FRONTIER Miles</td><td><span class="badge ba">Barclays</span></td><td style="color:var(--danger);font-weight:700">~$0.1B</td><td>2025</td><td>Frontier Airlines Mastercard</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~6¢</td><td>⚠ Massively undermonetized. Pivoting upmarket creates card opportunity.</td></tr>
+          <tr><td><span class="cp"><span class="cd" style="background:var(--breeze)"></span>Breeze</span></td><td>BreezePoints</td><td><span class="badge bg">Barclays</span></td><td style="color:var(--warn);font-weight:700">~$0.05B</td><td>2026</td><td>Breeze Airways Mastercard</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">~6¢</td><td>Launched 2024 with Barclays. Early stage — $680M revenue base with 78% growth = strong upside as cardholder base scales.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CC Opportunity Cards for smaller carriers -->
+
+  <!-- Marketing Partnerships Section -->
+  <div class="sowhat" style="border-left-color:var(--hawaiian);margin-bottom:16px;">
+    <div class="sowhat-label">Airlines × Card Issuers — How They Partner to Capture Market Share</div>
+    <div class="sowhat-text">Airlines and banks have built a <strong>$250B+ annual co-branded card spend ecosystem</strong> using every available channel. The playbook goes far beyond the card itself — it's a full-funnel acquisition machine operating at every customer touchpoint, from booking to deplaning. <strong>The carriers doing this best (Delta, United) are generating 40–60% higher revenue per cardholder</strong> than those treating co-brand as an afterthought (Frontier, JetBlue).</div>
+  </div>
+  <div class="mktg-grid">
+    <div class="mktg-card" style="border-left-color:var(--accent)">
+      <div class="mktg-title">✈ Terminal & Gate Marketing</div>
+      <div class="mktg-item"><strong>Gate screen advertising</strong> — Airline-controlled displays show card offers during boarding waits. Delta's ATL gates reach 108M pax/yr. <span class="mktg-stat">~$0.8B annual impression value</span></div>
+      <div class="mktg-item"><strong>Kiosk card acquisition</strong> — Check-in and upgrade kiosks prompt card applications. High-intent moment (pre-travel excitement). Delta/Amex drives 20%+ of new card applications this way.</div>
+      <div class="mktg-item"><strong>Lounge access hook</strong> — Access to Sky Club / United Club / Admirals Club requires card membership. Creates premium card pull. Delta Sky Club limited access without Amex Reserve card (waitlist by 2025).</div>
+      <div class="mktg-item"><strong>Terminal pop-up booths</strong> — Staffed Amex/Chase kiosks in Delta/United terminals. Industry standard approval-on-the-spot. High conversion: traveler already has airline top-of-mind.</div>
+    </div>
+    <div class="mktg-card" style="border-left-color:var(--delta)">
+      <div class="mktg-title">🛫 Inflight Marketing</div>
+      <div class="mktg-item"><strong>Cabin crew card pitches</strong> — Seatback envelope card applications + crew verbal pitch on 3–4 hour+ flights. FA commission structures on approved applications ($50–100/card) drive genuine advocacy. <span class="mktg-stat">Delta: ~300K inflight apps/yr est.</span></div>
+      <div class="mktg-item"><strong>Seatback entertainment pre-rolls</strong> — IFE systems (Delta Studio, United Entertainment) run 30-sec card promos before content. Captive audience, high dwell time.</div>
+      <div class="mktg-item"><strong>Meal tray card inserts</strong> — Physical card applications on premium cabin meal trays. High net-worth demographic, premium card target.</div>
+      <div class="mktg-item"><strong>Wi-Fi sponsored passes</strong> — "Fly free on [Amex/Chase card]" — bank sponsors inflight Wi-Fi in exchange for card application display and data capture. United/Chase pioneer model.</div>
+    </div>
+    <div class="mktg-card" style="border-left-color:var(--united)">
+      <div class="mktg-title">📱 Digital & App-Based Channels</div>
+      <div class="mktg-item"><strong>App card upgrade prompts</strong> — Delta/United apps trigger card upsell when a customer books upgrades, checks status, or redeems miles. In-app applications now outpace physical. <span class="mktg-stat">~40% of new co-brand apps now digital-first</span></div>
+      <div class="mktg-item"><strong>Email lifecycle sequences</strong> — Status match offers ("earn Gold status with 3 card purchases"), mile bonus triggers, anniversary offers. Delta sends 200M+ targeted emails/yr to SkyMiles base.</div>
+      <div class="mktg-item"><strong>Booking flow card integration</strong> — "Pay with miles + card" prompts at checkout. United MileagePlus allows mile top-ups at point of purchase — drives card applications when miles are short.</div>
+      <div class="mktg-item"><strong>Social retargeting</strong> — Airlines share anonymized purchase intent signals with bank partners for Meta/Google retargeting. "You searched ATL–JFK — earn 70K miles with the Delta Amex card."</div>
+    </div>
+  </div>
+  <div class="panel" style="margin-bottom:16px;"><div class="ph"><div><div class="pt">Loyalty as % of Total Revenue</div><div class="ps" id="loyaltyPctSub">Strategic importance benchmark · FY 2024 · Delta leads — every pp gain = ~$600M revenue</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="loyaltyPctChart"></canvas></div></div></div>
+</div>
+
+
+<!-- ═══════════════════════ TAB 7: MARKET OPPORTUNITY ═══════════════════════ -->
 <div id="tab-opportunity" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Market Opportunity Intelligence</div><div class="sec-sub">Underserved markets · ULCC vacuum · New entrant scoring · Aviation A2Z / DOT O&D / BTS</div></div>
   <div class="sowhat">
@@ -890,229 +1123,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   </div>
 </div>
 
-<!-- ═══════════════════════ TAB: TRAVEL INTELLIGENCE ═══════════════════════ -->
-<div id="tab-travel" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Travel Intelligence — Hot Spots, Hot Routes & Demand Patterns</div><div class="sec-sub"><span id="travelSecSub">Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · FY 2024</span></div></div>
-
-  <div class="sowhat">
-    <div class="sowhat-label">Demand Shift — Where America Is Flying</div>
-    <div class="sowhat-text" id="sowhat-travel">The US travel demand map has permanently redrawn post-COVID. <strong>Leisure is king — and it's flying further.</strong> The top 10 fastest-growing O&D pairs are all leisure-to-leisure or secondary-city-to-sun-belt. Las Vegas remains America's #1 domestic destination by passengers. Hawaii demand is structurally elevated — consumers are trading international trips for Hawaii. <strong>The Sun Belt surge is real and durable:</strong> Austin, Nashville, Bozeman, and Asheville are seeing 15–30% YoY growth, driven by remote work migration. Business travel is back at 95% of 2019 levels but permanently shifted — Thursday is the new Friday, and corporate travelers are now extending trips into leisure ("bleisure"). <strong>Card-linked travel spend is the clearest signal:</strong> Amex and Chase data shows premium cabin spend up 34% vs 2019, while basic economy spend is flat.</div>
-  </div>
-
-  <!-- HOT SPOT KPIs -->
-  <div class="kpi-grid" id="travelKpis">
-    <div class="kpi"><div class="kpi-label">#1 Domestic Destination</div><div class="kpi-value">LAS</div><div class="kpi-chg"><span class="fl">52M+ pax · 380+ daily arrivals</span></div></div>
-    <div class="kpi"><div class="kpi-label">Hawaii Demand vs 2019</div><div class="kpi-value">+11%</div><div class="kpi-chg"><span class="up">↑ Structural elevation</span></div></div>
-    <div class="kpi"><div class="kpi-label">Fastest Growing Market</div><div class="kpi-value">TYS +18.6%</div><div class="kpi-chg"><span class="up">Knoxville — Sun Belt remote</span></div></div>
-    <div class="kpi"><div class="kpi-label">Premium Cabin Spend</div><div class="kpi-value">+34%</div><div class="kpi-chg"><span class="up">↑ vs 2019 — Amex/Chase data</span></div></div>
-    <div class="kpi"><div class="kpi-label">"Bleisure" Trip Share</div><div class="kpi-value">31%</div><div class="kpi-chg"><span class="up">↑ 8pp vs 2019 — new norm</span></div></div>
-  </div>
-
-  <!-- TOP LEISURE HOT SPOTS + SEASONAL -->
-  <div class="row c2">
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Top 15 Hottest Domestic Destinations</div><div class="ps">Annual passengers 2024 · leisure demand index · BTS</div></div><span class="ptag">BTS 2024</span></div>
-      <div class="cw"><div class="h340"><canvas id="hotSpotsChart"></canvas></div></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Fastest Growing O&D Markets</div><div class="ps">YoY passenger growth % · secondary city pairs · 2024 vs 2023</div></div><span class="ptag">DOT O&D</span></div>
-      <div class="cw"><div class="h340"><canvas id="fastGrowthChart"></canvas></div></div>
-    </div>
-  </div>
-
-  <!-- SEASONAL HEAT + ROUTE CATEGORY -->
-  <div class="row c2">
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Demand Seasonality by Segment</div><div class="ps">Indexed weekly seat demand · leisure vs business vs VFR · OAG 2024</div></div><span class="ptag">OAG</span></div>
-      <div class="cw"><div class="h260"><canvas id="seasonalityChart"></canvas></div></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Top Route Categories by Passenger Volume</div><div class="ps">O&D segment types · share of total pax · DOT 2024</div></div><span class="ptag">DOT</span></div>
-      <div class="cw"><div class="h260"><canvas id="routeCategoryChart"></canvas></div></div>
-    </div>
-  </div>
-
-  <!-- HOT ROUTES TABLE -->
-  <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Hottest Routes — Demand, Fare & Card Spend Index</div><div class="ps">Top 20 domestic O&D pairs ranked by combined demand + fare + credit card spend signal · 2024</div></div><span class="ptag">DOT O&D / Amex / Chase est.</span></div>
-    <div style="overflow-x:auto;padding:5px 0 0;">
-      <table class="dt">
-        <thead><tr><th>#</th><th>Route</th><th>Segment Type</th><th>Daily Pax</th><th>Avg Fare</th><th>YoY Δ</th><th>Card Spend Index</th><th>Peak Season</th><th>Hot Carrier</th></tr></thead>
-        <tbody>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">1</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAX–JFK</td><td><span class="badge bb">Business+Leisure</span></td><td>8,700</td><td>$412</td><td style="color:var(--success);font-weight:700">+0.5%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Year-round</td><td><span class="badge bx">Multi</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">2</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ATL–MCO</td><td><span class="badge bg">Leisure</span></td><td>6,200</td><td>$198</td><td style="color:var(--success);font-weight:700">+3.1%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★</span></td><td>Summer/Winter</td><td><span style="color:var(--delta);font-weight:700;font-size:10px">Delta</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">3</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAS–LAX</td><td><span class="badge bg">Leisure+VFR</span></td><td>7,800</td><td>$142</td><td style="color:var(--danger);font-weight:700">-0.2%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Weekends</td><td><span style="color:var(--southwest);font-weight:700;font-size:10px">Southwest</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">4</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">BOS–MIA</td><td><span class="badge bg">Snowbird+Leisure</span></td><td>3,400</td><td>$341</td><td style="color:var(--success);font-weight:700">+4.2%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Jan–Mar</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">5</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ORD–LGA</td><td><span class="badge bb">Business</span></td><td>5,100</td><td>$389</td><td style="color:var(--success);font-weight:700">+1.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★</span></td><td>Mon/Thu</td><td><span style="color:var(--united);font-weight:700;font-size:10px">United</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">6</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">LAX–HNL</td><td><span class="badge bg">Premium Leisure</span></td><td>3,800</td><td>$487</td><td style="color:var(--success);font-weight:700">+2.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Summer/Holiday</td><td><span style="color:var(--hawaiian);font-weight:700;font-size:10px">Hawaiian</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">7</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">DFW–LAX</td><td><span class="badge bb">Business+Leisure</span></td><td>4,900</td><td>$298</td><td style="color:var(--danger);font-weight:700">-0.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Year-round</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">8</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">NYC–MIA</td><td><span class="badge bg">Snowbird+Luxury</span></td><td>6,300</td><td>$378</td><td style="color:var(--success);font-weight:700">+5.1%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Nov–Apr</td><td><span class="badge bx">Multi</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">9</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">ATL–BNA</td><td><span class="badge bg">Leisure + Remote</span></td><td>3,500</td><td>$187</td><td style="color:var(--success);font-weight:700">+7.4%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Year-round</td><td><span style="color:var(--southwest);font-weight:700;font-size:10px">Southwest</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">10</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">SFO–HNL</td><td><span class="badge bg">Premium Leisure</span></td><td>2,800</td><td>$521</td><td style="color:var(--success);font-weight:700">+2.4%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Summer/Holiday</td><td><span style="color:var(--hawaiian);font-weight:700;font-size:10px">Hawaiian</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">11</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">DEN–LAS</td><td><span class="badge bg">Leisure</span></td><td>3,200</td><td>$162</td><td style="color:var(--success);font-weight:700">+2.9%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★</span></td><td>Fri–Sun</td><td><span style="color:var(--frontier);font-weight:700;font-size:10px">Frontier</span></td></tr>
-          <tr><td style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)">12</td><td style="font-family:'JetBrains Mono',monospace;font-weight:600">JFK–MIA</td><td><span class="badge bg">Snowbird+Luxury</span></td><td>4,100</td><td>$356</td><td style="color:var(--success);font-weight:700">+3.8%</td><td><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)">★★★★★</span></td><td>Jan–Apr</td><td><span style="color:var(--american);font-weight:700;font-size:10px">American</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- CARD EARN & REDEMPTION -->
-  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">Card Earn & Redemption Patterns</div>
-  <div class="sowhat" style="border-left-color:var(--united);margin-bottom:16px;">
-    <div class="sowhat-label">The Miles Economy</div>
-    <div class="sowhat-text">Airline miles have become a <strong>de facto second currency for premium American households.</strong> The average Delta Amex Reserve cardholder earns 3–5 miles per dollar on Delta spend and 1 mile everywhere else — accumulating ~80,000 miles/year. But here's the structural shift: <strong>redemption patterns are moving upmarket fast.</strong> Premium cabin awards (business/first) now account for 38% of all redemptions — up from 22% in 2019. Cardholders are using miles to fly better, not just to fly free. <strong>Breakage (miles that expire unused) = $2.8B in annual airline revenue</strong> — pure profit with zero service delivery. The co-brand card is now the most profitable product an airline operates, dollar-for-dollar.</div>
-  </div>
-
-  <div class="kpi-grid" id="cardKpis">
-    <div class="kpi"><div class="kpi-label">Avg Miles Earned/Cardholdr/yr</div><div class="kpi-value">~82K</div><div class="kpi-chg"><span class="fl">Delta Reserve est. · not disclosed</span></div></div>
-    <div class="kpi"><div class="kpi-label">Premium Award Share</div><div class="kpi-value">38%</div><div class="kpi-chg"><span class="up">↑ 16pp vs 2019</span></div></div>
-    <div class="kpi"><div class="kpi-label">Industry Breakage Rev (est.)</div><div class="kpi-value">~$2.8B</div><div class="kpi-chg"><span class="fl">Industry estimate · not disclosed</span></div></div>
-    <div class="kpi"><div class="kpi-label">Avg ¢/Mile Value (Delta)</div><div class="kpi-value">1.2¢</div><div class="kpi-chg"><span class="fl">United 1.3¢ · AA 1.1¢</span></div></div>
-    <div class="kpi"><div class="kpi-label">Card Spend vs Flight Spend</div><div class="kpi-value">62/38</div><div class="kpi-chg"><span class="up">62% of miles now earned via card</span></div></div>
-  </div>
-
-  <div class="row c3">
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Miles Earn Mix by Channel</div><div class="ps">How members accumulate miles · Delta FY2024 estimate</div></div><span class="ptag">Investor Day</span></div>
-      <div class="cw"><div class="h220"><canvas id="earnMixChart"></canvas></div></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Award Redemption by Cabin</div><div class="ps">% of awards redeemed by cabin type · 2019 vs 2024</div></div><span class="ptag">DOT / SEC est.</span></div>
-      <div class="cw"><div class="h220"><canvas id="redemptionCabinChart"></canvas></div></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Cents-Per-Mile Value by Program</div><div class="ps">Average redemption value · industry comparison</div></div><span class="ptag">The Points Guy / NerdWallet</span></div>
-      <div class="cw"><div class="h220"><canvas id="cpmChart"></canvas></div></div>
-    </div>
-  </div>
-
-  <!-- EARN RATE COMPARISON TABLE -->
-  <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Co-Brand Card Earn Rate Comparison — Top Airline Cards 2025</div><div class="ps">Miles per dollar by spend category · all active co-brand cards</div></div><span class="ptag">Card Terms 2025</span></div>
-    <div style="overflow-x:auto;padding:5px 0 0;">
-      <table class="dt">
-        <thead><tr><th>Card</th><th>Airline Spend</th><th>Dining</th><th>Grocery</th><th>Hotels</th><th>Other</th><th>Sign-on Bonus</th><th>Annual Fee</th><th>Best For</th></tr></thead>
-        <tbody>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span><strong>Delta Amex Reserve</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">3x Amex Travel</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>100K miles</td><td>$650</td><td>Premium cabin awards + Sky Club</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--delta)"></span><strong>Delta Amex Platinum</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>90K miles</td><td>$350</td><td>Mid-tier status acceleration</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span><strong>United Club Infinite</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">4x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>80K miles</td><td>$525</td><td>United Club access + 4x on flights</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--united)"></span><strong>United Explorer</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">2x hotels</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K miles</td><td>$95</td><td>Casual United flyer, free bag</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--american)"></span><strong>Citi AAdvantage Executive</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">4x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>70K miles</td><td>$595</td><td>Admirals Club + status miles</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--southwest)"></span><strong>SW Priority (Chase)</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>50K pts</td><td>$149</td><td>Companion Pass chase</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--alaska)"></span><strong>Alaska Visa Sig. (BoA)</strong></span></td><td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>75K miles</td><td>$95</td><td>West Coast flyers, partner sweet spots</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--jetblue)"></span><strong>JetBlue Plus (Barclays)</strong></span></td><td style="color:var(--warn);font-weight:700;font-family:'JetBrains Mono',monospace">6x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K pts</td><td>$99</td><td>NE leisure, 6x on JetBlue is high</td></tr>
-          <tr><td><span class="cp"><span class="cd" style="background:var(--hawaiian)"></span><strong>Hawaiian Visa (BoA)</strong></span></td><td style="color:var(--warn);font-weight:700;font-family:'JetBrains Mono',monospace">3x</td><td style="font-family:'JetBrains Mono',monospace">2x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td style="font-family:'JetBrains Mono',monospace">1x</td><td>60K miles</td><td>$99</td><td>→ Migrating to Atmos Rewards 2025</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- HOW CO-BRAND CARDS ARE SHAPING AIRLINES -->
-  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">How Co-Brand Cards Are Reshaping Aviation Strategy</div>
-  <div class="sowhat" style="border-left-color:var(--delta);margin-bottom:16px;">
-    <div class="sowhat-label">The $250B Tail Wagging the Dog</div>
-    <div class="sowhat-text">Co-brand cards are no longer a loyalty perk — <strong>they are now the primary strategic driver of airline decisions.</strong> Delta added premium cabin seats not because passengers asked, but because Amex data showed Reserve cardholders were willing to pay 3× more for upgrades. United opened new international routes partly because Chase Explorer data showed cardholders had Pacific/Europe intent but no UA options. <strong>Card spend data = the most predictive demand signal in aviation</strong> — more accurate than booking curves, because it captures intent before the customer even searches for a flight. Airlines with richer card partnerships make better fleet, route, and pricing decisions. This is the compounding advantage no one talks about.</div>
-  </div>
-
-  <div class="mktg-grid">
-    <div class="mktg-card" style="border-left-color:var(--delta);">
-      <div class="mktg-title">📊 Cards Driving Route Decisions</div>
-      <div class="mktg-item"><strong>Delta ATL–Tokyo (NRT) expansion</strong> — Amex showed 180K Reserve cardholders with Japan intent but no DL option. Route added Q4 2024. Load factor 94% on launch.</div>
-      <div class="mktg-item"><strong>United LAX–Palermo, Bilbao, Kaohsiung</strong> — Chase geo-spend data on cardholders who had booked hotels in those cities but flown foreign carriers. UA captured the gap in 2025.</div>
-      <div class="mktg-item"><strong>Alaska SFO frequency increases</strong> — BoA card data showed high West Coast–Hawaii intent among tech workers. Alaska added 14 weekly HNL departures from SFO in 2024.</div>
-      <div class="mktg-item"><strong>Southwest BNA build-out</strong> — Chase Rapid Rewards data showed Nashville growing cardholder base +22% YoY. Justified crew base + gate investment ahead of demand.</div>
-    </div>
-    <div class="mktg-card" style="border-left-color:var(--united);">
-      <div class="mktg-title">🏟️ Cards Driving Product Decisions</div>
-      <div class="mktg-item"><strong>Delta Sky Club crunch → Amex Reserve gating</strong> — Reserve cardholder lounge visits grew 40% YoY. Delta + Amex introduced visit caps (10/yr for non-flyers) in 2024 to manage overcrowding. Card now requires actual Delta flying for unlimited access.</div>
-      <div class="mktg-item"><strong>Premium cabin expansion</strong> — Delta added 20 Polaris-equivalent seats per widebody after Reserve cardholders drove 68% of premium redemptions. Product follows card data.</div>
-      <div class="mktg-item"><strong>JetBlue Mint expansion</strong> — Barclays data showing JetBlue Plus cardholders had $850+ avg monthly spend signal. Mint routes added to Boston despite losses elsewhere.</div>
-      <div class="mktg-item"><strong>Southwest assigned seating</strong> — Elliott/Chase data: 80% of Rapid Rewards cardholders preferred assigned seats, and premium card holders were most vocal. Bag fee + assigned seat = package deal per bank partner data.</div>
-    </div>
-    <div class="mktg-card" style="border-left-color:var(--american);">
-      <div class="mktg-title">💳 Cards Driving Revenue Strategy</div>
-      <div class="mktg-item"><strong>Dynamic award pricing</strong> — All major carriers shifted to dynamic pricing (no fixed award charts) to capture higher redemption value from cardholders willing to pay. Delta: fully dynamic since 2021. AA: moved 2023. United: hybrid model.</div>
-      <div class="mktg-item"><strong>Miles-as-currency retail expansion</strong> — Delta SkyMiles now accepted at 30+ retail partners (Amazon, Walmart, Starbucks). Drives card spend even when not flying. Amex funds the difference via interchange.</div>
-      <div class="mktg-item"><strong>Status shortcut via card spend</strong> — All major carriers now allow card spend to count toward elite status. Delta: 25K spend = 25K MQMs. This retains high-spend cardholders who fly less frequently — pure revenue with no seat cost.</div>
-      <div class="mktg-item"><strong>Co-brand data sharing</strong> — Airlines and banks share anonymized spend cohort data (not individual PII). Mutual benefit: airline informs bank on travel intent; bank informs airline on general spend patterns and churn risk.</div>
-    </div>
-  </div>
-
-  <!-- NEW OFFERS BEING TESTED -->
-  <div style="margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)">New Offers & Programs Being Tested — 2024/2025</div>
-  <div class="sowhat" style="border-left-color:var(--breeze);margin-bottom:16px;">
-    <div class="sowhat-label">Innovation Lab — What Airlines Are Testing Right Now</div>
-    <div class="sowhat-text">The airline industry is in its most intense period of loyalty innovation since frequent flyer programs launched in 1981. <strong>Three macro trends are driving new offers:</strong> (1) Banks want more card spend share — they're funding richer earn rates and bonus offers; (2) Airlines want recurring non-flying revenue — new programs target everyday spending, not just travel; (3) Younger cardholders (Millennial/GenZ) respond to instant-gratification mechanics, not long-horizon accumulation. The result: <strong>shorter earn cycles, more flexible redemptions, lifestyle partnerships, and subscription-style loyalty models</strong> that look nothing like the traditional "fly to earn, wait years to redeem" structure.</div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
-
-    <!-- Delta / Amex -->
-    <div class="story-card" style="border-top:2px solid var(--delta);">
-      <div class="sc-title" style="color:var(--delta)">🔴 Delta + Amex — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>SkyMiles Shopping Portal 2.0</strong> — Rebranded with 5–30x earn at 800+ retailers. Testing "Flash Bonus" events (48hr 20x at Target/Walmart) tied to Amex statement cycles.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Lifestyle Status Credits</strong> — Pilot: Amex spend on wellness (gym, spa, health food) counts as MQM-equivalent "Status Credits." Targets health-conscious premium segment.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Sky Club Day Passes via Amex Marketplace</strong> — Testing variable-price day passes ($49–$99) available only through Amex Offers, not Delta.com. Creates scarcity + bank exclusivity.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--delta)"></div><span><strong>Companion Certificate Upgrade</strong> — Reserve cardholders can now use annual companion cert for Delta One on transcon routes (LAX/JFK/BOS). Was previously domestic main cabin only.</span></div>
-    </div>
-
-    <!-- United / Chase -->
-    <div class="story-card" style="border-top:2px solid var(--united);">
-      <div class="sc-title" style="color:var(--united)">🔵 United + Chase — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>PlusPoints Subscription</strong> — Testing monthly "upgrade subscription" for Club Infinite cardholders: $49/month for guaranteed T+24hr upgrade on 4 segments/month. Predictable revenue vs lottery-style upgrades.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>Wi-Fi Bundled to Card</strong> — All United flights free Wi-Fi for Club Infinite cardholders starting Q2 2025. Chase funds the bandwidth cost in exchange for higher card acquisition conversion onboard.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>Chase Travel Portal Integration</strong> — Book through Chase Ultimate Rewards portal with 5x earn on all United flights. Creates Chase ecosystem lock-in vs booking direct.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--united)"></div><span><strong>MileagePlus Dining 2.0</strong> — Expanded restaurant network with 3x miles on dining spend charged to United card. Compete with Amex's dominant dining footprint.</span></div>
-    </div>
-
-    <!-- American / Citi+Barclays -->
-    <div class="story-card" style="border-top:2px solid var(--american);">
-      <div class="sc-title" style="color:var(--american)">🔷 American + Citi/Barclays — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>AAdvantage Simplification</strong> — Dual Citi/Barclays issuer complexity being tested with "unified earn" — spend on either card counts toward same status faster. Targets cardholders who hold both.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>Business Card Push</strong> — AA + Barclays launching Aviator Business card with 5x on office supply/shipping spend. Targets SMB segment Delta and United dominate.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--american)"></div><span><strong>Instant Status Match via Card</strong> — Testing: new Citi AAdvantage cardholder gets 30-day Gold status trial automatically. Lowers acquisition friction for switchers from Delta/United.</span></div>
-    </div>
-
-    <!-- Southwest / Chase -->
-    <div class="story-card" style="border-top:2px solid var(--southwest);">
-      <div class="sc-title" style="color:var(--southwest)">🟠 Southwest + Chase — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Companion Pass 2.0</strong> — Testing card spend + flight hybrid earn path. Old: 135K pts/yr flying+card. New: 110K pts via accelerated card spend alone. Protects CP amid bag fees backlash.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>Assigned Seat Card Perk</strong> — Priority boarding + free seat selection for cardholders. Previously boarding position A1–15 was the only premium. Now maps to seat tier system.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--southwest)"></div><span><strong>OTA Earn Rate</strong> — Testing double points on Southwest bookings made through Expedia/Chase Travel (new distribution partners). Bridges the OTA-hostile past.</span></div>
-    </div>
-
-    <!-- Alaska / BoA -->
-    <div class="story-card" style="border-top:2px solid var(--alaska);">
-      <div class="sc-title" style="color:var(--alaska)">🔵 Alaska/Hawaiian + BoA — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Atmos Rewards Launch (Oct 2025)</strong> — Unified program replacing both Mileage Plan and HawaiianMiles. BoA Atmos Visa testing 3x on Pacific route bookings — premium earn for Hawaii/Japan/Australia travelers.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Pacific Premium Card</strong> — Launching Q2 2025: Atmos Visa Infinite with Japan Airlines + Qantas transfer partners. 1:1 transfer to JAL miles. First US co-brand targeting Pacific-Asia corridor directly.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--alaska)"></div><span><strong>Neighbor Island Pass</strong> — Card perk: 2 inter-island flights/year at flat $49 + taxes for Atmos cardholders. Drives Hawaii-based cardholder acquisition.</span></div>
-    </div>
-
-    <!-- Breeze / New Entrants -->
-    <div class="story-card" style="border-top:2px solid var(--breeze);">
-      <div class="sc-title" style="color:var(--breeze)">🌸 Breeze / Frontier / New — Testing</div>
-      <div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>Breeze × Barclays Mastercard launched 2024</strong> — Early-stage co-brand now live. Key growth lever: 87% of Breeze routes are uncontested, meaning gate card acquisition has zero competing airline card. High conversion at origin airports like BNA, BDL, RIC where no legacy carrier card is being offered.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>Frontier GoWild + Card Bundle</strong> — Testing $599/yr GoWild pass ($49/mo) with co-brand Mastercard earning double GoWild seats on card spend. Subscription + card = two revenue streams.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--frontier)"></div><span><strong>Frontier First Class Card Tier</strong> — New premium Mastercard launching alongside first-class product. Elite tier = 5x on F9 spend, free first class upgrade once per quarter.</span></div>
-      <div class="si"><div class="sdot" style="background:var(--breeze)"></div><span><strong>Breeze BreezePoints Flex</strong> — Testing real-time points purchase at checkout: buy exactly the points needed to top up an award, no minimum. Targets last-mile redemption friction for casual travelers.</span></div>
-    </div>
-
-  </div>
-
-  <!-- CARD SPEND → ROUTE DEMAND CHART -->
-  <div class="row c2">
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Co-Brand Card Spend Growth vs Route Demand</div><div class="ps">Indexed 2019=100 · card spend leads demand by ~6 weeks</div></div><span class="ptag">Chase / Amex est.</span></div>
-      <div class="cw"><div class="h260"><canvas id="cardVsDemandChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Earnings calls &amp; card portfolio growth trends</div></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div><div class="pt">Miles Redemption Trends</div><div class="ps">Redemption type share % · 2019 vs 2022 vs 2024</div></div><span class="ptag">Airline investor days</span></div>
-      <div class="cw"><div class="h260"><canvas id="redemptionTrendsChart"></canvas></div></div>
-    </div>
-  </div>
-
-</div>
 
 <!-- ═══════════════════════ TAB: KPIs & SOURCES ═══════════════════════ -->
 <div id="tab-glossary" class="tab-content">
