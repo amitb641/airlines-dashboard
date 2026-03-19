@@ -396,7 +396,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     </div>
   </div>
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost as % of OPEX</div><div class="ps" id="fuelPctSub">2022–2024 trend</div></div><span class="ptag">10-K</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · 10-K actuals &amp; EIA fuel price forecast</div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">Fuel Cost per ASM</div><div class="ps" id="fuelPctSub">Cents per available seat mile · 2022–2024</div></div><span class="ptag">10-K / EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPctChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-bar"></span>Hatched = estimated · 10-K actuals &amp; EIA fuel price forecast</div></div></div>
     <div class="panel"><div class="ph"><div><div class="pt">Jet Fuel Price</div><div class="ps" id="fuelPriceSub">Gulf Coast $/gallon · 2022–2024</div></div><span class="ptag">EIA</span></div><div class="cw"><div class="h220"><canvas id="fuelPriceChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · EIA short-term energy outlook</div></div></div>
   </div>
 </div>
@@ -1178,7 +1178,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <div class="gloss-card-hdr"><span class="gloss-card-icon">💸</span><span class="gloss-card-title">Cost Metrics</span></div>
       <div class="gloss-row"><div class="gloss-term">CASM</div><div class="gloss-def">Cost per Available Seat Mile — total operating costs divided by ASMs. The airline cost equivalent of TRASM. Lower is better. Expressed in cents (¢).</div></div>
       <div class="gloss-row"><div class="gloss-term">CASM-ex</div><div class="gloss-def">CASM excluding fuel (and sometimes profit sharing). The most-watched cost metric because it shows structural efficiency independent of volatile fuel prices. Delta 13.2¢ vs Frontier 15.4¢.</div></div>
-      <div class="gloss-row"><div class="gloss-term">Fuel % OPEX</div><div class="gloss-def">Jet fuel cost as a percentage of total operating expenses. Ranges 22–28% across carriers in FY2024. ULCCs run higher fuel % because they have fewer revenue streams to dilute it.</div></div>
+      <div class="gloss-row"><div class="gloss-term">Fuel ¢/ASM</div><div class="gloss-def">Jet fuel cost per available seat mile — total fuel expense divided by ASMs. Ranges 4.4–5.6¢ across carriers in FY2024. Lower = more fuel-efficient fleet or better hedging. Delta (4.5¢) and Alaska (4.4¢) lead; ULCCs run higher due to older fleet mix.</div></div>
       <div class="gloss-row"><div class="gloss-term">CASM Spread</div><div class="gloss-def">Difference between TRASM and CASM-ex. The wider the spread, the more profit potential. Delta's 7.6¢ spread vs Frontier's -0.6¢ spread illustrates the structural divide.</div></div>
       <div class="gloss-row"><div class="gloss-term">Operating Margin</div><div class="gloss-def">Operating income ÷ total revenue. Delta 14.1% is the benchmark for US airlines. Below 5% is fragile; below 0% is loss-making on operations.</div></div>
       <div class="gloss-row"><div class="gloss-term">Net Margin</div><div class="gloss-def">Net income ÷ total revenue. After interest expense on debt. American's 1.6% GAAP net margin on $54.2B revenue — compared to Delta's ~5.6% — illustrates how debt service compresses bottom-line returns even at record revenue.</div></div>
@@ -1266,8 +1266,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="src-card">
       <div class="src-name">EIA</div>
       <div class="src-full">US Energy Information Administration — Petroleum & Products</div>
-      <div><span class="src-tag">Fuel Price Chart</span><span class="src-tag">Fuel % OPEX</span></div>
-      <div class="src-desc">Jet fuel price series sourced from EIA's US Gulf Coast Kerosene-Type Jet Fuel weekly spot price. Used for the fuel price trend chart (rolling 3-year window; 2026 uses monthly data as available). Fuel % OPEX figures derived from 10-K filings cross-referenced against EIA volume data.</div>
+      <div><span class="src-tag">Fuel Price Chart</span><span class="src-tag">Fuel ¢/ASM</span></div>
+      <div class="src-desc">Jet fuel price series sourced from EIA's US Gulf Coast Kerosene-Type Jet Fuel weekly spot price. Used for the fuel price trend chart (rolling 3-year window; 2026 uses monthly data as available). Fuel cost per ASM derived from 10-K fuel expense ÷ total ASMs, cross-referenced against EIA volume data.</div>
       <div class="src-freq">📅 Weekly spot price · eia.gov/petroleum/gasdiesel</div>
     </div>
 
@@ -1387,7 +1387,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <strong style="color:var(--text)">For analytical purposes only.</strong> This dashboard is an independent analytical tool and is not affiliated with, endorsed by, or representing any airline, bank, or government agency.<br><br>
       <strong style="color:var(--text)">Data currency:</strong> All data reflects the most recent available as of March 2025. BTS and DOT data carry 3–6 month publication lags; OAG forward schedule data reflects March 2025 filings. Financial figures are as reported in FY2024 annual results unless otherwise noted.<br><br>
       <strong style="color:var(--text)">Estimates vs reported figures:</strong> Co-brand economics (¢/mile paid, card spend volumes, earn mix percentages) are estimates derived from public disclosures and third-party analysis. Airlines do not uniformly disclose co-brand economics. Treat these figures as directionally accurate approximations, not audited data.<br><br>
-      <strong style="color:var(--text)">Estimation methodology (dashed lines / hatched bars):</strong> Data points marked with "E" and shown as dashed lines (line charts) or hatched bars (bar charts) are estimates. Estimation sources by chart: <em>Demand Recovery</em> — BTS RPM trend extrapolation with seasonal adjustment. <em>Fare Trend</em> — DOT historical seasonal patterns applied to latest actuals. <em>Operating Margin &amp; Net Income</em> — carrier forward guidance combined with Wall Street analyst consensus (median). <em>Jet Fuel Price</em> — EIA Short-Term Energy Outlook projections. <em>Fuel % OPEX</em> — 10-K actuals extrapolated using EIA fuel forecast. <em>Loyalty Revenue</em> — investor day guidance and co-brand deal growth rates. <em>Seat Share</em> — OAG forward schedule filings. <em>Card Spend vs Demand</em> — bank earnings calls and card portfolio growth trends. 2026 data reflects monthly actuals through March 2026 where available.<br><br>
+      <strong style="color:var(--text)">Estimation methodology (dashed lines / hatched bars):</strong> Data points marked with "E" and shown as dashed lines (line charts) or hatched bars (bar charts) are estimates. Estimation sources by chart: <em>Demand Recovery</em> — BTS RPM trend extrapolation with seasonal adjustment. <em>Fare Trend</em> — DOT historical seasonal patterns applied to latest actuals. <em>Operating Margin &amp; Net Income</em> — carrier forward guidance combined with Wall Street analyst consensus (median). <em>Jet Fuel Price</em> — EIA Short-Term Energy Outlook projections. <em>Fuel ¢/ASM</em> — 10-K fuel expense ÷ ASMs extrapolated using EIA fuel forecast. <em>Loyalty Revenue</em> — investor day guidance and co-brand deal growth rates. <em>Seat Share</em> — OAG forward schedule filings. <em>Card Spend vs Demand</em> — bank earnings calls and card portfolio growth trends. 2026 data reflects monthly actuals through March 2026 where available.<br><br>
       <strong style="color:var(--text)">Forward-looking statements:</strong> Opportunity scores, market projections, and carrier outlooks represent analytical assessments based on available data and are not investment recommendations. Airline economics are highly sensitive to fuel prices, macroeconomic conditions, regulatory changes, and weather events not modeled here.<br><br>
       <strong style="color:var(--text)">Completeness:</strong> Not all carriers are represented equally. Ultra-low-cost carriers (Allegiant, Sun Country, Avelo) and regional carriers (SkyWest, Republic) have limited financial disclosure and are covered at a summary level only. Hawaiian Airlines figures are presented as standalone pre-merger where available, or as combined Alaska+Hawaiian post-September 2024 close.
     </div>
@@ -1671,7 +1671,7 @@ const EST_SOURCES={
   fareChart:'DOT seasonal pattern projection',
   marginChart:'Carrier guidance + analyst consensus',
   fuelPriceChart:'EIA Short-Term Energy Outlook',
-  fuelPctChart:'10-K actuals + EIA fuel forecast',
+  fuelPctChart:'10-K fuel expense ÷ ASMs + EIA forecast',
   loyaltyRevChart:'Investor day guidance + deal growth',
   netIncomeChart:'Carrier guidance + Wall St. consensus',
   timelineChart:'OAG forward schedule filings',
@@ -1844,7 +1844,7 @@ mk('trasmCasmChart','bar',{labels:['Delta','United','Alaska','American','Southwe
 const mC=[['Delta',[7.8,11.3,14.1],'#C8102E'],['United',[3.2,8.9,11.3],'#0C2340'],['American',[1.1,5.2,6.0],'#0078D2'],['Southwest',[0.5,2.1,3.8],'#E06700'],['Alaska',[4.2,6.8,8.3],'#01B7A8'],['JetBlue',[-5.2,-4.1,-3.1],'#003DA5'],['Hawaiian',[2.1,4.2,5.1],'#5B2D8E'],['Frontier',[-3.1,-0.8,-1.8],'#2A7A35']];
 mk('marginChart','line',{labels:['FY2022','FY2023','FY2024'],datasets:mC.map(([l,d,c])=>({label:l,data:d,borderColor:c,borderWidth:2,pointRadius:4,tension:.3,fill:false,pointBackgroundColor:c,pointBorderColor:'#fff',pointBorderWidth:1.5}))},{plugins:{legend:{display:true,position:'right',labels:{color:'#78716C',font:{size:9},boxWidth:9,padding:5}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}}}});
 
-mk('fuelPctChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],datasets:[{label:'2022',data:[27,28,26,29,30,31,32],backgroundColor:'rgba(0,0,0,.12)',borderRadius:3,borderSkipped:false},{label:'2023',data:[24,25,23,26,27,28,29],backgroundColor:'rgba(249,115,22,.5)',borderRadius:3,borderSkipped:false},{label:'2024',data:[22,23,22,24,25,26,28],backgroundColor:'rgba(249,115,22,.85)',borderRadius:3,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false},min:15}}});
+mk('fuelPctChart','bar',{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],datasets:[{label:'2022',data:[5.8,6.0,5.6,6.2,6.4,6.6,7.0],backgroundColor:'rgba(0,0,0,.12)',borderRadius:3,borderSkipped:false},{label:'2023',data:[5.1,5.2,4.9,5.5,5.6,5.8,6.2],backgroundColor:'rgba(249,115,22,.5)',borderRadius:3,borderSkipped:false},{label:'2024',data:[4.5,4.6,4.4,4.8,5.0,5.2,5.6],backgroundColor:'rgba(249,115,22,.85)',borderRadius:3,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}¢/ASM`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>v+'¢'},border:{display:false},min:3}}});
 
 mk('fuelPriceChart','line',{labels:['J\'22','A','J','O','J\'23','A','J','O','J\'24','A','J','O'],datasets:[{data:[2.48,3.89,4.12,3.71,3.22,2.98,3.41,3.15,2.88,2.91,2.74,2.68],borderColor:'#EA580C',backgroundColor:'rgba(234,88,12,.07)',borderWidth:2.5,fill:true,tension:.4,pointRadius:2,pointBackgroundColor:'#EA580C'}]},{plugins:{tooltip:{callbacks:{label:c=>` $${c.parsed.y}/gal`}}},scales:{x:{grid:{display:false},ticks:{...TICK,maxRotation:45},border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v},border:{display:false},min:2.0}}});
 
@@ -2132,11 +2132,11 @@ const YEAR_DATA={
     2025:{labels:['FY2023','FY2024','FY2025E'],datasets:[[11.3,14.1,15.2],[8.9,11.3,12.5],[5.2,6.4,7.2],[2.1,3.8,5.0],[6.8,8.3,9.1],[-4.1,-3.1,-1.2],[4.2,5.1,5.8],[-0.8,-1.8,0.4]]},
     2026:{labels:['FY2024','FY2025','FY2026E'],datasets:[[14.1,15.2,16.0],[11.3,12.5,13.4],[6.4,7.2,8.0],[3.8,5.0,6.2],[8.3,9.1,10.0],[-3.1,-1.2,0.5],[5.1,5.8,6.2],[-1.8,0.4,1.8]]}
   },
-  // TAB 2: Fuel % of OPEX
+  // TAB 2: Fuel Cost per ASM (¢/ASM)
   fuelPct:{
-    2024:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[27,28,26,29,30,31,32],y2023:[24,25,23,26,27,28,29],y2024:[22,23,22,24,25,26,28]},
-    2025:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[24,25,23,26,27,28,29],y2023:[22,23,22,24,25,26,28],y2024:[21,22,21,23,24,25,27]},
-    2026:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[22,23,22,24,25,26,28],y2023:[21,22,21,23,24,25,27],y2024:[20,21,20,22,23,24,26]}
+    2024:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[5.8,6.0,5.6,6.2,6.4,6.6,7.0],y2023:[5.1,5.2,4.9,5.5,5.6,5.8,6.2],y2024:[4.5,4.6,4.4,4.8,5.0,5.2,5.6]},
+    2025:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[5.1,5.2,4.9,5.5,5.6,5.8,6.2],y2023:[4.5,4.6,4.4,4.8,5.0,5.2,5.6],y2024:[4.3,4.4,4.2,4.6,4.8,5.0,5.4]},
+    2026:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],y2022:[4.5,4.6,4.4,4.8,5.0,5.2,5.6],y2023:[4.3,4.4,4.2,4.6,4.8,5.0,5.4],y2024:[4.1,4.2,4.0,4.4,4.6,4.8,5.2]}
   },
   // TAB 2: Fuel Price (rolling 3 years; 2026 uses monthly as data becomes available)
   fuelPrice:{
@@ -2392,7 +2392,7 @@ function updateAllChartsForYear(yr){
   const loyaltySub=document.getElementById('loyaltySub');
   if(loyaltySub){loyaltySub.textContent='Miles sold to bank partners ($B) · '+(yr===2024?'2022–2024':yr===2025?'2023–2025E':'2024–2026E');}
   const fuelPctSub=document.getElementById('fuelPctSub');
-  if(fuelPctSub){fuelPctSub.textContent=yr===2024?'2022–2024 trend':yr===2025?'2023–2025E trend':'2024–2026E trend';}
+  if(fuelPctSub){fuelPctSub.textContent='Cents per available seat mile · '+(yr===2024?'2022–2024':yr===2025?'2023–2025E':'2024–2026E');}
 
   // Dynamic panel titles
   const yl=yr===2024?'FY 2024':yr===2025?'FY 2025E':'FY 2026E';
