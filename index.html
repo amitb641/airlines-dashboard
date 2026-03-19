@@ -58,6 +58,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 .sec-hdr{margin-bottom:14px;}
 .sec-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);}
 .sec-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.tab-context{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;background:linear-gradient(90deg,rgba(249,115,22,.06),transparent);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:10px;color:var(--muted);line-height:1.5;}
+.tab-context strong{color:var(--text);font-weight:700;}
+.tab-context .tc-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--accent);background:rgba(249,115,22,.1);padding:2px 7px;border-radius:4px;white-space:nowrap;}
 
 /* KPI GRID */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:16px;}
@@ -334,6 +337,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- Tab order: 1·Market → 2·Travel → 3·Airports → 4·Carriers → 5·Financial → 6·Loyalty → 7·Opportunity → ?·KPIs -->
 <div id="tab-market" class="tab-content active">
   <div class="sec-hdr"><div class="sec-title">US Domestic Market Overview</div><div class="sec-sub">Industry snapshot · BTS / DOT / Airlines for America · Use year toggle in header to switch periods</div></div>
+  <div class="tab-context"><span class="tc-num">Tab 1 of 7</span> <strong>Start here.</strong> How healthy is the US airline industry right now? This tab sets the macro context — passengers, fares, capacity, and recovery — before drilling into where, who, and why.</div>
   <div class="sowhat">
     <div class="sowhat-label">Industry Story</div>
     <div class="sowhat-text" id="sowhat-market">The US domestic market has <strong>fully recovered and exceeded 2019 by +5.4%</strong>, but the recovery is deeply uneven. Delta and United are printing record profits while American earns a fraction of what it should at comparable revenue. <strong>Spirit's double bankruptcy eliminated ~8% of ULCC capacity</strong>, pushing fares up in vacated markets. The structural winner is whoever owns premium demand — and that's Delta by a mile. The ULCC model is broken at scale; the survivors (Breeze, Frontier) are adapting by going upmarket or staying hyper-niche.</div>
@@ -365,6 +369,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 2: TRAVEL INTELLIGENCE ═══════════════════════ -->
 <div id="tab-travel" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Travel Intelligence — Hot Spots, Hot Routes & Demand Patterns</div><div class="sec-sub"><span id="travelSecSub">Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · FY 2024</span></div></div>
+  <div class="tab-context"><span class="tc-num">Tab 2 of 7</span> <strong>Where is demand going?</strong> Now that you know the market is healthy, this tab maps where Americans are actually flying — hot destinations, growing routes, seasonal patterns, and the rise of bleisure travel.</div>
 
   <div class="sowhat">
     <div class="sowhat-label">Demand Shift — Where America Is Flying</div>
@@ -590,6 +595,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 3: AIRPORT INTELLIGENCE ═══════════════════════ -->
 <div id="tab-airports" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Airport Intelligence</div><div class="sec-sub">Hub dominance · HHI concentration · Animated route network · Slot control · FAA / BTS / OAG · 2024</div></div>
+  <div class="tab-context"><span class="tc-num">Tab 3 of 7</span> <strong>Who controls the infrastructure?</strong> Demand flows through airports — and whoever dominates a hub controls pricing power. This tab reveals fortress hubs, concentration scores, and the supply-side geography of competition.</div>
   <div class="sowhat">
     <div class="sowhat-label">Hub Concentration — The Real Competitive Moat</div>
     <div class="sowhat-text" id="sowhat-airports"><strong>Fortress hubs are the most durable competitive advantage in US aviation.</strong> Delta's 75% seat share at ATL means it can price 20–30% above market on connecting routes and passengers have no choice. American's 82% at DFW and CLT is similarly impenetrable. <strong>The strategic battlegrounds are the in-between airports:</strong> Nashville (BNA) is contested as Southwest retreats and Frontier/Delta expand. Denver (HHI 1,600) is the most competitive major hub — all three legacies plus Frontier fight for share. <strong>Sun Belt airports (TYS +18.6%, CLT +10%, ORD +8.3%)</strong> are where the next decade's market share is being won.</div>
@@ -717,6 +723,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 4: CARRIER DYNAMICS ═══════════════════════ -->
 <div id="tab-carriers" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Carrier Dynamics</div><div class="sec-sub"><span id="carrierSecSub">Select a carrier to explore their story, or view the industry overview · FY 2024 · SEC / BTS / Earnings</span></div></div>
+  <div class="tab-context"><span class="tc-num">Tab 4 of 7</span> <strong>Who is winning — and why?</strong> With demand and airports mapped, now meet the players. Deep-dive each carrier's strategy, fleet, network, and competitive position to understand who's pulling ahead.</div>
 
   <!-- CARRIER SWITCHER -->
   <div class="carrier-switcher">
@@ -945,6 +952,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 5: FINANCIAL ═══════════════════════ -->
 <div id="tab-financial" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub"><span id="finSecSub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</span></div></div>
+  <div class="tab-context"><span class="tc-num">Tab 5 of 7</span> <strong>Follow the money.</strong> Strategy is interesting, but margins are truth. This tab benchmarks revenue, costs, and unit economics across carriers to show who's converting market position into profit.</div>
   <div class="sowhat">
     <div class="sowhat-label">The Financial Divide</div>
     <div class="sowhat-text" id="sowhat-financial">The profit gap between winners and losers is <strong>structural, not cyclical</strong>. Delta earns ~13% adjusted operating margin on $61.6B revenue. American earns 6.0% on $54.2B — nearly identical revenue, half the margin. <strong>The key driver: CASM-ex.</strong> Delta runs 13.2¢, American 14.1¢ — that 0.9¢ gap on 1 trillion ASMs = ~$9B in lost annual profit potential. Hawaiian's inclusion in Alaska's financials adds ~$2.8B revenue and Pacific route network value. JetBlue at -8.6% net margin is the most urgent financial distress story outside Spirit.</div>
@@ -989,6 +997,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 6: LOYALTY & CREDIT CARDS ═══════════════════════ -->
 <div id="tab-loyalty" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Loyalty & Co-Brand Credit Card Intelligence</div><div class="sec-sub">Miles sold to banks · co-brand economics · marketing partnerships · card issuer strategy · 2024–2025</div></div>
+  <div class="tab-context"><span class="tc-num">Tab 6 of 7</span> <strong>The hidden profit engine.</strong> Loyalty programs and co-brand credit cards now generate more profit than flying for top carriers. This tab unpacks the bank deals, card economics, and monetization moats that separate winners from survivors.</div>
   <div class="sowhat">
     <div class="sowhat-label">The $20B Hidden Profit Engine</div>
     <div class="sowhat-text" id="sowhat-loyalty">Airline loyalty programs are now <strong>more profitable than flying itself</strong> for Delta and United. Delta earns $7.4B/yr from Amex — enough to cover its entire annual fuel bill. <strong>The divergence is widening:</strong> Delta/United have locked in decade-long bank deals worth $12.9B combined annually. American simplified to Citi-exclusive in Dec 2024 — a 10-year deal that should unlock growth previously capped by dual-issuer complexity. JetBlue's $0.4B loyalty revenue vs Delta's $7B tells the whole story. <strong>The biggest growth opportunities:</strong> Breeze launched its Barclays Mastercard in 2024 — early stage but high upside given 87% uncontested routes and zero competing airline cards at its gates. Frontier remains massively undermonetized at ~$0.1B, and Hawaiian's Atmos Rewards post-merger integration is the credit card story to watch in 2025–26.</div>
@@ -1089,6 +1098,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB 7: MARKET OPPORTUNITY ═══════════════════════ -->
 <div id="tab-opportunity" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">Market Opportunity Intelligence</div><div class="sec-sub">Underserved markets · ULCC vacuum · New entrant scoring · Aviation A2Z / DOT O&D / BTS</div></div>
+  <div class="tab-context"><span class="tc-num">Tab 7 of 7</span> <strong>What's next?</strong> With the full picture — demand, supply, carriers, money, and loyalty — this tab identifies the gaps: underserved markets, Spirit-vacated routes, and the capacity windows where future market share will be won.</div>
   <div class="sowhat">
     <div class="sowhat-label">Where the Next Market Share Is Won</div>
     <div class="sowhat-text" id="sowhat-opportunity">Spirit's collapse created a <strong>$4B+ revenue vacuum</strong> in ~60 markets where fares jumped 35–52% with no competition replacing them. The biggest unserved market in the US is still Milwaukee–LA (226 daily pax, no nonstop). <strong>Three structural opportunities dominate:</strong> (1) Sun Belt airports where population growth outpaces infrastructure — DEN, AUS, BNA, PHX all capacity-constrained; (2) Spirit-vacated city pairs where only Breeze or Frontier are moving fast enough to capture; (3) Pacific routes via HNL where Alaska/Hawaiian has no credible near-term competition. The carriers that act in 2025–26 on these windows will own the geography for a decade.</div>
@@ -1127,6 +1137,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 <!-- ═══════════════════════ TAB: KPIs & SOURCES ═══════════════════════ -->
 <div id="tab-glossary" class="tab-content">
   <div class="sec-hdr"><div class="sec-title">KPI Definitions & Data Sources</div><div class="sec-sub">Every metric defined · every source cited · how to read this dashboard</div></div>
+  <div class="tab-context"><span class="tc-num">Reference</span> <strong>How to read this dashboard.</strong> Every metric, abbreviation, and data source used across all tabs — defined and cited so you can verify, extend, or challenge any number.</div>
 
   <style>
   .gloss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
