@@ -350,6 +350,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
   <button class="nav-tab" onclick="showTab('loyalty',this)"><span class="tab-n">6</span>Loyalty & Credit Cards</button>
   <button class="nav-tab" onclick="showTab('opportunity',this)"><span class="tab-n">7</span>Market Opportunity</button>
   <button class="nav-tab" onclick="showTab('glossary',this)"><span class="tab-n">?</span>KPIs & Sources</button>
+  <button class="nav-tab" onclick="showTab('devstack',this)"><span class="tab-n">&lt;/&gt;</span>Dev Stack</button>
 </nav>
 
 <main class="main">
@@ -1448,6 +1449,287 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <strong style="color:var(--text)">Estimation methodology (dashed lines / hatched bars):</strong> Data points marked with "E" and shown as dashed lines (line charts) or hatched bars (bar charts) are estimates. Estimation sources by chart: <em>Demand Recovery</em> — BTS RPM trend extrapolation with seasonal adjustment. <em>Fare Trend</em> — DOT historical seasonal patterns applied to latest actuals. <em>Operating Margin &amp; Net Income</em> — carrier forward guidance combined with Wall Street analyst consensus (median). <em>Jet Fuel Price</em> — EIA Short-Term Energy Outlook projections. <em>Fuel ¢/ASM</em> — 10-K fuel expense ÷ ASMs extrapolated using EIA fuel forecast. <em>Loyalty Revenue</em> — investor day guidance and co-brand deal growth rates. <em>Seat Share</em> — OAG forward schedule filings. <em>Card Spend vs Demand</em> — bank earnings calls and card portfolio growth trends. 2026 data reflects monthly actuals through March 2026 where available.<br><br>
       <strong style="color:var(--text)">Forward-looking statements:</strong> Opportunity scores, market projections, and carrier outlooks represent analytical assessments based on available data and are not investment recommendations. Airline economics are highly sensitive to fuel prices, macroeconomic conditions, regulatory changes, and weather events not modeled here.<br><br>
       <strong style="color:var(--text)">Completeness:</strong> Not all carriers are represented equally. Ultra-low-cost carriers (Allegiant, Sun Country, Avelo) and regional carriers (SkyWest, Republic) have limited financial disclosure and are covered at a summary level only. Hawaiian Airlines figures are presented as standalone pre-merger where available, or as combined Alaska+Hawaiian post-September 2024 close.
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════ TAB: DEV STACK ═══════════════════════ -->
+<div id="tab-devstack" class="tab-content">
+  <div class="sec-hdr"><div class="sec-title">Full-Stack Development — Agent Architecture</div><div class="sec-sub">How this dashboard was built · Agent workflow · Tech stack · Data pipeline · Zero-framework, single-file architecture</div></div>
+  <div class="tab-context"><span class="tc-num">&lt;/&gt;</span> <strong>Behind the build.</strong> This dashboard was developed using an AI-agent-driven workflow — from data research to visualization — orchestrated through a multi-agent architecture. Here's the full stack.</div>
+
+  <style>
+  .agent-flow{display:flex;flex-direction:column;gap:0;margin-bottom:20px;position:relative;}
+  .agent-flow::before{content:'';position:absolute;left:28px;top:32px;bottom:32px;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),#CC3370,#16A34A);z-index:0;}
+  .agent-node{display:flex;gap:14px;align-items:flex-start;position:relative;z-index:1;}
+  .agent-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0;border:2px solid var(--border);background:var(--panel);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  .agent-body{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+  .agent-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px;}
+  .agent-role{font-size:9px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .agent-desc{font-size:10px;color:var(--muted);line-height:1.6;}
+  .agent-desc strong{color:var(--text);}
+  .agent-tools{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+  .agent-tool{font-size:8px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;background:rgba(249,115,22,.08);color:var(--accent);border:1px solid rgba(249,115,22,.15);}
+  .agent-arrow{display:flex;align-items:center;gap:6px;padding:4px 0 4px 18px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .agent-arrow::before{content:'↓';font-size:12px;color:var(--accent);width:20px;text-align:center;}
+  .stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .stack-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;border-top:3px solid var(--accent);}
+  .stack-card-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--text);margin-bottom:8px;}
+  .stack-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border2);font-size:9px;}
+  .stack-item:last-child{border:none;}
+  .stack-item-name{font-weight:600;color:var(--text);}
+  .stack-item-detail{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:8px;}
+  .arch-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  .arch-panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .arch-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .arch-title span{font-size:14px;}
+  .file-tree{font-family:'JetBrains Mono',monospace;font-size:9px;line-height:2;color:var(--muted);}
+  .file-tree .dir{color:var(--accent);font-weight:700;}
+  .file-tree .file{color:var(--text);}
+  .file-tree .size{color:var(--muted);font-size:8px;}
+  .file-tree .comment{color:var(--accent2);font-style:italic;}
+  .metric-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .metric-bar-label{font-size:9px;font-weight:600;color:var(--text);width:100px;}
+  .metric-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .metric-bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+  .metric-bar-val{font-size:8px;font-family:'JetBrains Mono',monospace;color:var(--muted);width:50px;text-align:right;}
+  @media(max-width:1100px){.stack-grid{grid-template-columns:repeat(2,1fr);}.arch-row{grid-template-columns:1fr;}}
+  @media(max-width:640px){.stack-grid{grid-template-columns:1fr;}}
+  </style>
+
+  <!-- AGENT WORKFLOW -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Agent Workflow — How This Dashboard Gets Built</div><div class="ps">Multi-agent orchestration · Each agent specializes in one phase · Output feeds the next agent</div></div><span class="ptag">Architecture</span></div>
+    <div class="cw">
+      <div class="agent-flow">
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:var(--accent);color:var(--accent);">O</div>
+          <div class="agent-body" style="border-color:var(--accent);">
+            <div class="agent-name">Orchestrator Agent</div>
+            <div class="agent-role">Task Decomposition &amp; Coordination</div>
+            <div class="agent-desc">The root agent that receives the user's request and <strong>breaks it into sub-tasks</strong>. Decides which specialist agents to invoke, in what order, and how to merge their outputs. Maintains the overall narrative structure (macro → demand → supply → carriers → money → opportunity).</div>
+            <div class="agent-tools"><span class="agent-tool">task planning</span><span class="agent-tool">agent dispatch</span><span class="agent-tool">context management</span><span class="agent-tool">conflict resolution</span></div>
+          </div>
+        </div>
+        <div class="agent-arrow">dispatches parallel research tasks</div>
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:#0C2340;color:#0C2340;">R</div>
+          <div class="agent-body" style="border-color:#0C2340;">
+            <div class="agent-name">Research Agent</div>
+            <div class="agent-role">Data Collection &amp; Source Verification</div>
+            <div class="agent-desc">Gathers <strong>all quantitative data</strong> from public sources: BTS T-100 filings, DOT O&D surveys, SEC 10-K/10-Q filings, airline earnings calls, OAG schedules, and credit card offer trackers (TPG, DoC, USCG). Cross-references every number against at least two sources. Flags estimated values.</div>
+            <div class="agent-tools"><span class="agent-tool">BTS / DOT</span><span class="agent-tool">SEC EDGAR</span><span class="agent-tool">OAG</span><span class="agent-tool">TPG / DoC</span><span class="agent-tool">earnings transcripts</span><span class="agent-tool">A4A reports</span></div>
+          </div>
+        </div>
+        <div class="agent-arrow">verified data → analysis agent</div>
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:var(--accent2);color:var(--accent2);">A</div>
+          <div class="agent-body" style="border-color:var(--accent2);">
+            <div class="agent-name">Analysis Agent</div>
+            <div class="agent-role">Insight Generation &amp; Narrative</div>
+            <div class="agent-desc">Takes raw data and <strong>generates the "So What?" narratives</strong> — the industry stories, carrier analyses, and competitive insights. Computes derived metrics (HHI scores, CASM-ex benchmarks, loyalty moat scores). Identifies the structural patterns that matter: "Delta earns 4.3× American's net income on comparable revenue — why?"</div>
+            <div class="agent-tools"><span class="agent-tool">statistical analysis</span><span class="agent-tool">trend detection</span><span class="agent-tool">narrative synthesis</span><span class="agent-tool">competitive benchmarking</span></div>
+          </div>
+        </div>
+        <div class="agent-arrow">insights + structured data → visualization agent</div>
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:#CC3370;color:#CC3370;">V</div>
+          <div class="agent-body" style="border-color:#CC3370;">
+            <div class="agent-name">Visualization Agent</div>
+            <div class="agent-role">Chart Design &amp; UI Implementation</div>
+            <div class="agent-desc">Translates structured data into <strong>Chart.js configurations, interactive tables, and CSS-driven components</strong>. Selects the right chart type for each metric (line for time series, bar for comparison, doughnut for share, heatmap for matrices). Implements hover tooltips with source citations. Builds the responsive grid layout.</div>
+            <div class="agent-tools"><span class="agent-tool">Chart.js</span><span class="agent-tool">CSS Grid</span><span class="agent-tool">canvas rendering</span><span class="agent-tool">responsive design</span><span class="agent-tool">color systems</span></div>
+          </div>
+        </div>
+        <div class="agent-arrow">rendered components → integration agent</div>
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:#16A34A;color:#16A34A;">I</div>
+          <div class="agent-body" style="border-color:#16A34A;">
+            <div class="agent-name">Integration Agent</div>
+            <div class="agent-role">Assembly, Validation &amp; Year-Toggle Wiring</div>
+            <div class="agent-desc">Assembles all components into a <strong>single index.html file</strong>. Wires the year toggle (2024/2025/2026E) so every chart, KPI, table, map, and narrative updates dynamically. Validates cross-tab data consistency — if Delta's revenue is $61.6B in the financial tab, it must match the carrier tab. Adds the glossary entries.</div>
+            <div class="agent-tools"><span class="agent-tool">DOM wiring</span><span class="agent-tool">data consistency</span><span class="agent-tool">year toggle</span><span class="agent-tool">cross-tab validation</span><span class="agent-tool">single-file bundling</span></div>
+          </div>
+        </div>
+        <div class="agent-arrow">validated dashboard → review agent</div>
+
+        <div class="agent-node">
+          <div class="agent-icon" style="border-color:#7C3AED;color:#7C3AED;">Q</div>
+          <div class="agent-body" style="border-color:#7C3AED;">
+            <div class="agent-name">Review Agent</div>
+            <div class="agent-role">Quality Assurance &amp; Iteration</div>
+            <div class="agent-desc">Final pass — checks <strong>every number against sources</strong>, verifies chart labels, tests year toggles, reviews mobile responsiveness, and validates the narrative flow. Flags any inconsistencies back to the Orchestrator for correction. Ensures the "story" reads coherently from Tab 1 → Tab 7.</div>
+            <div class="agent-tools"><span class="agent-tool">data audit</span><span class="agent-tool">visual QA</span><span class="agent-tool">responsive testing</span><span class="agent-tool">narrative review</span><span class="agent-tool">source citation check</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH STACK -->
+  <div class="stack-grid">
+    <div class="stack-card" style="border-top-color:var(--accent);">
+      <div class="stack-card-title">Frontend</div>
+      <div class="stack-item"><span class="stack-item-name">HTML5</span><span class="stack-item-detail">single file</span></div>
+      <div class="stack-item"><span class="stack-item-name">CSS3</span><span class="stack-item-detail">inline &lt;style&gt;</span></div>
+      <div class="stack-item"><span class="stack-item-name">Vanilla JS</span><span class="stack-item-detail">ES6+ · no framework</span></div>
+      <div class="stack-item"><span class="stack-item-name">Chart.js 4.4</span><span class="stack-item-detail">CDN · 80KB gzip</span></div>
+      <div class="stack-item"><span class="stack-item-name">Leaflet 1.9</span><span class="stack-item-detail">CDN · airport map</span></div>
+      <div class="stack-item"><span class="stack-item-name">Google Fonts</span><span class="stack-item-detail">Syne + Inter + JBM</span></div>
+    </div>
+    <div class="stack-card" style="border-top-color:#0C2340;">
+      <div class="stack-card-title">Architecture</div>
+      <div class="stack-item"><span class="stack-item-name">Pattern</span><span class="stack-item-detail">Single-file SPA</span></div>
+      <div class="stack-item"><span class="stack-item-name">Routing</span><span class="stack-item-detail">Tab-based · no router</span></div>
+      <div class="stack-item"><span class="stack-item-name">State</span><span class="stack-item-detail">Global year + carrier</span></div>
+      <div class="stack-item"><span class="stack-item-name">Data</span><span class="stack-item-detail">Inline JSON objects</span></div>
+      <div class="stack-item"><span class="stack-item-name">Build</span><span class="stack-item-detail">None · zero tooling</span></div>
+      <div class="stack-item"><span class="stack-item-name">Deploy</span><span class="stack-item-detail">Static file · any host</span></div>
+    </div>
+    <div class="stack-card" style="border-top-color:var(--accent2);">
+      <div class="stack-card-title">Data Sources</div>
+      <div class="stack-item"><span class="stack-item-name">BTS T-100</span><span class="stack-item-detail">passenger · capacity</span></div>
+      <div class="stack-item"><span class="stack-item-name">DOT O&D Survey</span><span class="stack-item-detail">route demand</span></div>
+      <div class="stack-item"><span class="stack-item-name">SEC EDGAR</span><span class="stack-item-detail">10-K · financials</span></div>
+      <div class="stack-item"><span class="stack-item-name">OAG Schedules</span><span class="stack-item-detail">flight frequency</span></div>
+      <div class="stack-item"><span class="stack-item-name">Earnings Calls</span><span class="stack-item-detail">guidance · strategy</span></div>
+      <div class="stack-item"><span class="stack-item-name">TPG / DoC</span><span class="stack-item-detail">card offers</span></div>
+    </div>
+    <div class="stack-card" style="border-top-color:#CC3370;">
+      <div class="stack-card-title">Design System</div>
+      <div class="stack-item"><span class="stack-item-name">Colors</span><span class="stack-item-detail">CSS vars · dark mode</span></div>
+      <div class="stack-item"><span class="stack-item-name">Typography</span><span class="stack-item-detail">3-font hierarchy</span></div>
+      <div class="stack-item"><span class="stack-item-name">Grid</span><span class="stack-item-detail">CSS Grid · responsive</span></div>
+      <div class="stack-item"><span class="stack-item-name">Components</span><span class="stack-item-detail">KPI · panel · table</span></div>
+      <div class="stack-item"><span class="stack-item-name">Carrier Colors</span><span class="stack-item-detail">8 branded vars</span></div>
+      <div class="stack-item"><span class="stack-item-name">Breakpoints</span><span class="stack-item-detail">1100px · 640px</span></div>
+    </div>
+  </div>
+
+  <!-- FILE ARCHITECTURE + METRICS -->
+  <div class="arch-row">
+    <div class="arch-panel">
+      <div class="arch-title"><span>📁</span> File Architecture</div>
+      <div class="file-tree">
+        <span class="dir">airlines-dashboard/</span><br>
+        ├── <span class="file">index.html</span> <span class="size">~180KB</span> <span class="comment">← entire application</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;style&gt;</span> <span class="size">~300 rules</span> <span class="comment">← all CSS inline</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;nav&gt;</span> <span class="size">9 tabs</span> <span class="comment">← tab navigation</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;main&gt;</span> <span class="size">9 tab-content divs</span> <span class="comment">← all tab HTML</span><br>
+        │&nbsp;&nbsp; ├── <span class="comment">&lt;script&gt;</span> <span class="size">~1200 lines</span> <span class="comment">← all JS inline</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">YEAR_DATA{}</span> <span class="comment">← 2024/2025/2026 datasets</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">PULSE_DATA{}</span> <span class="comment">← card offer snapshots</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">OTL_BY_YEAR{}</span> <span class="comment">← offer timeline matrix</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">mk()</span> <span class="comment">← Chart.js factory</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">showTab()</span> <span class="comment">← tab routing</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; ├── <span class="comment">setGlobalYear()</span> <span class="comment">← year toggle handler</span><br>
+        │&nbsp;&nbsp; │&nbsp;&nbsp; └── <span class="comment">updateAllChartsForYear()</span> <span class="comment">← dynamic data swap</span><br>
+        │&nbsp;&nbsp; └── <span class="comment">CDN deps</span> <span class="comment">← Chart.js + Leaflet</span><br>
+        └── <span class="file">README.md</span> <span class="size">optional</span>
+      </div>
+    </div>
+    <div class="arch-panel">
+      <div class="arch-title"><span>📊</span> Dashboard Metrics</div>
+      <div class="metric-bar"><span class="metric-bar-label">Charts</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:85%;background:var(--accent);"></div></div><span class="metric-bar-val">30+ charts</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">KPI Cards</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:70%;background:#0C2340;"></div></div><span class="metric-bar-val">45+ KPIs</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">Data Tables</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:50%;background:var(--accent2);"></div></div><span class="metric-bar-val">12 tables</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">Carrier Profiles</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:60%;background:#CC3370;"></div></div><span class="metric-bar-val">8 carriers</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">Year Variants</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:40%;background:#16A34A;"></div></div><span class="metric-bar-val">3 years</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">Data Points</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:95%;background:#7C3AED;"></div></div><span class="metric-bar-val">2,000+</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">CSS Rules</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:65%;background:var(--accent);"></div></div><span class="metric-bar-val">~300 rules</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">JS Lines</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:75%;background:#0C2340;"></div></div><span class="metric-bar-val">~1,200 lines</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">Total File Size</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:55%;background:var(--accent2);"></div></div><span class="metric-bar-val">~180KB</span></div>
+      <div class="metric-bar"><span class="metric-bar-label">External Deps</span><div class="metric-bar-track"><div class="metric-bar-fill" style="width:15%;background:#CC3370;"></div></div><span class="metric-bar-val">2 CDN libs</span></div>
+    </div>
+  </div>
+
+  <!-- AGENT DATA FLOW DIAGRAM -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Agent Data Flow — From Raw Sources to Rendered Dashboard</div><div class="ps">Each box represents a transformation stage · Data flows left to right · Colors match agent roles</div></div><span class="ptag">Pipeline</span></div>
+    <div class="cw" style="overflow-x:auto;">
+      <div style="display:flex;align-items:center;gap:8px;padding:16px 0;min-width:900px;">
+        <!-- Stage 1: Sources -->
+        <div style="flex:1;background:rgba(12,35,64,.08);border:1px solid rgba(12,35,64,.2);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#0C2340;margin-bottom:6px;">RAW SOURCES</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">BTS T-100<br>DOT O&D<br>SEC 10-K<br>OAG Schedules<br>TPG / DoC<br>Earnings Calls</div>
+        </div>
+        <div style="font-size:16px;color:var(--accent);">→</div>
+        <!-- Stage 2: Research -->
+        <div style="flex:1;background:rgba(12,35,64,.08);border:2px solid #0C2340;border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#0C2340;margin-bottom:6px;">RESEARCH AGENT</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">Extract numbers<br>Cross-reference<br>Flag estimates<br>Normalize units</div>
+        </div>
+        <div style="font-size:16px;color:var(--accent);">→</div>
+        <!-- Stage 3: Analysis -->
+        <div style="flex:1;background:rgba(233,150,14,.08);border:2px solid var(--accent2);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:var(--accent2);margin-bottom:6px;">ANALYSIS AGENT</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">Compute HHI<br>Benchmark CASM<br>Generate insights<br>Write narratives</div>
+        </div>
+        <div style="font-size:16px;color:var(--accent);">→</div>
+        <!-- Stage 4: Visualization -->
+        <div style="flex:1;background:rgba(204,51,112,.08);border:2px solid #CC3370;border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#CC3370;margin-bottom:6px;">VIZ AGENT</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">Chart.js configs<br>Table layouts<br>KPI cards<br>CSS components</div>
+        </div>
+        <div style="font-size:16px;color:var(--accent);">→</div>
+        <!-- Stage 5: Integration -->
+        <div style="flex:1;background:rgba(22,163,74,.08);border:2px solid #16A34A;border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#16A34A;margin-bottom:6px;">INTEGRATION</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">Wire year toggle<br>Tab navigation<br>Data consistency<br>Single file bundle</div>
+        </div>
+        <div style="font-size:16px;color:var(--accent);">→</div>
+        <!-- Stage 6: Output -->
+        <div style="flex:1;background:rgba(124,58,237,.08);border:2px solid #7C3AED;border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#7C3AED;margin-bottom:6px;">REVIEW + SHIP</div>
+          <div style="font-size:8px;color:var(--muted);line-height:1.6;">QA audit<br>Source verify<br>Mobile test<br>Git push</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESIGN DECISIONS -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Key Design Decisions</div><div class="ps">Why single-file? Why no React? Why inline data? Intentional trade-offs explained.</div></div><span class="ptag">Philosophy</span></div>
+    <div class="cw">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div style="padding:12px;background:rgba(249,115,22,.04);border-radius:8px;border:1px solid rgba(249,115,22,.12);">
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px;">Single-File Architecture</div>
+          <div style="font-size:9px;color:var(--muted);line-height:1.6;"><strong style="color:var(--text);">Why:</strong> Zero build step, zero dependencies to install, zero config. Open index.html in any browser — it works. Deploy to any static host. No node_modules, no webpack, no bundler. The entire application is inspectable in View Source.<br><strong style="color:var(--text);">Trade-off:</strong> File gets large (~180KB). No hot reload. No TypeScript safety.</div>
+        </div>
+        <div style="padding:12px;background:rgba(12,35,64,.04);border-radius:8px;border:1px solid rgba(12,35,64,.12);">
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px;">Inline Data (No API)</div>
+          <div style="font-size:9px;color:var(--muted);line-height:1.6;"><strong style="color:var(--text);">Why:</strong> Dashboard loads instantly — no fetch latency, no CORS, no API keys, no backend. Data is versioned in git alongside the visualization. Year toggle swaps pre-computed datasets client-side.<br><strong style="color:var(--text);">Trade-off:</strong> Data updates require code changes. Not real-time. File size grows with each year added.</div>
+        </div>
+        <div style="padding:12px;background:rgba(204,51,112,.04);border-radius:8px;border:1px solid rgba(204,51,112,.12);">
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px;">Vanilla JS (No Framework)</div>
+          <div style="font-size:9px;color:var(--muted);line-height:1.6;"><strong style="color:var(--text);">Why:</strong> Chart.js handles all complex rendering. Tab switching is 5 lines of DOM manipulation. Year toggle is a data swap + chart update. The problem doesn't need React's component model — it needs clear data structures and good Chart.js configs.<br><strong style="color:var(--text);">Trade-off:</strong> No component reuse. DOM manipulation is manual. Harder to test.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENT CAPABILITIES MATRIX -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Agent Capabilities Matrix</div><div class="ps">What each agent can do · Tools available · Autonomy level</div></div><span class="ptag">Agents</span></div>
+    <div style="overflow-x:auto;">
+      <table class="dt">
+        <thead><tr><th>Agent</th><th>Role</th><th>Input</th><th>Output</th><th>Tools</th><th>Autonomy</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:var(--accent);">Orchestrator</td><td>Coordination</td><td>User request</td><td>Task plan + agent dispatch</td><td>Planning, Agent dispatch</td><td><span class="badge bg" style="font-size:8px;">Full</span></td></tr>
+          <tr><td style="font-weight:700;color:#0C2340;">Research</td><td>Data collection</td><td>Topic + source list</td><td>Verified data tables</td><td>Web search, File read, Data extraction</td><td><span class="badge bg" style="font-size:8px;">High</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--accent2);">Analysis</td><td>Insight generation</td><td>Verified data</td><td>Narratives + derived metrics</td><td>Computation, Text generation</td><td><span class="badge bg" style="font-size:8px;">High</span></td></tr>
+          <tr><td style="font-weight:700;color:#CC3370;">Visualization</td><td>UI implementation</td><td>Structured data + insights</td><td>HTML/CSS/JS components</td><td>Code write, Chart.js, CSS</td><td><span class="badge bg" style="font-size:8px;">Medium</span></td></tr>
+          <tr><td style="font-weight:700;color:#16A34A;">Integration</td><td>Assembly</td><td>All components</td><td>Single index.html</td><td>File edit, DOM wiring, Validation</td><td><span class="badge bg" style="font-size:8px;">Medium</span></td></tr>
+          <tr><td style="font-weight:700;color:#7C3AED;">Review</td><td>Quality assurance</td><td>Complete dashboard</td><td>Audit report + fixes</td><td>Read, Grep, Data verify</td><td><span class="badge bg" style="font-size:8px;">High</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
