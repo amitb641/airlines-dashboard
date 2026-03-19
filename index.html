@@ -1023,6 +1023,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     </div>
   </div>
 
+  <!-- Co-Brand Offer Runs by Carrier (Time Series) -->
+  <div class="panel" style="margin-bottom:16px;">
+    <div class="ph"><div><div class="pt">Co-Brand Offer Runs by Carrier</div><div class="ps">Number of active promotional offers per month · Elevated sign-up bonuses, limited-time card launches & retention plays · 2024</div></div><span class="ptag">Tracking</span></div>
+    <div class="cw"><div class="h300"><canvas id="offerRunsChart"></canvas></div></div>
+  </div>
+
   <!-- Loyalty Cards Grid -->
   <div class="row c2" style="margin-bottom:16px;">
     <div id="loyaltyCards" style="display:flex;flex-direction:column;gap:10px;">
@@ -1873,6 +1879,20 @@ mk('fuelPriceChart','line',{labels:['J\'22','A','J','O','J\'23','A','J','O','J\'
 mk('loyaltyRevChart','bar',{labels:['2022','2023','2024'],datasets:[{label:'Delta',data:[6.0,6.8,7.4],backgroundColor:'#C8102E',borderRadius:4,borderSkipped:false},{label:'United',data:[4.7,5.1,5.5],backgroundColor:'#0C2340',borderRadius:4,borderSkipped:false},{label:'American',data:[4.4,5.2,6.1],backgroundColor:'#0078D2',borderRadius:4,borderSkipped:false},{label:'Southwest',data:[2.2,2.5,2.8],backgroundColor:'#E06700',borderRadius:4,borderSkipped:false}]},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:9},boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y}B`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,callback:v=>'$'+v+'B'},border:{display:false}}}});
 
 mk('loyaltyPctChart','bar',{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],datasets:[{data:[12.0,13.1,11.3,11.2,7.4,5.8,4.5,1.8],backgroundColor:['#C8102E','#0C2340','#0078D2','#E06700','#01B7A8','#5B2D8E','#003DA5','#2A7A35'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% of total revenue`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
+
+// Offer runs by carrier by month (2024)
+const offerMonths=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const offerData=[
+  {l:'Delta/Amex',d:[3,3,4,5,5,4,3,4,5,6,5,4],c:'#C8102E'},
+  {l:'United/Chase',d:[2,3,3,4,4,3,3,3,4,5,4,3],c:'#0C2340'},
+  {l:'American/Citi',d:[2,2,3,3,4,3,2,3,4,4,5,4],c:'#0078D2'},
+  {l:'Southwest/Chase',d:[2,2,2,3,3,2,2,2,3,3,3,2],c:'#E06700'},
+  {l:'Alaska/BoA',d:[1,1,2,2,2,1,1,2,2,3,2,2],c:'#01B7A8'},
+  {l:'JetBlue/Barclays',d:[1,1,1,2,2,1,1,1,2,2,2,1],c:'#003DA5'},
+  {l:'Frontier/Barclays',d:[0,0,1,1,1,1,0,1,1,1,1,0],c:'#2A7A35'},
+  {l:'Breeze/Barclays',d:[0,0,0,0,1,1,1,1,1,1,1,1],c:'#CC3370'}
+];
+mk('offerRunsChart','line',{labels:offerMonths,datasets:offerData.map(x=>({label:x.l,data:x.d,borderColor:x.c,backgroundColor:x.c+'15',borderWidth:2,fill:false,tension:.35,pointRadius:3,pointBackgroundColor:x.c,pointBorderColor:'#fff',pointBorderWidth:1.5}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:8},boxWidth:9,padding:6}},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y} offer${c.parsed.y!==1?'s':''}`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,stepSize:1,callback:v=>v+' offers'},border:{display:false},min:0,max:7}}});
 
 // TAB 4 CHARTS
 const tlLabels=['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','Q1\'24','Q2','Q3','Q4','Q1\'25'];
