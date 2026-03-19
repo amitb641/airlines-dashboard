@@ -349,7 +349,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="insight"><div class="insight-icon">🏆</div><div class="insight-lbl">Premium Shift</div><div class="insight-txt">Delta premium cabin > main cabin — <span class="ia">structural change</span>, not a blip</div></div>
   </div>
   <div class="row c32">
-    <div class="panel"><div class="ph"><div><div class="pt">Market Share by ASMs — FY 2024</div><div class="ps">% Available Seat Miles incl. Hawaiian</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h260"><canvas id="mktShareChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt" id="mktShareTitle">Market Share by ASMs — FY 2024</div><div class="ps">% Available Seat Miles incl. Hawaiian</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h260"><canvas id="mktShareChart"></canvas></div></div></div>
     <div class="panel"><div class="ph"><div><div class="pt">Carrier Mix</div><div class="ps">Legacy vs LCC vs ULCC</div></div></div><div class="cw"><div class="h220"><canvas id="mixChart"></canvas></div></div></div>
   </div>
   <div class="row c2">
@@ -360,7 +360,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <!-- ═══════════════════════ TAB 2: FINANCIAL ═══════════════════════ -->
 <div id="tab-financial" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</div></div>
+  <div class="sec-hdr"><div class="sec-title">Financial Performance</div><div class="sec-sub"><span id="finSecSub">Unit economics · margins · cost benchmarking · SEC / Earnings · FY 2024</span></div></div>
   <div class="sowhat">
     <div class="sowhat-label">The Financial Divide</div>
     <div class="sowhat-text" id="sowhat-financial">The profit gap between winners and losers is <strong>structural, not cyclical</strong>. Delta earns 14.1% operating margin on $61.6B revenue. American earns 6.4% on $54.2B — nearly identical revenue, half the margin. <strong>The key driver: CASM-ex.</strong> Delta runs 13.2¢, American 14.1¢ — that 0.9¢ gap on 1 trillion ASMs = ~$9B in lost annual profit potential. Hawaiian's inclusion in Alaska's financials adds ~$2.8B revenue and Pacific route network value. JetBlue at -3.1% operating margin is the most urgent financial distress story outside Spirit.</div>
@@ -373,11 +373,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     <div class="kpi"><div class="kpi-label">Ind. Avg Op Margin</div><div class="kpi-value">9.2%</div><div class="kpi-chg"><span class="up">↑ 1.4pp</span><span class="kp">vs FY23</span></div></div>
   </div>
   <div class="row c2">
-    <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
+    <div class="panel"><div class="ph"><div><div class="pt">TRASM vs CASM-ex Fuel</div><div class="ps" id="trasmCasmSub">Revenue vs cost per ASM (¢) — FY 2024</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="trasmCasmChart"></canvas></div></div></div>
     <div class="panel"><div class="ph"><div><div class="pt">Operating Margin Trend</div><div class="ps" id="marginSub">FY 2022 → 2023 → 2024 by carrier</div></div><span class="ptag">Earnings</span></div><div class="cw"><div class="h220"><canvas id="marginChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · Carrier guidance &amp; analyst consensus</div></div></div>
   </div>
   <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps">All major carriers incl. Hawaiian · FY 2024</div></div><span class="ptag">SEC/Earnings</span></div>
+    <div class="ph"><div><div class="pt">Carrier Unit Economics Scorecard</div><div class="ps" id="scorecardSub">All major carriers incl. Hawaiian · FY 2024</div></div><span class="ptag">SEC/Earnings</span></div>
     <div style="overflow-x:auto;padding:6px 0 0;">
       <table class="dt">
         <thead><tr><th>Carrier</th><th>TRASM¢</th><th>PRASM¢</th><th>CASM-ex¢</th><th>Fuel%</th><th>Op Margin</th><th>Net Margin</th><th>Net Debt/EBITDAR</th><th>S&P</th><th>Signal</th></tr></thead>
@@ -497,7 +497,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <div class="mktg-item"><strong>Social retargeting</strong> — Airlines share anonymized purchase intent signals with bank partners for Meta/Google retargeting. "You searched ATL–JFK — earn 70K miles with the Delta Amex card."</div>
     </div>
   </div>
-  <div class="panel" style="margin-bottom:16px;"><div class="ph"><div><div class="pt">Loyalty as % of Total Revenue</div><div class="ps">Strategic importance benchmark · FY 2024 · Delta leads — every pp gain = ~$600M revenue</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="loyaltyPctChart"></canvas></div></div></div>
+  <div class="panel" style="margin-bottom:16px;"><div class="ph"><div><div class="pt">Loyalty as % of Total Revenue</div><div class="ps" id="loyaltyPctSub">Strategic importance benchmark · FY 2024 · Delta leads — every pp gain = ~$600M revenue</div></div><span class="ptag">SEC</span></div><div class="cw"><div class="h220"><canvas id="loyaltyPctChart"></canvas></div></div></div>
 </div>
 
 <!-- ═══════════════════════ TAB 4: AIRPORT INTELLIGENCE ═══════════════════════ -->
@@ -577,7 +577,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
               <strong style="color:var(--text)">Airport size:</strong> Total passengers (enplaned + deplaned) · ACI-NA 2024
             </div>
             <div style="font-size:9px;color:var(--muted);font-family:'Inter',sans-serif;font-style:italic;">
-              Particle speed ∝ weekly frequency · Node size ∝ annual passenger volume · EK shown as US domestic gateway legs only
+              Node size ∝ annual passenger volume · EK shown as US domestic gateway legs only
             </div>
           </div>
         </div>
@@ -585,7 +585,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
       <!-- Route share timeline -->
       <div class="panel"><div class="ph"><div><div class="pt">Domestic Seat Share Over Time</div><div class="ps" id="timelineSub">Monthly % · Q1 2022 → Q1 2025 · Spirit collapse, Breeze rise</div></div><span class="ptag">BTS T-100</span></div><div class="cw"><div class="h180"><canvas id="timelineChart"></canvas></div><div class="est-note est-toggle" style="display:none"><span class="est-line"></span>Dashed = estimated · OAG forward schedules &amp; trend projection</div></div></div>
       <!-- Busiest routes table -->
-      <div class="panel"><div class="ph"><div><div class="pt">Busiest Domestic Routes</div><div class="ps">Avg weekly departures · annual pax · BTS FY 2024</div></div><span class="ptag">BTS 2024</span></div>
+      <div class="panel"><div class="ph"><div><div class="pt">Busiest Domestic Routes</div><div class="ps" id="routesSub">Avg weekly departures · annual pax · BTS FY 2024</div></div><span class="ptag">BTS 2024</span></div>
         <div style="overflow-x:auto;padding:4px 0 0;"><table class="dt"><thead><tr><th>#</th><th>Route</th><th>Wkly Flt</th><th>Ann. Pax</th><th>Dominant</th><th>YoY</th></tr></thead><tbody id="routeTableBody"></tbody></table></div>
       </div>
     </div>
@@ -628,7 +628,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <!-- ═══════════════════════ TAB 5: CARRIER DYNAMICS ═══════════════════════ -->
 <div id="tab-carriers" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Carrier Dynamics</div><div class="sec-sub">Select a carrier to explore their story, or view the industry overview · FY 2024 · SEC / BTS / Earnings</div></div>
+  <div class="sec-hdr"><div class="sec-title">Carrier Dynamics</div><div class="sec-sub"><span id="carrierSecSub">Select a carrier to explore their story, or view the industry overview · FY 2024 · SEC / BTS / Earnings</span></div></div>
 
   <!-- CARRIER SWITCHER -->
   <div class="carrier-switcher">
@@ -670,7 +670,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
         <div style="padding:6px 0" id="flowBars"></div>
       </div>
       <div class="panel">
-        <div class="ph"><div><div class="pt">Total Revenue FY 2024</div><div class="ps">Operating revenue ($B)</div></div><span class="ptag">SEC</span></div>
+        <div class="ph"><div><div class="pt" id="revTitle">Total Revenue FY 2024</div><div class="ps">Operating revenue ($B)</div></div><span class="ptag">SEC</span></div>
         <div class="cw"><div class="h220"><canvas id="revenueChart"></canvas></div></div>
       </div>
     </div>
@@ -892,7 +892,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 
 <!-- ═══════════════════════ TAB: TRAVEL INTELLIGENCE ═══════════════════════ -->
 <div id="tab-travel" class="tab-content">
-  <div class="sec-hdr"><div class="sec-title">Travel Intelligence — Hot Spots, Hot Routes & Demand Patterns</div><div class="sec-sub">Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · FY 2024</div></div>
+  <div class="sec-hdr"><div class="sec-title">Travel Intelligence — Hot Spots, Hot Routes & Demand Patterns</div><div class="sec-sub"><span id="travelSecSub">Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · FY 2024</span></div></div>
 
   <div class="sowhat">
     <div class="sowhat-label">Demand Shift — Where America Is Flying</div>
@@ -1402,7 +1402,7 @@ const ROUTES_2025=[
   ['DTW','ATL','Delta',292,3.3,4.0],['IAH','ORD','United',282,3.1,1.6],['SLC','DEN','Delta',262,2.9,4.2],
   // Southwest — ATL cut -57%, BNA pivot with new routes
   ['LAS','LAX','Southwest',368,4.1,-1.2],['PHX','LAX','Southwest',328,3.7,0.8],
-  ['BNA','ATL','Southwest',175,2.0,-5.7],  // ← visibly fewer particles vs 2024
+  ['BNA','ATL','Southwest',175,2.0,-5.7],
   ['BNA','ORD','Southwest',265,3.0,6.8],['BNA','DEN','Southwest',195,2.2,9.1],
   ['BNA','LAX','Southwest',168,1.9,11.2], // new 2025 BNA route
   // JetBlue — fortress NE, routes cut elsewhere
@@ -1559,7 +1559,7 @@ function setYear(yr,btn){
   const lbl=document.getElementById('yearDataLabel');
   if(lbl)lbl.textContent=YEAR_LABELS[yr]||'';
   buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
-  initParticles();
+
   renderPulseGrid(yr);
 }
 function setGlobalYear(yr,btn){
@@ -1579,7 +1579,7 @@ function setGlobalYear(yr,btn){
   const lbl=document.getElementById('yearDataLabel');
   if(lbl)lbl.textContent=YEAR_LABELS[yr]||'';
   buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
-  initParticles();
+
   updateAllChartsForYear(yr);
   renderPulseGrid(yr);
 }
@@ -1703,27 +1703,23 @@ buildMovers();
 // ═══ ANIMATED MAP ═══
 const canvas=document.getElementById('routeMap');
 const rc=canvas.getContext('2d');
-let mapW,mapH,particles=[],activeCar='all',activeAp='ALL';
+let mapW,mapH,activeCar='all',activeAp='ALL';
 
-function resizeMap(){const r=canvas.parentElement.getBoundingClientRect();mapW=canvas.width=r.width;mapH=canvas.height=360;initParticles();}
+function resizeMap(){const r=canvas.parentElement.getBoundingClientRect();mapW=canvas.width=r.width;mapH=canvas.height=360;}
 window.addEventListener('resize',resizeMap);
 
 function apPx(code){const a=AP[code];if(!a)return null;return{x:a.x===0?mapW*0.02:a.x*mapW,y:a.y*mapH};}
 function ctrlPt(p1,p2){const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,dx=p2.x-p1.x,dy=p2.y-p1.y;return{x:mx+dy*.28,y:my-dx*.28};}
-function bezPt(t,p0,p1,p2){const u=1-t;return{x:u*u*p0.x+2*u*t*p1.x+t*t*p2.x,y:u*u*p0.y+2*u*t*p1.y+t*t*p2.y};}
 
-class Dot{constructor(r){const[from,to,carrier]=r;this.from=from;this.to=to;this.carrier=carrier;this.color=CC[carrier]||'#888';this.t=Math.random();this.speed=0.0018+Math.random()*.003;this.sz=1.2+Math.random()*.7;}
-update(){this.t+=this.speed;if(this.t>1)this.t=0;}
-draw(){const p1=apPx(this.from),p2=apPx(this.to);if(!p1||!p2)return;const c=ctrlPt(p1,p2),pos=bezPt(this.t,p1,c,p2);const g=rc.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,this.sz*3.5);g.addColorStop(0,this.color+'DD');g.addColorStop(.5,this.color+'55');g.addColorStop(1,'transparent');rc.beginPath();rc.arc(pos.x,pos.y,this.sz*3,0,Math.PI*2);rc.fillStyle=g;rc.fill();rc.beginPath();rc.arc(pos.x,pos.y,this.sz,0,Math.PI*2);rc.fillStyle=this.color;rc.fill();}}
+
 
 function getFR(){const src=activeYear===2026?ROUTES_2026:activeYear===2025?ROUTES_2025:ROUTES;return src.filter(r=>{const ck=activeCar==='all'||r[2].toLowerCase().replace(/\s/g,'')===activeCar;const ak=activeAp==='ALL'||(r[0]===activeAp||r[1]===activeAp);return ck&&ak;});}
-function initParticles(){particles=[];getFR().forEach(r=>{const n=Math.max(1,Math.floor(r[3]/85));for(let i=0;i<n;i++)particles.push(new Dot(r));});}
 
 function drawRoutes(){getFR().forEach(r=>{const p1=apPx(r[0]),p2=apPx(r[1]);if(!p1||!p2)return;const c=ctrlPt(p1,p2);rc.beginPath();rc.moveTo(p1.x,p1.y);rc.quadraticCurveTo(c.x,c.y,p2.x,p2.y);rc.strokeStyle=(CC[r[2]]||'#888')+'55';rc.lineWidth=0.7;rc.stroke();});}
 function drawAirports(){const aSet=new Set();getFR().forEach(r=>{aSet.add(r[0]);aSet.add(r[1]);});Object.entries(AP).forEach(([code,a])=>{if(activeAp!=='ALL'&&!aSet.has(code)&&code!==activeAp)return;const p=apPx(code);if(!p)return;const r=Math.max(3,Math.min(9,a.pax/13));const isA=activeAp===code;const g=rc.createRadialGradient(p.x,p.y,0,p.x,p.y,r*5);g.addColorStop(0,a.color+(isA?'44':'20'));g.addColorStop(1,'transparent');rc.beginPath();rc.arc(p.x,p.y,r*4.5,0,Math.PI*2);rc.fillStyle=g;rc.fill();rc.beginPath();rc.arc(p.x,p.y,r,0,Math.PI*2);rc.fillStyle=a.color;rc.fill();rc.strokeStyle='rgba(255,255,255,.6)';rc.lineWidth=1;rc.stroke();rc.fillStyle='rgba(28,25,23,.85)';rc.font=`bold ${isA?11:9}px 'JetBrains Mono'`;rc.textAlign='center';rc.fillText(code,p.x,p.y-r-3);if(isA||a.pax>60){rc.fillStyle='rgba(28,25,23,.5)';rc.font="8px 'Inter'";rc.fillText(a.pax+'M',p.x,p.y+r+9);}});}
 
 let mapRunning=false;
-function mapLoop(){if(!mapRunning)return;rc.clearRect(0,0,mapW,mapH);drawRoutes();particles.forEach(p=>{p.update();p.draw();});drawAirports();requestAnimationFrame(mapLoop);}
+function mapLoop(){if(!mapRunning)return;rc.clearRect(0,0,mapW,mapH);drawRoutes();drawAirports();requestAnimationFrame(mapLoop);}
 function startMap(){if(!mapRunning){mapRunning=true;resizeMap();mapLoop();}}
 
 const _origShow=showTab;
@@ -1732,8 +1728,8 @@ setTimeout(()=>{if(document.getElementById('tab-airports').classList.contains('a
 
 canvas.addEventListener('click',e=>{const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;let clicked=null;Object.entries(AP).forEach(([code])=>{const p=apPx(code);if(!p)return;if(Math.sqrt((mx-p.x)**2+(my-p.y)**2)<13)clicked=code;});if(clicked)filterAp(clicked,null,true);});
 
-function setCarrier(c,btn){document.querySelectorAll('.carr-btn').forEach(b=>{b.classList.remove('active');b.style.background='';});btn.classList.add('active');activeCar=c;initParticles();}
-function filterAp(code,btn,fromCanvas=false){activeAp=code;document.querySelectorAll('.ap-chip').forEach(b=>b.classList.toggle('active',b.textContent===code));if(!fromCanvas&&btn){document.querySelectorAll('.ap-chip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}initParticles();}
+function setCarrier(c,btn){document.querySelectorAll('.carr-btn').forEach(b=>{b.classList.remove('active');b.style.background='';});btn.classList.add('active');activeCar=c;}
+function filterAp(code,btn,fromCanvas=false){activeAp=code;document.querySelectorAll('.ap-chip').forEach(b=>b.classList.toggle('active',b.textContent===code));if(!fromCanvas&&btn){document.querySelectorAll('.ap-chip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}}
 
 // ═══ CHART BUILDER ═══
 const chartInstances={};
@@ -2160,6 +2156,18 @@ const YEAR_DATA={
       card:[132,136,142,138,145,150,156,152,160,166,172,168,175],
       demand:[126,130,136,132,139,144,150,146,154,160,166,162,169]}
   },
+  // TAB 2: TRASM vs CASM
+  trasmCasm:{
+    2024:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],trasm:[20.8,19.4,19.1,18.6,17.9,17.2,14.8],casm:[13.2,13.5,13.7,14.1,14.4,15.8,15.4]},
+    2025:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],trasm:[21.4,20.0,19.6,19.0,18.3,17.0,15.2],casm:[13.0,13.3,13.5,13.9,14.2,15.5,15.0]},
+    2026:{labels:['Delta','United','Alaska','American','Southwest','JetBlue','Frontier'],trasm:[22.0,20.6,20.0,19.4,18.8,17.4,15.8],casm:[12.8,13.1,13.3,13.7,14.0,15.2,14.6]}
+  },
+  // TAB 3: Loyalty % of Revenue
+  loyaltyPct:{
+    2024:{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],data:[15.9,13.1,12.8,11.2,7.4,5.8,4.5,1.8]},
+    2025:{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],data:[16.5,13.8,13.2,11.5,8.0,6.0,4.2,2.2]},
+    2026:{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],data:[17.0,14.4,13.6,11.8,8.6,6.2,4.0,2.8]}
+  },
   // Redemption trends
   redemption:{
     2024:{labels:['2019','2022','2024'],d1:[62,52,40],d2:[20,28,38],d3:[10,10,10],d4:[3,4,5],d5:[3,4,5],d6:[2,2,2]},
@@ -2218,6 +2226,15 @@ function updateAllChartsForYear(yr){
     if(kpis[3]){kpis[3].querySelector('.kpi-value').textContent=fk.fuel;kpis[3].querySelector('.kpi-chg span').textContent=fk.fuelChg;}
     if(kpis[4]){kpis[4].querySelector('.kpi-value').textContent=fk.margin;kpis[4].querySelector('.kpi-chg span').textContent=fk.marginChg;}
   }
+  // TAB 2: TRASM vs CASM
+  const tc=d.trasmCasm[yr];
+  if(tc&&chartInstances.trasmCasmChart){
+    const c=chartInstances.trasmCasmChart;
+    c.data.labels=tc.labels;c.data.datasets[0].data=tc.trasm;c.data.datasets[1].data=tc.casm;
+    c.update();
+  }
+  const trasmSub=document.getElementById('trasmCasmSub');
+  if(trasmSub){trasmSub.textContent='Revenue vs cost per ASM (¢) — '+(yr===2024?'FY 2024':yr===2025?'FY 2025E':'FY 2026E');}
   // TAB 2: Operating Margin
   const mg=d.margin[yr];
   if(mg&&chartInstances.marginChart){
@@ -2260,6 +2277,15 @@ function updateAllChartsForYear(yr){
     c.data.datasets[0].data=lr.dl;c.data.datasets[1].data=lr.ua;c.data.datasets[2].data=lr.aa;c.data.datasets[3].data=lr.wn;
     c.update();
   }
+  // TAB 3: Loyalty % chart
+  const lp=d.loyaltyPct[yr];
+  if(lp&&chartInstances.loyaltyPctChart){
+    const c=chartInstances.loyaltyPctChart;
+    c.data.labels=lp.labels;c.data.datasets[0].data=lp.data;
+    c.update();
+  }
+  const loyPctSub=document.getElementById('loyaltyPctSub');
+  if(loyPctSub){loyPctSub.textContent='Strategic importance benchmark · '+(yr===2024?'FY 2024':yr===2025?'FY 2025E':'FY 2026E')+' · Delta leads — every pp gain = ~$600M revenue';}
   // TAB 4: Timeline chart
   const tl=d.timeline[yr];
   if(tl&&chartInstances.timelineChart){
@@ -2316,6 +2342,23 @@ function updateAllChartsForYear(yr){
   if(loyaltySub){loyaltySub.textContent='Miles sold to bank partners ($B) · '+(yr===2024?'2022–2024':yr===2025?'2023–2025E':'2024–2026E');}
   const fuelPctSub=document.getElementById('fuelPctSub');
   if(fuelPctSub){fuelPctSub.textContent=yr===2024?'2022–2024 trend':yr===2025?'2023–2025E trend':'2024–2026E trend';}
+
+  // Dynamic panel titles
+  const yl=yr===2024?'FY 2024':yr===2025?'FY 2025E':'FY 2026E';
+  const mktShareTitle=document.getElementById('mktShareTitle');
+  if(mktShareTitle){mktShareTitle.textContent='Market Share by ASMs — '+yl;}
+  const finSec=document.getElementById('finSecSub');
+  if(finSec){finSec.textContent='Unit economics · margins · cost benchmarking · SEC / Earnings · '+yl;}
+  const scSub=document.getElementById('scorecardSub');
+  if(scSub){scSub.textContent='All major carriers incl. Hawaiian · '+yl;}
+  const routesSub=document.getElementById('routesSub');
+  if(routesSub){routesSub.textContent='Avg weekly departures · annual pax · BTS '+yl;}
+  const carrSec=document.getElementById('carrierSecSub');
+  if(carrSec){carrSec.textContent='Select a carrier to explore their story, or view the industry overview · '+yl+' · SEC / BTS / Earnings';}
+  const revT=document.getElementById('revTitle');
+  if(revT){revT.textContent='Total Revenue '+yl;}
+  const trvSec=document.getElementById('travelSecSub');
+  if(trvSec){trvSec.textContent='Where America is flying · route demand · seasonal trends · card-linked travel spend · DOT O&D / BTS / OAG · '+yl;}
 
   // ═══ TEXT CONTENT UPDATES ═══
 
