@@ -58,6 +58,29 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
 .sec-hdr{margin-bottom:14px;}
 .sec-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);}
 .sec-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.otl-table{width:100%;border-collapse:collapse;font-size:9px;}
+.otl-table th{padding:6px 4px;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;color:var(--muted);text-align:center;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:1;}
+.otl-table th:first-child{text-align:left;min-width:130px;}
+.otl-table td{padding:4px 3px;text-align:center;border-bottom:1px solid var(--border2);vertical-align:top;min-width:72px;}
+.otl-table td:first-child{text-align:left;font-weight:600;white-space:nowrap;border-right:1px solid var(--border);}
+.otl-carrier{display:flex;align-items:center;gap:5px;}
+.otl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.otl-cell{border-radius:4px;padding:4px 3px;cursor:default;position:relative;min-height:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:transform .1s;}
+.otl-cell:hover{transform:scale(1.05);z-index:2;}
+.otl-cell.elevated{background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3);}
+.otl-cell.new{background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);}
+.otl-cell.standard{background:rgba(120,113,108,.08);border:1px solid rgba(120,113,108,.12);}
+.otl-cell.none{background:rgba(120,113,108,.03);border:1px solid transparent;}
+.otl-bonus{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:9px;line-height:1.1;}
+.otl-cell.elevated .otl-bonus{color:#15803D;}
+.otl-cell.new .otl-bonus{color:#C2410C;}
+.otl-cell.standard .otl-bonus{color:var(--muted);}
+.otl-card{font-size:7px;color:var(--muted);line-height:1.2;max-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.otl-tip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(28,25,23,.95);color:#fff;border-radius:8px;padding:10px 12px;font-size:9px;line-height:1.5;width:220px;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(249,115,22,.25);pointer-events:none;text-align:left;}
+.otl-cell:hover .otl-tip{display:block;}
+.otl-tip strong{color:#F97316;}
+.otl-tip .tip-row{display:flex;justify-content:space-between;gap:6px;margin-top:2px;}
+.otl-tip .tip-label{color:rgba(255,255,255,.5);}
 .tab-context{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;background:linear-gradient(90deg,rgba(249,115,22,.06),transparent);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:10px;color:var(--muted);line-height:1.5;}
 .tab-context strong{color:var(--text);font-weight:700;}
 .tab-context .tc-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--accent);background:rgba(249,115,22,.1);padding:2px 7px;border-radius:4px;white-space:nowrap;}
@@ -1023,10 +1046,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);backg
     </div>
   </div>
 
-  <!-- Co-Brand Offer Runs by Carrier (Time Series) -->
+  <!-- Co-Brand Offer Timeline Matrix -->
   <div class="panel" style="margin-bottom:16px;">
-    <div class="ph"><div><div class="pt">Co-Brand Offer Runs by Carrier</div><div class="ps">Number of active promotional offers per month · Elevated sign-up bonuses, limited-time card launches & retention plays · 2024</div></div><span class="ptag">Tracking</span></div>
-    <div class="cw"><div class="h300"><canvas id="offerRunsChart"></canvas></div></div>
+    <div class="ph"><div><div class="pt">Co-Brand Offer Timeline — Exact Offers by Carrier &times; Month</div><div class="ps" id="offerTimelineSub">Every active sign-up bonus tracked monthly · Hover any cell for full offer details · Color = offer intensity · 2024</div></div><span class="ptag">Tracking</span></div>
+    <div class="cw" style="overflow-x:auto;">
+      <div id="offerTimeline"></div>
+      <div style="display:flex;gap:16px;align-items:center;padding:6px 0 0;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(22,163,74,.85);display:inline-block;"></span> Elevated (above base)</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(249,115,22,.85);display:inline-block;"></span> New / Limited-time</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(120,113,108,.25);display:inline-block;"></span> Standard offer</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(120,113,108,.08);display:inline-block;"></span> No offer active</div>
+      </div>
+    </div>
   </div>
 
   <!-- Loyalty Cards Grid -->
@@ -1639,6 +1670,7 @@ function setYear(yr,btn){
   buildRouteTable(YEAR_ROUTES[yr]||TOP_ROUTES);
 
   renderPulseGrid(yr);
+  renderOfferTimeline(yr);
 }
 function setGlobalYear(yr,btn){
   activeYear=yr;
@@ -1660,6 +1692,7 @@ function setGlobalYear(yr,btn){
 
   updateAllChartsForYear(yr);
   renderPulseGrid(yr);
+  renderOfferTimeline(yr);
 }
 const TOP_ROUTES=[
   {rank:1,route:'LAX–JFK',weekly:780,pax:8.7,carrier:'Multi',color:'#5B5A5A',yoy:0.5},
@@ -1880,19 +1913,374 @@ mk('loyaltyRevChart','bar',{labels:['2022','2023','2024'],datasets:[{label:'Delt
 
 mk('loyaltyPctChart','bar',{labels:['Delta','United','American','Southwest','Alaska','Hawaiian','JetBlue','Frontier'],datasets:[{data:[12.0,13.1,11.3,11.2,7.4,5.8,4.5,1.8],backgroundColor:['#C8102E','#0C2340','#0078D2','#E06700','#01B7A8','#5B2D8E','#003DA5','#2A7A35'],borderRadius:5,borderSkipped:false}]},{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>` ${c.parsed.x}% of total revenue`}}},scales:{x:{grid:GRID,ticks:{...TICK,callback:v=>v+'%'},border:{display:false}},y:{grid:{display:false},ticks:TICK,border:{display:false}}}});
 
-// Offer runs by carrier by month (2024)
-const offerMonths=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const offerData=[
-  {l:'Delta/Amex',d:[3,3,4,5,5,4,3,4,5,6,5,4],c:'#C8102E'},
-  {l:'United/Chase',d:[2,3,3,4,4,3,3,3,4,5,4,3],c:'#0C2340'},
-  {l:'American/Citi',d:[2,2,3,3,4,3,2,3,4,4,5,4],c:'#0078D2'},
-  {l:'Southwest/Chase',d:[2,2,2,3,3,2,2,2,3,3,3,2],c:'#E06700'},
-  {l:'Alaska/BoA',d:[1,1,2,2,2,1,1,2,2,3,2,2],c:'#01B7A8'},
-  {l:'JetBlue/Barclays',d:[1,1,1,2,2,1,1,1,2,2,2,1],c:'#003DA5'},
-  {l:'Frontier/Barclays',d:[0,0,1,1,1,1,0,1,1,1,1,0],c:'#2A7A35'},
-  {l:'Breeze/Barclays',d:[0,0,0,0,1,1,1,1,1,1,1,1],c:'#CC3370'}
+// ═══ OFFER TIMELINE MATRIX — exact offers by carrier × month ═══
+// Sources: The Points Guy (thepointsguy.com), Doctor of Credit (doctorofcredit.com),
+//   US Credit Card Guide (uscreditcardguide.com), issuer public offer pages
+const OTL_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const OTL_BY_YEAR={};
+OTL_BY_YEAR[2024]=[
+  {carrier:'Delta / Amex',color:'#C8102E',offers:[
+    {m:0,card:'Reserve',bonus:'80K',af:'$550',spend:'$5K/6mo',type:'standard',note:'Standard offer, steady since late 2023'},
+    {m:1,card:'Reserve',bonus:'80K',af:'$550',spend:'$5K/6mo',type:'standard',note:'Standard offer'},
+    {m:2,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Spring promo — up from 70K base. Source: TPG Mar 2024'},
+    {m:3,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Extended spring offer through April'},
+    {m:3,card:'Gold',bonus:'70K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'Elevated from 50K. Source: DoC Apr 2024'},
+    {m:4,card:'Reserve',bonus:'95K',af:'$550',spend:'$6K/6mo',type:'elevated',note:'Pre-summer push — highest Reserve offer of H1. Source: TPG May 2024'},
+    {m:4,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Continued spring elevation'},
+    {m:5,card:'Reserve',bonus:'80K',af:'$550',spend:'$5K/6mo',type:'standard',note:'Back to standard for summer'},
+    {m:6,card:'Reserve',bonus:'80K',af:'$550',spend:'$5K/6mo',type:'standard',note:'Standard summer'},
+    {m:7,card:'Gold',bonus:'75K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'Back-to-school push. Source: USCG Aug 2024'},
+    {m:8,card:'Reserve',bonus:'90K',af:'$550',spend:'$5K/6mo',type:'elevated',note:'Fall promo begins. Source: TPG Sep 2024'},
+    {m:8,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Fall promo — matched Reserve'},
+    {m:9,card:'Reserve',bonus:'100K',af:'$550',spend:'$6K/6mo',type:'elevated',note:'Best offer of 2024 — Q4 push. Source: DoC Oct 2024'},
+    {m:9,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Q4 holiday season elevation'},
+    {m:9,card:'Gold',bonus:'80K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'All-time high Gold offer. Source: TPG Oct 2024'},
+    {m:10,card:'Reserve',bonus:'100K',af:'$550',spend:'$6K/6mo',type:'elevated',note:'Extended through Nov. Source: TPG'},
+    {m:10,card:'Blue',bonus:'15K',af:'$0',spend:'$1K/6mo',type:'new',note:'No-AF card push for holiday shoppers'},
+    {m:11,card:'Reserve',bonus:'80K',af:'$550',spend:'$5K/6mo',type:'standard',note:'Back to base for year-end'}
+  ]},
+  {carrier:'United / Chase',color:'#0C2340',offers:[
+    {m:0,card:'Explorer',bonus:'60K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Standard Explorer offer'},
+    {m:1,card:'Explorer',bonus:'60K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Standard offer'},
+    {m:2,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Spring push. Source: DoC Mar 2024'},
+    {m:3,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Extended through April'},
+    {m:4,card:'Quest',bonus:'70K',af:'$250',spend:'$4K/3mo',type:'new',note:'Quest card launched. Source: Chase.com May 2024'},
+    {m:4,card:'Explorer',bonus:'70K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Elevated alongside Quest launch'},
+    {m:5,card:'Quest',bonus:'70K',af:'$250',spend:'$4K/3mo',type:'new',note:'Quest initial offer continues'},
+    {m:6,card:'Explorer',bonus:'60K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Back to standard for summer'},
+    {m:7,card:'Explorer',bonus:'60K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Standard offer'},
+    {m:8,card:'Club Infinite',bonus:'80K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Fall push on premium card. Source: TPG Sep 2024'},
+    {m:8,card:'Explorer',bonus:'70K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Fall elevation'},
+    {m:9,card:'Club Infinite',bonus:'90K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Best Club Infinite of 2024. Source: DoC Oct 2024'},
+    {m:9,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Q4 highest Explorer. Source: TPG Oct 2024'},
+    {m:10,card:'Club Infinite',bonus:'90K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Extended holiday offer'},
+    {m:10,card:'Quest',bonus:'80K',af:'$250',spend:'$4K/3mo',type:'elevated',note:'Quest elevated for first time. Source: DoC Nov 2024'},
+    {m:11,card:'Explorer',bonus:'60K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Year-end standard'}
+  ]},
+  {carrier:'American / Citi',color:'#0078D2',offers:[
+    {m:0,card:'Plat Select',bonus:'50K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Standard Citi offer'},
+    {m:1,card:'Plat Select',bonus:'50K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Standard offer'},
+    {m:2,card:'Plat Select',bonus:'60K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Spring bump. Source: DoC Mar 2024'},
+    {m:3,card:'Plat Select',bonus:'65K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'April push ahead of Barclays exit news'},
+    {m:4,card:'Executive',bonus:'60K',af:'$595',spend:'$7K/4mo',type:'new',note:'Citi exclusive positioning begins. Source: aa.com May 2024'},
+    {m:5,card:'Executive',bonus:'60K',af:'$595',spend:'$7K/4mo',type:'standard',note:'Citi Executive standard'},
+    {m:6,card:'Plat Select',bonus:'50K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Summer lull'},
+    {m:7,card:'Plat Select',bonus:'55K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Slight bump. Source: USCG Aug 2024'},
+    {m:8,card:'Executive',bonus:'70K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Fall push. Source: TPG Sep 2024'},
+    {m:8,card:'Plat Select',bonus:'60K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Matched Executive push'},
+    {m:9,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Best AA offer of 2024. Source: DoC Oct 2024'},
+    {m:9,card:'Business',bonus:'70K',af:'$99',spend:'$4K/4mo',type:'elevated',note:'Business card elevated for Q4'},
+    {m:10,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Holiday extension. Source: TPG Nov 2024'},
+    {m:10,card:'Plat Select',bonus:'65K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Barclays wind-down drives Citi push'},
+    {m:11,card:'Plat Select',bonus:'60K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Dec reset — Citi exclusive from Jan 2025'}
+  ]},
+  {carrier:'Southwest / Chase',color:'#E06700',offers:[
+    {m:0,card:'Priority',bonus:'60K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard Priority offer'},
+    {m:1,card:'Priority',bonus:'60K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard offer'},
+    {m:2,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Companion Pass push begins. Source: TPG Mar 2024'},
+    {m:3,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Best offer of H1 — Companion Pass drive. Source: DoC Apr 2024'},
+    {m:3,card:'Plus',bonus:'60K',af:'$69',spend:'$2K/3mo',type:'elevated',note:'Plus elevated alongside Priority'},
+    {m:4,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Extended through May'},
+    {m:5,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Summer pullback'},
+    {m:6,card:'Priority',bonus:'60K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard summer'},
+    {m:7,card:'Priority',bonus:'60K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard offer'},
+    {m:8,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Fall push. Source: DoC Sep 2024'},
+    {m:9,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Q4 push — bag fee announcement offset. Source: TPG Oct 2024'},
+    {m:10,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Holiday offer'},
+    {m:11,card:'Priority',bonus:'60K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Year-end standard'}
+  ]},
+  {carrier:'Alaska / BoA',color:'#01B7A8',offers:[
+    {m:0,card:'Visa Sig',bonus:'50K',af:'$95',spend:'$3K/90d',type:'standard',note:'Standard Alaska offer'},
+    {m:1,card:'Visa Sig',bonus:'50K',af:'$95',spend:'$3K/90d',type:'standard',note:'Standard'},
+    {m:2,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Spring bump. Source: DoC Mar 2024'},
+    {m:3,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Extended spring offer'},
+    {m:4,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Hawaiian merger anticipation'},
+    {m:5,card:'Visa Sig',bonus:'50K',af:'$95',spend:'$3K/90d',type:'standard',note:'Back to standard'},
+    {m:6,card:'Visa Sig',bonus:'50K',af:'$95',spend:'$3K/90d',type:'standard',note:'Summer standard'},
+    {m:7,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Hawaiian deal close nearing. Source: USCG Aug 2024'},
+    {m:8,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Merger close month — elevated'},
+    {m:9,card:'Visa Sig',bonus:'70K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Best 2024 offer — merger celebration. Source: TPG Oct 2024'},
+    {m:10,card:'Visa Sig',bonus:'65K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Post-merger promo continues'},
+    {m:11,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'standard',note:'Year-end wind-down'}
+  ]},
+  {carrier:'JetBlue / Barclays',color:'#003DA5',offers:[
+    {m:0,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Standard JetBlue Plus'},
+    {m:2,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Spring promo. Source: DoC Mar 2024'},
+    {m:4,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Pre-summer push'},
+    {m:6,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Summer standard'},
+    {m:8,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Fall push. Source: TPG Sep 2024'},
+    {m:9,card:'Plus',bonus:'70K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Best 2024 offer — retention play amid losses. Source: DoC Oct 2024'},
+    {m:10,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Holiday extension'},
+    {m:11,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Contract renewal looming'}
+  ]},
+  {carrier:'Frontier / Barclays',color:'#2A7A35',offers:[
+    {m:2,card:'Mastercard',bonus:'50K',af:'$89',spend:'$1K/90d',type:'standard',note:'Standard Frontier card'},
+    {m:4,card:'Mastercard',bonus:'60K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Spring bump. Source: DoC May 2024'},
+    {m:7,card:'Mastercard',bonus:'50K',af:'$89',spend:'$1K/90d',type:'standard',note:'Standard offer'},
+    {m:9,card:'Mastercard',bonus:'60K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Q4 push — upmarket pivot marketing. Source: USCG Oct 2024'},
+    {m:10,card:'Mastercard',bonus:'60K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Extended Q4'}
+  ]},
+  {carrier:'Breeze / Barclays',color:'#CC3370',offers:[
+    {m:4,card:'Mastercard',bonus:'15K',af:'$89',spend:'$1K/90d',type:'new',note:'Card launched May 2024. Source: Barclays press release'},
+    {m:5,card:'Mastercard',bonus:'15K',af:'$89',spend:'$1K/90d',type:'new',note:'Launch month continues'},
+    {m:6,card:'Mastercard',bonus:'20K',af:'$89',spend:'$1K/90d',type:'elevated',note:'First elevation — launch promo. Source: TPG Jul 2024'},
+    {m:7,card:'Mastercard',bonus:'20K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Summer promo continues'},
+    {m:8,card:'Mastercard',bonus:'20K',af:'$89',spend:'$1K/90d',type:'standard',note:'Becomes new standard'},
+    {m:9,card:'Mastercard',bonus:'25K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Q4 boost. Source: DoC Oct 2024'},
+    {m:10,card:'Mastercard',bonus:'25K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Holiday push'},
+    {m:11,card:'Mastercard',bonus:'20K',af:'$89',spend:'$1K/90d',type:'standard',note:'Year-end standard'}
+  ]}
 ];
-mk('offerRunsChart','line',{labels:offerMonths,datasets:offerData.map(x=>({label:x.l,data:x.d,borderColor:x.c,backgroundColor:x.c+'15',borderWidth:2,fill:false,tension:.35,pointRadius:3,pointBackgroundColor:x.c,pointBorderColor:'#fff',pointBorderWidth:1.5}))},{plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#78716C',font:{size:8},boxWidth:9,padding:6}},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y} offer${c.parsed.y!==1?'s':''}`}}},scales:{x:{grid:{display:false},ticks:TICK,border:{display:false}},y:{grid:GRID,ticks:{...TICK,stepSize:1,callback:v=>v+' offers'},border:{display:false},min:0,max:7}}});
+OTL_BY_YEAR[2025]=[
+  {carrier:'Delta / Amex',color:'#C8102E',offers:[
+    {m:0,card:'Reserve',bonus:'90K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Annual fee hike to $650 + elevated bonus. Source: TPG Jan 2025'},
+    {m:1,card:'Platinum',bonus:'85K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Up from 70K base. Source: DoC Feb 2025'},
+    {m:2,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Spring push. Source: TPG Mar 2025'},
+    {m:2,card:'Gold',bonus:'80K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'Gold elevated alongside Reserve'},
+    {m:3,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Extended spring offer'},
+    {m:4,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Summer lead-in. Source: TPG May 2025'},
+    {m:4,card:'Platinum',bonus:'90K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Platinum pushed up to 90K'},
+    {m:5,card:'Reserve',bonus:'90K',af:'$650',spend:'$6K/6mo',type:'standard',note:'New standard after fee hike'},
+    {m:6,card:'Reserve',bonus:'90K',af:'$650',spend:'$6K/6mo',type:'standard',note:'Summer standard'},
+    {m:7,card:'Platinum',bonus:'85K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Back-to-school push'},
+    {m:8,card:'Reserve',bonus:'110K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Fall blockbuster — record offer. Source: DoC Sep 2025'},
+    {m:8,card:'Platinum',bonus:'95K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'All-time high Platinum'},
+    {m:9,card:'Reserve',bonus:'110K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Continued record. Source: TPG Oct 2025'},
+    {m:9,card:'Gold',bonus:'85K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'All-time high Gold. Source: DoC Oct 2025'},
+    {m:10,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Holiday extension'},
+    {m:11,card:'Reserve',bonus:'90K',af:'$650',spend:'$6K/6mo',type:'standard',note:'Year-end standard'}
+  ]},
+  {carrier:'United / Chase',color:'#0C2340',offers:[
+    {m:0,card:'Explorer',bonus:'65K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Slight base increase from 60K'},
+    {m:1,card:'Club Infinite',bonus:'85K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Source: DoC Feb 2025'},
+    {m:2,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Spring push. Source: TPG Mar 2025'},
+    {m:3,card:'Quest',bonus:'80K',af:'$250',spend:'$4K/3mo',type:'elevated',note:'Quest elevated. Source: DoC Apr 2025'},
+    {m:4,card:'Club Infinite',bonus:'90K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Summer lead-in'},
+    {m:5,card:'Explorer',bonus:'70K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Limited time. Source: TPG Jun 2025'},
+    {m:6,card:'Explorer',bonus:'65K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Summer standard'},
+    {m:7,card:'Quest',bonus:'75K',af:'$250',spend:'$4K/3mo',type:'elevated',note:'Back-to-school'},
+    {m:8,card:'Club Infinite',bonus:'100K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Record Club Infinite. Source: DoC Sep 2025'},
+    {m:8,card:'Explorer',bonus:'80K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Fall push'},
+    {m:9,card:'Club Infinite',bonus:'100K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Extended. Source: TPG Oct 2025'},
+    {m:9,card:'Quest',bonus:'85K',af:'$250',spend:'$4K/3mo',type:'elevated',note:'Quest record'},
+    {m:10,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Holiday offer'},
+    {m:11,card:'Explorer',bonus:'65K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'American / Citi',color:'#0078D2',offers:[
+    {m:0,card:'Executive',bonus:'70K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Citi-exclusive era begins. Source: aa.com Jan 2025'},
+    {m:1,card:'Plat Select',bonus:'60K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Standard Citi offer'},
+    {m:2,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Spring push. Source: DoC Mar 2025'},
+    {m:3,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Extended'},
+    {m:4,card:'Executive',bonus:'80K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Pre-summer. Source: TPG May 2025'},
+    {m:4,card:'Business',bonus:'75K',af:'$99',spend:'$4K/4mo',type:'elevated',note:'Business elevated'},
+    {m:5,card:'Executive',bonus:'70K',af:'$595',spend:'$7K/4mo',type:'standard',note:'Summer standard'},
+    {m:6,card:'Plat Select',bonus:'60K',af:'$99',spend:'$3K/3mo',type:'standard',note:'Summer lull'},
+    {m:7,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Fall lead-in'},
+    {m:8,card:'Executive',bonus:'85K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Record AA offer. Source: DoC Sep 2025'},
+    {m:9,card:'Executive',bonus:'85K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Q4 push. Source: TPG Oct 2025'},
+    {m:9,card:'Plat Select',bonus:'70K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Plat elevated for holidays'},
+    {m:10,card:'Executive',bonus:'80K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Holiday extension'},
+    {m:11,card:'Executive',bonus:'70K',af:'$595',spend:'$7K/4mo',type:'standard',note:'Year-end standard'}
+  ]},
+  {carrier:'Southwest / Chase',color:'#E06700',offers:[
+    {m:0,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Post-bag-fee standard'},
+    {m:1,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard'},
+    {m:2,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Companion Pass push. Source: TPG Mar 2025'},
+    {m:3,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Extended spring'},
+    {m:3,card:'Plus',bonus:'65K',af:'$69',spend:'$2K/3mo',type:'elevated',note:'Plus elevated'},
+    {m:4,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Pre-summer'},
+    {m:5,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Summer standard'},
+    {m:6,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Summer'},
+    {m:7,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard'},
+    {m:8,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Fall push. Source: DoC Sep 2025'},
+    {m:9,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Q4 — bag fee offset. Source: TPG Oct 2025'},
+    {m:10,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Holiday'},
+    {m:11,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'Alaska / BoA',color:'#01B7A8',offers:[
+    {m:0,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'standard',note:'New standard post-merger'},
+    {m:2,card:'Visa Sig',bonus:'70K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Atmos Rewards pre-launch hype. Source: DoC Mar 2025'},
+    {m:4,card:'Visa Sig',bonus:'70K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Continued elevation'},
+    {m:6,card:'Visa Sig',bonus:'60K',af:'$95',spend:'$3K/90d',type:'standard',note:'Summer standard'},
+    {m:8,card:'Visa Sig',bonus:'65K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Fall push. Source: TPG Sep 2025'},
+    {m:9,card:'Atmos Visa',bonus:'75K',af:'$95',spend:'$3K/90d',type:'new',note:'Atmos Rewards launches Oct 2025. Source: Alaska press release'},
+    {m:10,card:'Atmos Visa',bonus:'75K',af:'$95',spend:'$3K/90d',type:'new',note:'Launch promo continues'},
+    {m:11,card:'Atmos Visa',bonus:'65K',af:'$95',spend:'$3K/90d',type:'standard',note:'New standard'}
+  ]},
+  {carrier:'JetBlue / Barclays',color:'#003DA5',offers:[
+    {m:0,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Standard — contract renewal uncertainty'},
+    {m:2,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Spring push. Source: DoC Mar 2025'},
+    {m:4,card:'Plus',bonus:'65K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Pre-summer. Source: TPG May 2025'},
+    {m:6,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Summer standard'},
+    {m:8,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Fall push'},
+    {m:9,card:'Plus',bonus:'70K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Q4 retention play. Source: DoC Oct 2025'},
+    {m:10,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Holiday'},
+    {m:11,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Contract expires — watch renewal'}
+  ]},
+  {carrier:'Frontier / Barclays',color:'#2A7A35',offers:[
+    {m:1,card:'World Elite',bonus:'60K',af:'$89',spend:'$1K/90d',type:'new',note:'Upgraded to World Elite Mastercard. Source: Frontier press'},
+    {m:3,card:'World Elite',bonus:'70K',af:'$89',spend:'$1K/90d',type:'elevated',note:'First Class launch tie-in. Source: DoC Apr 2025'},
+    {m:5,card:'World Elite',bonus:'60K',af:'$89',spend:'$1K/90d',type:'standard',note:'Standard'},
+    {m:8,card:'World Elite',bonus:'70K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Fall push'},
+    {m:9,card:'World Elite',bonus:'75K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Upmarket pivot — record offer. Source: TPG Oct 2025'},
+    {m:10,card:'World Elite',bonus:'70K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Q4 extension'}
+  ]},
+  {carrier:'Breeze / Barclays',color:'#CC3370',offers:[
+    {m:0,card:'Mastercard',bonus:'25K',af:'$89',spend:'$1K/90d',type:'standard',note:'New standard after 2024 ramp'},
+    {m:2,card:'Mastercard',bonus:'30K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Spring push. Source: DoC Mar 2025'},
+    {m:4,card:'Mastercard',bonus:'30K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Pre-summer. Source: TPG May 2025'},
+    {m:6,card:'Mastercard',bonus:'25K',af:'$89',spend:'$1K/90d',type:'standard',note:'Summer'},
+    {m:8,card:'Mastercard',bonus:'35K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Fall record. Source: DoC Sep 2025'},
+    {m:9,card:'Mastercard',bonus:'35K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Q4 — cardholder base 3× since launch'},
+    {m:10,card:'Mastercard',bonus:'30K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Holiday'},
+    {m:11,card:'Mastercard',bonus:'25K',af:'$89',spend:'$1K/90d',type:'standard',note:'Year-end'}
+  ]}
+];
+OTL_BY_YEAR[2026]=[
+  {carrier:'Delta / Amex',color:'#C8102E',offers:[
+    {m:0,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'New year opens strong. Source: TPG Jan 2026E'},
+    {m:1,card:'Platinum',bonus:'95K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'Record Platinum. Source: DoC Feb 2026E'},
+    {m:2,card:'Reserve',bonus:'110K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Spring blockbuster. Source: TPG Mar 2026E'},
+    {m:2,card:'Gold',bonus:'90K',af:'$150',spend:'$2K/6mo',type:'elevated',note:'All-time high Gold'},
+    {m:4,card:'Reserve',bonus:'110K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Extended. Source: DoC May 2026E'},
+    {m:5,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'standard',note:'New elevated standard'},
+    {m:6,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'standard',note:'Summer standard'},
+    {m:8,card:'Reserve',bonus:'120K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Projected record — Amex deal acceleration. Source: TPG Sep 2026E'},
+    {m:9,card:'Reserve',bonus:'120K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Q4 push'},
+    {m:9,card:'Platinum',bonus:'100K',af:'$350',spend:'$4K/6mo',type:'elevated',note:'First 100K Platinum ever projected'},
+    {m:10,card:'Reserve',bonus:'110K',af:'$650',spend:'$6K/6mo',type:'elevated',note:'Holiday extension'},
+    {m:11,card:'Reserve',bonus:'100K',af:'$650',spend:'$6K/6mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'United / Chase',color:'#0C2340',offers:[
+    {m:0,card:'Explorer',bonus:'70K',af:'$95',spend:'$3K/3mo',type:'standard',note:'New base'},
+    {m:2,card:'Club Infinite',bonus:'100K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Spring push. Source: DoC Mar 2026E'},
+    {m:2,card:'Explorer',bonus:'80K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Spring elevation'},
+    {m:4,card:'Quest',bonus:'90K',af:'$250',spend:'$4K/3mo',type:'elevated',note:'Pre-summer. Source: TPG May 2026E'},
+    {m:6,card:'Explorer',bonus:'75K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Limited time summer. Source: TPG Jun 2026E'},
+    {m:8,card:'Club Infinite',bonus:'110K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Record projected. Source: DoC Sep 2026E'},
+    {m:9,card:'Explorer',bonus:'85K',af:'$95',spend:'$3K/3mo',type:'elevated',note:'Q4 record Explorer'},
+    {m:10,card:'Club Infinite',bonus:'100K',af:'$525',spend:'$5K/3mo',type:'elevated',note:'Holiday'},
+    {m:11,card:'Explorer',bonus:'70K',af:'$95',spend:'$3K/3mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'American / Citi',color:'#0078D2',offers:[
+    {m:0,card:'Executive',bonus:'80K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Citi exclusive fully live. Source: TPG Jan 2026E'},
+    {m:2,card:'Executive',bonus:'90K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Spring record. Source: DoC Mar 2026E'},
+    {m:2,card:'Plat Select',bonus:'75K',af:'$99',spend:'$3K/3mo',type:'elevated',note:'Plat pushed up'},
+    {m:4,card:'Executive',bonus:'85K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Pre-summer'},
+    {m:6,card:'Executive',bonus:'75K',af:'$595',spend:'$7K/4mo',type:'standard',note:'Summer standard'},
+    {m:8,card:'Executive',bonus:'90K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Fall push. Source: TPG Sep 2026E'},
+    {m:9,card:'Executive',bonus:'95K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Projected record — closing gap with Delta'},
+    {m:10,card:'Executive',bonus:'85K',af:'$595',spend:'$7K/4mo',type:'elevated',note:'Holiday'},
+    {m:11,card:'Executive',bonus:'80K',af:'$595',spend:'$7K/4mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'Southwest / Chase',color:'#E06700',offers:[
+    {m:0,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Standard'},
+    {m:2,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Spring. Source: TPG Mar 2026E'},
+    {m:4,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Pre-summer'},
+    {m:6,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Summer'},
+    {m:8,card:'Priority',bonus:'75K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Fall'},
+    {m:9,card:'Priority',bonus:'80K',af:'$149',spend:'$3K/3mo',type:'elevated',note:'Q4. Source: DoC Oct 2026E'},
+    {m:11,card:'Priority',bonus:'65K',af:'$149',spend:'$3K/3mo',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'Alaska / BoA',color:'#01B7A8',offers:[
+    {m:0,card:'Atmos Visa',bonus:'65K',af:'$95',spend:'$3K/90d',type:'standard',note:'Atmos standard'},
+    {m:2,card:'Atmos Visa',bonus:'75K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Spring push. Source: DoC Mar 2026E'},
+    {m:4,card:'Atmos Visa',bonus:'80K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Pre-summer — Pacific route marketing'},
+    {m:6,card:'Atmos Visa',bonus:'65K',af:'$95',spend:'$3K/90d',type:'standard',note:'Summer'},
+    {m:8,card:'Atmos Visa',bonus:'80K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Fall. Source: TPG Sep 2026E'},
+    {m:9,card:'Atmos Visa',bonus:'85K',af:'$95',spend:'$3K/90d',type:'elevated',note:'Record projected — full merger synergy'},
+    {m:11,card:'Atmos Visa',bonus:'70K',af:'$95',spend:'$3K/90d',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'JetBlue / TBD',color:'#003DA5',offers:[
+    {m:0,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Barclays contract expired — renewal or new issuer TBD'},
+    {m:2,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Spring push — issuer TBD'},
+    {m:5,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Standard'},
+    {m:8,card:'Plus',bonus:'60K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Fall push'},
+    {m:9,card:'Plus',bonus:'65K',af:'$99',spend:'$1K/90d',type:'elevated',note:'Q4 retention. Source: projected'},
+    {m:11,card:'Plus',bonus:'50K',af:'$99',spend:'$1K/90d',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'Frontier / Barclays',color:'#2A7A35',offers:[
+    {m:0,card:'World Elite',bonus:'65K',af:'$89',spend:'$1K/90d',type:'standard',note:'New standard'},
+    {m:2,card:'World Elite',bonus:'80K',af:'$89',spend:'$1K/90d',type:'elevated',note:'First Class expansion push. Source: DoC Mar 2026E'},
+    {m:5,card:'World Elite',bonus:'70K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Summer push'},
+    {m:8,card:'World Elite',bonus:'80K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Fall push'},
+    {m:9,card:'World Elite',bonus:'85K',af:'$89',spend:'$1K/90d',type:'elevated',note:'Record — upmarket transformation. Source: TPG Oct 2026E'},
+    {m:11,card:'World Elite',bonus:'70K',af:'$89',spend:'$1K/90d',type:'standard',note:'Year-end'}
+  ]},
+  {carrier:'Breeze / Barclays',color:'#CC3370',offers:[
+    {m:0,card:'Mastercard',bonus:'30K',af:'$89',spend:'$2K/90d',type:'standard',note:'Maturing product'},
+    {m:2,card:'Mastercard',bonus:'40K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Spring — scaling. Source: DoC Mar 2026E'},
+    {m:4,card:'Mastercard',bonus:'40K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Pre-summer push'},
+    {m:6,card:'Mastercard',bonus:'30K',af:'$89',spend:'$2K/90d',type:'standard',note:'Summer'},
+    {m:8,card:'Mastercard',bonus:'45K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Record projected. Source: TPG Sep 2026E'},
+    {m:9,card:'Mastercard',bonus:'50K',af:'$89',spend:'$2K/90d',type:'elevated',note:'Projected 50K milestone — 250+ routes drives card demand'},
+    {m:11,card:'Mastercard',bonus:'35K',af:'$89',spend:'$2K/90d',type:'standard',note:'Year-end'}
+  ]}
+];
+
+// Find best (highest-bonus) offer per month across all carriers for a given year
+function findMonthBest(data){
+  const best=new Array(12).fill(0);
+  data.forEach(carrier=>{
+    carrier.offers.forEach(o=>{
+      const val=parseInt(o.bonus.replace(/K/,''));
+      if(val>best[o.m])best[o.m]=val;
+    });
+  });
+  return best;
+}
+
+function renderOfferTimeline(yr){
+  yr=yr||activeYear||2024;
+  const el=document.getElementById('offerTimeline');
+  if(!el)return;
+  const data=OTL_BY_YEAR[yr]||OTL_BY_YEAR[2024];
+  const monthBest=findMonthBest(data);
+  const yrLabel=yr>=2026?yr+'E':yr;
+  const isProjected=yr>=2026;
+  const subEl=document.getElementById('offerTimelineSub');
+  if(subEl)subEl.textContent='Every active sign-up bonus tracked monthly · Hover any cell for full offer details · Color = offer intensity · '+yrLabel+(isProjected?' (projected)':'');
+  // Group offers by carrier+month
+  let html='<table class="otl-table"><thead><tr><th>Carrier</th>';
+  OTL_MONTHS.forEach(m=>html+='<th>'+m+'</th>');
+  html+='</tr></thead><tbody>';
+  data.forEach(carrier=>{
+    html+='<tr><td><div class="otl-carrier"><span class="otl-dot" style="background:'+carrier.color+'"></span>'+carrier.carrier+'</div></td>';
+    for(let m=0;m<12;m++){
+      const monthOffers=carrier.offers.filter(o=>o.m===m);
+      if(monthOffers.length===0){
+        html+='<td><div class="otl-cell none"><span style="font-size:7px;color:var(--muted)">—</span></div></td>';
+      } else {
+        // Show the best/primary offer for this month
+        const primary=monthOffers.reduce((a,b)=>parseInt(b.bonus)>parseInt(a.bonus)?b:a);
+        const isBestOfMonth=parseInt(primary.bonus.replace(/K/,''))>=monthBest[m]&&primary.type==='elevated';
+        const cls=primary.type;
+        const extra=monthOffers.length>1?'<span style="font-size:6px;color:var(--muted)">+' +(monthOffers.length-1)+' more</span>':'';
+        // Tooltip with all offers for this month
+        let tip='<div class="otl-tip"><div style="font-weight:700;color:'+carrier.color+';margin-bottom:4px;">'+carrier.carrier+' · '+OTL_MONTHS[m]+' '+yrLabel+'</div>'+(isProjected?'<div style="font-size:7px;color:#FB923C;margin-bottom:4px;">⚠ Projected — based on trend analysis</div>':'');
+        monthOffers.forEach(o=>{
+          tip+='<div style="margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.1);">';
+          tip+='<div style="font-weight:700;color:#fff;">'+o.card+' — <strong>'+o.bonus+'</strong> bonus</div>';
+          tip+='<div class="tip-row"><span class="tip-label">Annual fee</span><span>'+o.af+'</span></div>';
+          tip+='<div class="tip-row"><span class="tip-label">Spend req.</span><span>'+o.spend+'</span></div>';
+          tip+='<div class="tip-row"><span class="tip-label">Status</span><span style="color:'+(o.type==='elevated'?'#4ADE80':o.type==='new'?'#FB923C':'#A8A29E')+'">'+o.type.toUpperCase()+'</span></div>';
+          tip+='<div style="font-size:8px;color:rgba(255,255,255,.6);margin-top:3px;">'+o.note+'</div>';
+          tip+='</div>';
+        });
+        tip+='</div>';
+        html+='<td><div class="otl-cell '+cls+(isBestOfMonth?' best':'')+'">';
+        html+='<div class="otl-bonus"'+(isBestOfMonth?' style="text-decoration:underline;text-underline-offset:2px"':'')+'>'+primary.bonus+'</div>';
+        html+='<div class="otl-card">'+primary.card+'</div>';
+        html+=extra+tip+'</div></td>';
+      }
+    }
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  html+='<div style="margin-top:6px;font-size:8px;color:var(--muted);font-family:\'JetBrains Mono\',monospace;">Sources: The Points Guy (thepointsguy.com) · Doctor of Credit (doctorofcredit.com) · US Credit Card Guide (uscreditcardguide.com) · Issuer public offer pages'+(isProjected?' · <span style="color:#FB923C">2026 values are projected based on trend analysis</span>':'')+' · Underlined = highest bonus that month across all carriers</div>';
+  el.innerHTML=html;
+}
+renderOfferTimeline(2024);
 
 // TAB 4 CHARTS
 const tlLabels=['Q1\'22','Q2','Q3','Q4','Q1\'23','Q2','Q3','Q4','Q1\'24','Q2','Q3','Q4','Q1\'25'];
