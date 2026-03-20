@@ -1,0 +1,208 @@
+{
+  "collected_at": "2026-03-19",
+  "carriers": {
+    "DAL": {
+      "carrier": "DAL",
+      "name": "Delta Air Lines",
+      "ticker": "DAL",
+      "cik": "0000027904",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000027904.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "UAL": {
+      "carrier": "UAL",
+      "name": "United Airlines",
+      "ticker": "UAL",
+      "cik": "0000100517",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000100517.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "AAL": {
+      "carrier": "AAL",
+      "name": "American Airlines",
+      "ticker": "AAL",
+      "cik": "0000006201",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000006201.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "LUV": {
+      "carrier": "LUV",
+      "name": "Southwest Airlines",
+      "ticker": "LUV",
+      "cik": "0000093410",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000093410.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "ALK": {
+      "carrier": "ALK",
+      "name": "Alaska Air Group",
+      "ticker": "ALK",
+      "cik": "0000766421",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000766421.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "JBLU": {
+      "carrier": "JBLU",
+      "name": "JetBlue Airways",
+      "ticker": "JBLU",
+      "cik": "0000898293",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0000898293.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "ULCC": {
+      "carrier": "ULCC",
+      "name": "Frontier Group",
+      "ticker": "ULCC",
+      "cik": "0001823340",
+      "fiscal_year": 2025,
+      "collected_at": "2026-03-19",
+      "income_statement": {
+        "revenue_B": null,
+        "operating_income_B": null,
+        "net_income_B": null,
+        "operating_margin_pct": null,
+        "net_margin_pct": null
+      },
+      "unit_economics": {
+        "trasm_cents": null,
+        "casm_cents": null,
+        "casm_ex_fuel_cents": null,
+        "fuel_cost_per_asm_cents": null
+      },
+      "balance_sheet": {
+        "total_debt_B": null,
+        "cash_B": null,
+        "net_debt_B": null
+      },
+      "_instructions": "Fetch from https://data.sec.gov/api/xbrl/companyfacts/CIK0001823340.json or download 10-K for FY2025 from EDGAR. Extract revenue, operating income, net income. Unit economics (TRASM, CASM) from earnings supplement / 10-K MD&A."
+    },
+    "MX": {
+      "carrier": "MX",
+      "status": "no_cik",
+      "data": null
+    }
+  },
+  "fuel": {
+    "source": "EIA Petroleum - Kerosene-Type Jet Fuel Spot Price",
+    "collected_at": "2026-03-19",
+    "unit": "$/gallon",
+    "monthly_prices": {},
+    "latest_price": null,
+    "yoy_change_pct": null,
+    "_instructions": "Fetch from https://api.eia.gov/v2/petroleum/pri/spt/data/ with api_key. Series: PET.EER_EPJK_PF4_RGC_DPG.M (monthly). Or download from https://www.eia.gov/dnav/pet/pet_pri_spt_s1_m.htm"
+  }
+}
