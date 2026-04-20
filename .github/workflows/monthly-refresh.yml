@@ -14,8 +14,10 @@ name: Monthly Data Refresh
 # ═══════════════════════════════════════════════════════════════
 
 on:
-  schedule:
-    - cron: '0 6 18 * *'   # 6 AM UTC on the 18th of every month
+  # Scheduled run paused to avoid exceeding GitHub Actions usage limits.
+  # Re-enable by uncommenting the schedule block below.
+  # schedule:
+  #   - cron: '0 6 18 * *'   # 6 AM UTC on the 18th of every month
 
   workflow_dispatch:          # Manual trigger for ad-hoc runs
     inputs:
